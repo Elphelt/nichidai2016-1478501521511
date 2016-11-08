@@ -54144,7 +54144,7 @@ module.exports = ""
 /* 589 */
 /***/ function(module, exports) {
 
-module.exports = "<h1>\n  {{title}}\n</h1>\n"
+module.exports = "<h1>\r\n  {{title}}\r\n</h1>\r\n"
 
 /***/ },
 /* 590 */
