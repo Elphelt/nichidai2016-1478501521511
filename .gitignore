@@ -1,3 +1,10 @@
 /client/nichidai2016/dist/*
 /client/nichidai2016/node_modules/*
 /client/nichidai2016/.git/*
+/.apt_generated/
+/target/generated-sources/
+/target/m2e-wtp/
+/target/TomcatHelloWorldApp-1.0-SNAPSHOT/
+/target/maven-archiver/
+/target/maven-status/
+/target/TomcatHelloWorldApp-1.0-SNAPSHOT.war

@@ -1,27 +1,18 @@
 package net.mybluemix.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
- * Servlet implementation class SimpleServlet
+ * 起動クラスです。
  */
-@WebServlet("/SimpleServlet")
-public class SimpleServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
+@SpringBootApplication  // same as @Configuration @EnableAutoConfiguration @ComponentScan
+public class SimpleServlet {
     /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     * 処理を実行します。
+     * @param args 引数
+     * @throws Exception 例外が発生した場合
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        response.getWriter().print("Nihon Univercity Special");
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SimpleServlet.class, args);
     }
-
 }
