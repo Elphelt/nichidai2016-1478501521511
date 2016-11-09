@@ -7,16 +7,14 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
   <script type="text/javascript">
         var stompClient = null;
 
         function setConnected(connected) {
             document.getElementById('connect').disabled = connected;
             document.getElementById('disconnect').disabled = !connected;
-            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+            //document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
             document.getElementById('response').innerHTML = '';
         }
 
@@ -60,18 +58,16 @@
     <h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript
       and reload this page!</h2>
   </noscript>
-  <div>
-    <div>
-      <button id="connect" onclick="connect();">Connect</button>
-      <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-    <div id="conversationDiv">
-      <label>What is your name?</label><input type="text" id="name" />
-      <button id="sendName" onclick="sendName();">Send</button>
-      <p id="response"></p>
+  <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+    <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+      aria-controls="navbar" aria-label="Toggle navigation"></button>
+    <a class="navbar-brand" href="#">Nichidai2016</a>
+  </nav>
+  <div class="container-fluid">
+    <div class="col-sm-11 offset-sm-1 col-md-12 offset-md-0 main">
+      <app-root>Loading...</app-root>
     </div>
   </div>
-  <app-root>Loading...</app-root>
 <script type="text/javascript" src="inline.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="scripts.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
 
 </html>

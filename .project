@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>TomcatHelloWorldApp</name>
+	<name>Nichidai2016App</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -41,12 +41,21 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1478580011559</id>
+			<id>1478656944963</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-projectRelativePath-matches-true-false-client</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1478656944971</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-projectRelativePath-matches-false-false-.vscode</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>

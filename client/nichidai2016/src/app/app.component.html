@@ -1,3 +1,11 @@
-<h1>
-  {{title}}
-</h1>
+<h4>チャットルーム</h4>
+<div class="form-group row">
+  <button class="btn btn-danger" id="disconnect" onclick="disconnect();">Disconnect</button>
+  <button class="btn btn-success" id="connect" onclick="connect();">Connect</button>
+</div>
+<div class="form-inline" id="conversationDiv">
+  <label>Message</label>
+  <input class="form-control" type="text" id="name" />
+  <button class="btn btn-info" id="sendName" onclick="sendName();">Send</button>
+  <p id="response"></p>
+</div>
