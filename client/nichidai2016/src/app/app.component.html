@@ -1,11 +1,22 @@
-<h4>チャットルーム</h4>
-<div class="form-group row">
-  <button class="btn btn-danger" id="disconnect" onclick="disconnect();">Disconnect</button>
-  <button class="btn btn-success" id="connect" onclick="connect();">Connect</button>
-</div>
-<div class="form-inline" id="conversationDiv">
-  <label>Message</label>
-  <input class="form-control" type="text" id="name" />
-  <button class="btn btn-info" id="sendName" onclick="sendName();">Send</button>
-  <p id="response"></p>
+<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+  <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+    aria-controls="navbar" aria-label="Toggle navigation"></button>
+  <a class="navbar-brand" href="#">Nichidai2016</a>
+  <ul class="nav navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">About</a>
+    </li>
+    <li class="nav-item">
+      <button class="btn" (click)="changeAdmin()">Admin</button>
+    </li>
+  </ul>
+</nav>
+<div class="container-fluid">
+  <div class="col-sm-11 offset-sm-1 col-md-12 offset-md-0 main">
+    <app-main *ngIf="showMain">Loading main....</app-main>
+    <app-admin *ngIf="showAdmin">Loading main....</app-admin>
+  </div>
 </div>

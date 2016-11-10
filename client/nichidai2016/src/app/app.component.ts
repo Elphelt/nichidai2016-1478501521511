@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  private showMain: boolean = true;
+  private showAdmin: boolean = false;
+
+  private changeAdmin(): void {
+    this.showMain = !this.showMain;
+    this.showAdmin = !this.showAdmin;
+  }
+
 }

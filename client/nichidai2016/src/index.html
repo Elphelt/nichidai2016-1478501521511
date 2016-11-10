@@ -8,66 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.0/sockjs.js"></script>
-  <script type="text/javascript">
-        var stompClient = null;
-
-        function setConnected(connected) {
-            document.getElementById('connect').disabled = connected;
-            document.getElementById('disconnect').disabled = !connected;
-            //document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-            document.getElementById('response').innerHTML = '';
-        }
-
-        function connect() {
-            var socket = new SockJS('/hello'); // WebSocketに接続
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                setConnected(true);
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function (greeting) { // 挨拶の応答(/topic/greetings)を購読する
-                    showGreeting(JSON.parse(greeting.body).content);
-                });
-            });
-        }
-
-        function disconnect() {
-            if (stompClient != null) {
-                stompClient.disconnect();
-            }
-            setConnected(false);
-            console.log("Disconnected");
-        }
-
-        function sendName() {
-            var name = document.getElementById('name').value;
-            stompClient.send("/app/hello", {}, JSON.stringify({'name': name})); // メッセージを送信
-        }
-
-        function showGreeting(message) {
-            var response = document.getElementById('response');
-            var p = document.createElement('p');
-            p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
-            response.appendChild(p);
-        }
-    </script>
 </head>
 
-<body onload="disconnect()">
+<body>
   <noscript>
     <h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript
       and reload this page!</h2>
   </noscript>
-  <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
-    <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-      aria-controls="navbar" aria-label="Toggle navigation"></button>
-    <a class="navbar-brand" href="#">Nichidai2016</a>
-  </nav>
-  <div class="container-fluid">
-    <div class="col-sm-11 offset-sm-1 col-md-12 offset-md-0 main">
-      <app-root>Loading...</app-root>
-    </div>
-  </div>
+  <app-root>Loading...</app-root>
 </body>
 
 </html>
