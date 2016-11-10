@@ -11,15 +11,16 @@ var Stomp = require('stompjs');
 export class AdminComponent implements OnInit {
   stompClient: any;
   isValid: any;
-  text: any;
+  text: Number;
   messages: Array<String> = new Array<String>();
   name: string;
-  
+  question: string;
+
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
-    this.text="0";
+    this.text=0;
   }
   
   setConnected(connected) {
@@ -28,11 +29,13 @@ export class AdminComponent implements OnInit {
     document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
   }
 
-  sendName() {
-    this.stompClient.send('/app/name', {}, JSON.stringify({ 'name': this.name }));
+  resetResult() {
+    this.text = 0;
   }
 
-  
+  sendQuestion() {
+    this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.question }));
+  }
 
   connect() {
     var that = this;
@@ -41,7 +44,7 @@ export class AdminComponent implements OnInit {
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
-        that.text += parseInt(JSON.parse(greeting.body).content, 10);
+        that.text += (JSON.parse(greeting.body).choice);
       });
     }, function (err) {
       console.log('err', err);

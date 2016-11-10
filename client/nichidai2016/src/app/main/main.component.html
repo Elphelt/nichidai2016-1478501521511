@@ -3,11 +3,11 @@
   <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
+
 <div class="form-inline" id="conversationDiv">
-  <label>Select Your Choice!</label>
-  <!--<input class="form-control" type="text" [(ngModel)]="name" />
-  <button class="btn btn-info" id="sendName" (click)="sendName()">Send</button>-->
+  <h4>Q.{{question}}</h4>
+  <h6>Select Your Choice!</h6>
   <button class="btn btn-danger" (click)="sendNo()">No</button>
   <button class="btn btn-success" (click)="sendYes()">Yes</button>
-  <h4>{{text}}</h4>
+  <h4>A.{{result}}</h4>
 </div>

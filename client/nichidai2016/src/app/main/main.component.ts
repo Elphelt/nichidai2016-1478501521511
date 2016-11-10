@@ -11,14 +11,15 @@ var Stomp = require('stompjs');
 export class MainComponent implements OnInit {
   stompClient: any;
   isValid: any;
-  text: any;
+  result: any;
   messages: Array<String> = new Array<String>();
+  question: string;
   
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
-    this.text="456";
+    this.question=" Loading..."
   }
   
   setConnected(connected) {
@@ -29,9 +30,11 @@ export class MainComponent implements OnInit {
 
   sendYes() {
     this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': 1 }));
+    this.result="Yes";
   }
   sendNo() {
     this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': -1 }));
+    this.result="No";
   }
   
 
@@ -42,7 +45,7 @@ export class MainComponent implements OnInit {
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         that.stompClient.subscribe('/topic/greetings', function (greeting) {
-            that.text=JSON.parse(greeting.body).content;
+            that.question=JSON.parse(greeting.body).content;
         });
     }, function (err) {
         console.log('err', err);

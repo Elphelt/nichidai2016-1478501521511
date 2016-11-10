@@ -1,7 +1,7 @@
 package net.mybluemix.model;
 
 public class Message {
-    private String name;
+    private String question;
     private String choice;
     
     public String getChoice() {
@@ -10,10 +10,10 @@ public class Message {
 	public void setChoice(String choice) {
 		this.choice = choice;
 	}
-	public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
 }

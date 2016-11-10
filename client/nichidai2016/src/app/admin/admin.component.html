@@ -4,7 +4,10 @@
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
 <div class="form-inline" id="conversationDiv">
-  <label>Result</label>
-  <button class="btn btn-danger" onclick="sendChoice(0);">Reset</button>
+  <label>Question</label>
+  <input class="form-control" type="text" [(ngModel)]="question" />
+  <button class="btn btn-info" (click)="sendQuestion()">Send</button>
+  <h4>Result</h4>
   <h4>{{text}}</h4>
+  <button class="btn btn-danger" (click)="resetResult();">Reset</button>
 </div>

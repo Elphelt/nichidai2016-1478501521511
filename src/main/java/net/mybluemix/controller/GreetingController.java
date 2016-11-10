@@ -16,15 +16,16 @@ public class GreetingController {
 	@Autowired
 	private SimpMessagingTemplate simpmessage;
 
-	@MessageMapping("/name") // エンドポイントの指定
-	@SendTo("/topic/greetings") // メッセージの宛先を指定
-	public Greeting setName(Message message) {
-		return new Greeting(message.getName());
-	}
-
 	@SubscribeMapping("/choice")
 	public void sendChoice(String choice) {
 		simpmessage.convertAndSend("/topic/admin", choice);
 	}
 
+	@MessageMapping("/question") // エンドポイントの指定
+	@SendTo("/topic/greetings") // メッセージの宛先を指定
+	public Greeting setQuestion(Message message) {
+		return new Greeting(message.getQuestion());
+	}
+	
+	
 }

@@ -54801,15 +54801,18 @@ var AdminComponent = (function () {
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
-        this.text = "0";
+        this.text = 0;
     };
     AdminComponent.prototype.setConnected = function (connected) {
         document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
         document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
         document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
     };
-    AdminComponent.prototype.sendName = function () {
-        this.stompClient.send('/app/name', {}, JSON.stringify({ 'name': this.name }));
+    AdminComponent.prototype.resetResult = function () {
+        this.text = 0;
+    };
+    AdminComponent.prototype.sendQuestion = function () {
+        this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.question }));
     };
     AdminComponent.prototype.connect = function () {
         var that = this;
@@ -54818,7 +54821,7 @@ var AdminComponent = (function () {
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             that.stompClient.subscribe('/topic/admin', function (greeting) {
-                that.text += parseInt(JSON.parse(greeting.body).content, 10);
+                that.text += (JSON.parse(greeting.body).choice);
             });
         }, function (err) {
             console.log('err', err);
@@ -54935,7 +54938,7 @@ var MainComponent = (function () {
     }
     MainComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
-        this.text = "456";
+        this.question = " Loading...";
     };
     MainComponent.prototype.setConnected = function (connected) {
         document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
@@ -54944,9 +54947,11 @@ var MainComponent = (function () {
     };
     MainComponent.prototype.sendYes = function () {
         this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': 1 }));
+        this.result = "Yes";
     };
     MainComponent.prototype.sendNo = function () {
         this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': -1 }));
+        this.result = "No";
     };
     MainComponent.prototype.connect = function () {
         var that = this;
@@ -54955,7 +54960,7 @@ var MainComponent = (function () {
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             that.stompClient.subscribe('/topic/greetings', function (greeting) {
-                that.text = JSON.parse(greeting.body).content;
+                that.question = JSON.parse(greeting.body).content;
             });
         }, function (err) {
             console.log('err', err);
@@ -58428,7 +58433,7 @@ module.exports = ""
 /* 642 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <label>Result</label>\n  <button class=\"btn btn-danger\" onclick=\"sendChoice(0);\">Reset</button>\n  <h4>{{text}}</h4>\n</div>\n"
+module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <label>Question</label>\n  <input class=\"form-control\" type=\"text\" [(ngModel)]=\"question\" />\n  <button class=\"btn btn-info\" (click)=\"sendQuestion()\">Send</button>\n  <h4>Result</h4>\n  <h4>{{text}}</h4>\n  <button class=\"btn btn-danger\" (click)=\"resetResult();\">Reset</button>\n</div>\n"
 
 /***/ },
 /* 643 */
@@ -58440,7 +58445,7 @@ module.exports = "<nav class=\"navbar navbar-dark navbar-fixed-top bg-inverse\">
 /* 644 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <label>Select Your Choice!</label>\n  <!--<input class=\"form-control\" type=\"text\" [(ngModel)]=\"name\" />\n  <button class=\"btn btn-info\" id=\"sendName\" (click)=\"sendName()\">Send</button>-->\n  <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n  <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n  <h4>{{text}}</h4>\n</div>\n"
+module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <h4>Q.{{question}}</h4>\n  <h6>Select Your Choice!</h6>\n  <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n  <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n  <h4>A.{{result}}</h4>\n</div>\n"
 
 /***/ },
 /* 645 */
