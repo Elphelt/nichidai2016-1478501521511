@@ -3,11 +3,20 @@
   <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
-<div class="form-inline" id="conversationDiv">
+<div id="conversationDiv">
   <label>Question</label>
   <input class="form-control" type="text" [(ngModel)]="question" />
   <button class="btn btn-info" (click)="sendQuestion()">Send</button>
   <h4>Result</h4>
-  <h4>{{text}}</h4>
+  <h4>Yes:{{choiceYes}} No:{{choiceNo}}</h4>
   <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+</div>
+
+<div style="display: block">
+  <canvas baseChart
+              [data]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
 </div>

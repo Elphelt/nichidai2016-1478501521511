@@ -29,11 +29,12 @@ export class MainComponent implements OnInit {
   }
 
   sendYes() {
-    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': 1 }));
+    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : 0 }));
     this.result="Yes";
   }
+
   sendNo() {
-    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': -1 }));
+    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo' : 1 }));
     this.result="No";
   }
   

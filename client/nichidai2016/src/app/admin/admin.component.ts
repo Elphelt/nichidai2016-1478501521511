@@ -11,7 +11,8 @@ var Stomp = require('stompjs');
 export class AdminComponent implements OnInit {
   stompClient: any;
   isValid: any;
-  text: Number;
+  choiceYes: Number;
+  choiceNo: Number;
   messages: Array<String> = new Array<String>();
   name: string;
   question: string;
@@ -20,17 +21,19 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.setConnected(false);
-    this.text=0;
+    this.choiceNo=0;
+    this.choiceYes=0;
   }
   
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
-    document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+    // document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
   }
 
   resetResult() {
-    this.text = 0;
+    this.choiceNo=0;
+    this.choiceYes=0;
   }
 
   sendQuestion() {
@@ -44,7 +47,8 @@ export class AdminComponent implements OnInit {
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
-        that.text += (JSON.parse(greeting.body).choice);
+        that.choiceYes += (JSON.parse(greeting.body).choiceYes);
+        that.choiceNo += (JSON.parse(greeting.body).choiceNo);
       });
     }, function (err) {
       console.log('err', err);
@@ -61,4 +65,17 @@ export class AdminComponent implements OnInit {
     console.log("Disconnected");
   } 
 
+ // Doughnut
+  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
+
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
 }

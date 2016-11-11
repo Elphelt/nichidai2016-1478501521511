@@ -54801,7 +54801,8 @@ var AdminComponent = (function () {
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
-        this.text = 0;
+        this.choiceNo = 0;
+        this.choiceYes = 0;
     };
     AdminComponent.prototype.setConnected = function (connected) {
         document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
@@ -54809,7 +54810,8 @@ var AdminComponent = (function () {
         document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
     };
     AdminComponent.prototype.resetResult = function () {
-        this.text = 0;
+        this.choiceNo = 0;
+        this.choiceYes = 0;
     };
     AdminComponent.prototype.sendQuestion = function () {
         this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.question }));
@@ -54821,7 +54823,8 @@ var AdminComponent = (function () {
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             that.stompClient.subscribe('/topic/admin', function (greeting) {
-                that.text += (JSON.parse(greeting.body).choice);
+                that.choiceYes += (JSON.parse(greeting.body).choiceYes);
+                that.choiceNo += (JSON.parse(greeting.body).choiceNo);
             });
         }, function (err) {
             console.log('err', err);
@@ -54946,11 +54949,11 @@ var MainComponent = (function () {
         document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
     };
     MainComponent.prototype.sendYes = function () {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': 1 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': 0 }));
         this.result = "Yes";
     };
     MainComponent.prototype.sendNo = function () {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choice': -1 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo': 1 }));
         this.result = "No";
     };
     MainComponent.prototype.connect = function () {
@@ -58433,7 +58436,7 @@ module.exports = ""
 /* 642 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <label>Question</label>\n  <input class=\"form-control\" type=\"text\" [(ngModel)]=\"question\" />\n  <button class=\"btn btn-info\" (click)=\"sendQuestion()\">Send</button>\n  <h4>Result</h4>\n  <h4>{{text}}</h4>\n  <button class=\"btn btn-danger\" (click)=\"resetResult();\">Reset</button>\n</div>\n"
+module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div id=\"conversationDiv\">\n  <label>Question</label>\n  <input class=\"form-control\" type=\"text\" [(ngModel)]=\"question\" />\n  <button class=\"btn btn-info\" (click)=\"sendQuestion()\">Send</button>\n  <h4>Result</h4>\n  <h4>Yes:{{choiceYes}} No:{{choiceNo}}</h4>\n  <button class=\"btn btn-danger\" (click)=\"resetResult();\">Reset</button>\n</div>\n"
 
 /***/ },
 /* 643 */
