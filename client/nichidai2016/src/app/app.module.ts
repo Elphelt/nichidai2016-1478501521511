@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { MainComponent } from './main/main.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { GraphComponent } from './graph/graph.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
-    MainComponent
+    MainComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,

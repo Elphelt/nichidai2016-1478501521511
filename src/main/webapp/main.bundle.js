@@ -54798,6 +54798,10 @@ var Stomp = __webpack_require__(365);
 var AdminComponent = (function () {
     function AdminComponent() {
         this.messages = new Array();
+        // Doughnut
+        this.doughnutChartLabels = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+        this.doughnutChartData = [350, 450, 100];
+        this.doughnutChartType = 'doughnut';
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
@@ -54807,7 +54811,7 @@ var AdminComponent = (function () {
     AdminComponent.prototype.setConnected = function (connected) {
         document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
         document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
-        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        // document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
     };
     AdminComponent.prototype.resetResult = function () {
         this.choiceNo = 0;
@@ -54837,6 +54841,13 @@ var AdminComponent = (function () {
         }
         this.setConnected(false);
         console.log("Disconnected");
+    };
+    // events
+    AdminComponent.prototype.chartClicked = function (e) {
+        console.log(e);
+    };
+    AdminComponent.prototype.chartHovered = function (e) {
+        console.log(e);
     };
     AdminComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Component */])({
@@ -58436,7 +58447,7 @@ module.exports = ""
 /* 642 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div id=\"conversationDiv\">\n  <label>Question</label>\n  <input class=\"form-control\" type=\"text\" [(ngModel)]=\"question\" />\n  <button class=\"btn btn-info\" (click)=\"sendQuestion()\">Send</button>\n  <h4>Result</h4>\n  <h4>Yes:{{choiceYes}} No:{{choiceNo}}</h4>\n  <button class=\"btn btn-danger\" (click)=\"resetResult();\">Reset</button>\n</div>\n"
+module.exports = "<h4>Connect to \"Admin\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div id=\"conversationDiv\">\n  <label>Question</label>\n  <input class=\"form-control\" type=\"text\" [(ngModel)]=\"question\" />\n  <button class=\"btn btn-info\" (click)=\"sendQuestion()\">Send</button>\n  <h4>Result</h4>\n  <h4>Yes:{{choiceYes}} No:{{choiceNo}}</h4>\n  <button class=\"btn btn-danger\" (click)=\"resetResult();\">Reset</button>\n</div>\n\n<div style=\"display: block\">\n  <canvas baseChart\n              [data]=\"doughnutChartData\"\n              [labels]=\"doughnutChartLabels\"\n              [chartType]=\"doughnutChartType\"\n              (chartHover)=\"chartHovered($event)\"\n              (chartClick)=\"chartClicked($event)\"></canvas>\n</div>\n"
 
 /***/ },
 /* 643 */

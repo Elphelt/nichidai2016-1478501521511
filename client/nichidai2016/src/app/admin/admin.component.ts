@@ -1,28 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
+import { GraphComponent } from '../graph/graph.component';
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
 
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
+  @ViewChildren(GraphComponent)
+  private graph: GraphComponent;
+
   stompClient: any;
   isValid: any;
-  choiceYes: Number;
-  choiceNo: Number;
+  choiceYes: number;
+  choiceNo: number;
   messages: Array<String> = new Array<String>();
   name: string;
   question: string;
+  private showGraph: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
-    this.choiceNo=0;
-    this.choiceYes=0;
+    this.choiceNo=1;
+    this.choiceYes=2;
   }
   
   setConnected(connected) {
@@ -65,17 +71,12 @@ export class AdminComponent implements OnInit {
     console.log("Disconnected");
   } 
 
- // Doughnut
-  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
-  public doughnutChartData:number[] = [350, 450, 100];
-  public doughnutChartType:string = 'doughnut';
-
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
+  private changeGraph(): void {
+    this.showGraph = !this.showGraph;
   }
 
-  public chartHovered(e:any):void {
-    console.log(e);
+  ngAfterViewInit(){
+    this.graph.changeLabels(['YES','NO']);
+    this.graph.changeData([this.choiceYes, this.choiceNo]);
   }
 }
