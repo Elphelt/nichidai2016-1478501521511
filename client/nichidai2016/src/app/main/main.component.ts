@@ -58,7 +58,7 @@ export class MainComponent implements OnInit {
 
   connect() {
     var that = this;
-    var socket = new SockJS('/hello');
+    var socket = new SockJS('https://nichidai2016.mybluemix.net/hello');
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);

@@ -12,7 +12,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer { 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/hello").withSockJS(); // WebSocketのエンドポイント (接続時に指定するエンドポイント)を指定
+        registry.addEndpoint("/hello").setAllowedOrigins("*").withSockJS(); // WebSocketのエンドポイント (接続時に指定するエンドポイント)を指定
     }
 
     @Override
