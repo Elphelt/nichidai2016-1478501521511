@@ -7,9 +7,25 @@
   <label>Question</label>
   <input class="form-control" type="text" [(ngModel)]="question" />
   <button class="btn btn-info" (click)="sendQuestion()">Send</button>
-  <h4>Result</h4>
-  <h4>Yes:{{choiceYes}} No:{{choiceNo}}</h4>
   <button class="btn" (click)="changeGraph()">Show Graph</button>
+  <button class="btn" (click)="changeRanking()">Show Ranking</button>
   <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+  <h3>{{result}}</h3>
 </div>
-<app-graph *ngIf="showGraph"></app-graph>
+<app-graph *ngIf="showGraph" [varYes]="varYes" [varNo]="varNo"></app-graph>
+<div *ngIf="showRanking">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let player of players">
+      <tr>
+        <th scope="row">{{player.rank}}</th>
+        <td>{{player.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

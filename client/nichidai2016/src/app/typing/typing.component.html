@@ -1,0 +1,16 @@
+<h4>Connect to Flick Type Battle.</h4>
+<div class="form-group row">
+  <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
+  <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
+</div>
+<div class="form-inline" id="conversationDiv">
+  <div class="form-group">
+    <label>What is your name?</label>
+    <input class="form-control" type="text" [(ngModel)]="player" />
+  </div>
+  <h4>Q.{{question}}</h4>
+  <div class="form-group" *ngIf="showAns">
+    <input class="form-control" type="text" [(ngModel)]="answer" />
+    <button class="btn btn-info" (click)="sendAns()">Send</button>
+  </div>
+</div>

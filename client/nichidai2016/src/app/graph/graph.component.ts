@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-graph',
@@ -7,16 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GraphComponent implements OnInit {
 
+  @Input("varYes") varYes;
+  @Input("varNo") varNo;
+
+  // Doughnut
+  public doughnutChartLabels:string[] = ['Yes', 'No'];
+  public doughnutChartData:number[];
+  public doughnutChartType:string = 'doughnut';
+
   constructor() { }
 
   ngOnInit() {
-
+    this.doughnutChartData=[this.varYes, this.varNo];
   }
 
- // Doughnut
-  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
-  public doughnutChartData:number[] = [350, 450, 100];
-  public doughnutChartType:string = 'doughnut';
 
   // events
   public chartClicked(e:any):void {

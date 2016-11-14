@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import net.mybluemix.model.Choice;
+import net.mybluemix.model.FlickPlayer;
 import net.mybluemix.model.Greeting;
 import net.mybluemix.model.Message;
 
@@ -31,6 +32,11 @@ public class GreetingController {
 		return choice;
 	}
 
+	@MessageMapping("/flick") // エンドポイントの指定
+	@SendTo("/topic/result") // メッセージの宛先を指定
+	public FlickPlayer setFlick(FlickPlayer flick) {
+		return flick;
+	}
 	
 	@MessageMapping("/question") // エンドポイントの指定
 	@SendTo("/topic/greetings") // メッセージの宛先を指定

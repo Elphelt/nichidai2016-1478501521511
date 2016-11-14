@@ -8,6 +8,7 @@ import { AdminComponent } from './admin/admin.component';
 import { MainComponent } from './main/main.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { GraphComponent } from './graph/graph.component';
+import { TypingComponent } from './typing/typing.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { GraphComponent } from './graph/graph.component';
     AppComponent,
     AdminComponent,
     MainComponent,
-    GraphComponent
+    GraphComponent,
+    TypingComponent
   ],
   imports: [
     BrowserModule,

@@ -14,12 +14,15 @@ export class MainComponent implements OnInit {
   result: any;
   messages: Array<String> = new Array<String>();
   question: string;
-  
+  sendFlag: boolean;
+  showAns: boolean;
+
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
     this.question=" Loading..."
+    this.showAns=false;
   }
   
   setConnected(connected) {
@@ -29,13 +32,27 @@ export class MainComponent implements OnInit {
   }
 
   sendYes() {
-    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : 0 }));
-    this.result="Yes";
+    if(this.result!="Yes"){
+      if(this.sendFlag==true){
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : -1 }));
+      }else{
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : 0 }));
+      }
+      this.result="Yes";
+      this.sendFlag=true;
+    }
   }
 
   sendNo() {
-    this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo' : 1 }));
-    this.result="No";
+    if(this.result!="No"){
+      if(this.sendFlag==true){
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': -1, 'choiceNo' : 1 }));
+      }else{
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo' : 1 }));
+      }
+      this.result="No";
+      this.sendFlag=true;
+    }
   }
   
 
@@ -47,6 +64,8 @@ export class MainComponent implements OnInit {
         console.log('Connected: ' + frame);
         that.stompClient.subscribe('/topic/greetings', function (greeting) {
             that.question=JSON.parse(greeting.body).content;
+            that.sendFlag=false;
+            that.showAns=true;
         });
     }, function (err) {
         console.log('err', err);

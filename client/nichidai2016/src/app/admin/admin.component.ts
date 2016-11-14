@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
-import { GraphComponent } from '../graph/graph.component';
+import { Component, OnInit } from '@angular/core';
+import { Player } from '../player';
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
@@ -10,9 +10,9 @@ var Stomp = require('stompjs');
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
+
+
 export class AdminComponent implements OnInit {
-  @ViewChildren(GraphComponent)
-  private graph: GraphComponent;
 
   stompClient: any;
   isValid: any;
@@ -21,25 +21,35 @@ export class AdminComponent implements OnInit {
   messages: Array<String> = new Array<String>();
   name: string;
   question: string;
+  varYes: number;
+  varNo: number;
   private showGraph: boolean = false;
+  private showRanking: boolean = false;
+  private domElement: HTMLElement;
+  private players: Player[] = [];
+  private rank: number;
+  private result: number;
 
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
-    this.choiceNo=1;
-    this.choiceYes=2;
+    this.choiceNo=0;
+    this.choiceYes=0;
+    this.rank=1;
   }
   
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
-    // document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+    document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
   }
 
   resetResult() {
     this.choiceNo=0;
     this.choiceYes=0;
+    this.players=[];
+    this.rank=1;
   }
 
   sendQuestion() {
@@ -55,6 +65,11 @@ export class AdminComponent implements OnInit {
       that.stompClient.subscribe('/topic/admin', function (greeting) {
         that.choiceYes += (JSON.parse(greeting.body).choiceYes);
         that.choiceNo += (JSON.parse(greeting.body).choiceNo);
+        that.result = that.choiceNo+that.choiceYes;
+      });
+      that.stompClient.subscribe('/topic/result', function (greeting) {
+        that.players.push(new Player(that.rank, (JSON.parse(greeting.body).name)));
+        that.rank++;
       });
     }, function (err) {
       console.log('err', err);
@@ -72,11 +87,15 @@ export class AdminComponent implements OnInit {
   } 
 
   private changeGraph(): void {
+    this.varYes = this.choiceYes;
+    this.varNo = this.choiceNo;
     this.showGraph = !this.showGraph;
+    this.showRanking = false;
   }
 
-  ngAfterViewInit(){
-    this.graph.changeLabels(['YES','NO']);
-    this.graph.changeData([this.choiceYes, this.choiceNo]);
+  private changeRanking(): void {
+    this.showRanking = !this.showRanking;
+    this.showGraph = false;
   }
+
 }
