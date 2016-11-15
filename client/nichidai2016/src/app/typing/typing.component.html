@@ -5,12 +5,17 @@
 </div>
 <div class="form-inline" id="conversationDiv">
   <div class="form-group">
-    <label>What is your name?</label>
-    <input class="form-control" type="text" [(ngModel)]="player" />
+    <label *ngIf="showOK">What is your name?</label>
+    <input class="form-control" type="text" [(ngModel)]="player"  *ngIf="showOK"/>
+    <button class="btn btn-succsess" (click)="setName()" *ngIf="showOK">OK</button>
+    <label *ngIf="!showOK">Player:</label>
+    <label class="font-weight-bold" *ngIf="!showOK">{{player}}</label>
+    <button class="btn btn-succsess" (click)="edifffftName()" *ngIf="!showOK">Edit</button>
   </div>
   <h4>Q.{{question}}</h4>
   <div class="form-group" *ngIf="showAns">
     <input class="form-control" type="text" [(ngModel)]="answer" />
     <button class="btn btn-info" (click)="sendAns()">Send</button>
   </div>
+  <h4 *ngIf="showRanking">Rank:{{rank}}</h4>
 </div>

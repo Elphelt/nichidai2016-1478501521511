@@ -19,6 +19,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer { 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app"); // アプリケーション(Controller)でハンドリングするエンドポイントのプレフィックス
         registry.enableSimpleBroker("/topic", "/queue"); // Topic(Pub-Sub)とQueue(P2P)を有効化 >>> メッセージブローカーがハンドリングする
+        registry.setUserDestinationPrefix("/user");
     }
 
 }

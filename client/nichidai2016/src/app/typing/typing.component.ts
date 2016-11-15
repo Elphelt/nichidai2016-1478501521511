@@ -19,6 +19,9 @@ export class TypingComponent implements OnInit {
   showAns: boolean;
   answer: string;
   player: string;
+  showOK: boolean;
+  showRanking: boolean;
+  rank: number;
 
   constructor() { }
 
@@ -26,6 +29,8 @@ export class TypingComponent implements OnInit {
     this.setConnected(false);
     this.question=" Loading..."
     this.showAns=false;
+    this.showOK=true;
+    this.showRanking=false;
   }
   
   setConnected(connected) {
@@ -51,6 +56,11 @@ export class TypingComponent implements OnInit {
             that.question=JSON.parse(greeting.body).content;
             that.sendFlag=false;
             that.showAns=true;
+            that.showRanking=false;
+        });
+        that.stompClient.subscribe('/user/queue/flick', function (greeting) {
+            that.rank=JSON.parse(greeting.body).content;
+            that.showRanking=true;
         });
     }, function (err) {
         console.log('err', err);
@@ -66,5 +76,13 @@ export class TypingComponent implements OnInit {
     this.setConnected(false);
     console.log("Disconnected");
   } 
+
+  setName() {
+    this.showOK = !this.showOK;
+  }
+  editName() {
+    this.showOK = !this.showOK;
+  }
+
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../player';
+import { Question } from '../question';
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
@@ -20,7 +21,7 @@ export class AdminComponent implements OnInit {
   choiceNo: number;
   messages: Array<String> = new Array<String>();
   name: string;
-  question: string;
+  Cquestion: string;
   varYes: number;
   varNo: number;
   private showGraph: boolean = false;
@@ -29,6 +30,7 @@ export class AdminComponent implements OnInit {
   private players: Player[] = [];
   private rank: number;
   private result: number;
+  private questions: Question[] = [];
 
   constructor() { }
 
@@ -37,6 +39,14 @@ export class AdminComponent implements OnInit {
     this.choiceNo=0;
     this.choiceYes=0;
     this.rank=1;
+    this.questions.push(new Question("フリック1","日本大学生産工学部"));
+    this.questions.push(new Question("フリック2","penpineappleapplepen"));
+    this.questions.push(new Question("フリック3","ユニーク誠実利他変化挑戦結束グローバル凛"));
+    this.questions.push(new Question("質問1","就職しようと思っている人！"));
+    this.questions.push(new Question("質問2","IT系の仕事に就きたいと思っている人！"));
+    this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
+    this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
+    this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
   }
   
   setConnected(connected) {
@@ -49,11 +59,14 @@ export class AdminComponent implements OnInit {
     this.choiceNo=0;
     this.choiceYes=0;
     this.players=[];
-    this.rank=1;
+    this.rank=0;
+    this.result=0;
+    this.stompClient.send('/app/reset', {}, );
   }
 
-  sendQuestion() {
-    this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.question }));
+  sendQuestion(qbody: string) {
+    // this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.Cquestion }));
+    this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
   }
 
   connect() {
@@ -68,8 +81,8 @@ export class AdminComponent implements OnInit {
         that.result = that.choiceNo+that.choiceYes;
       });
       that.stompClient.subscribe('/topic/result', function (greeting) {
-        that.players.push(new Player(that.rank, (JSON.parse(greeting.body).name)));
-        that.rank++;
+        that.players.push(new Player((JSON.parse(greeting.body).rank), (JSON.parse(greeting.body).name)));
+        that.rank=(JSON.parse(greeting.body).rank);
       });
     }, function (err) {
       console.log('err', err);

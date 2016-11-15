@@ -4,13 +4,16 @@
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
 <div id="conversationDiv">
-  <label>Question</label>
-  <input class="form-control" type="text" [(ngModel)]="question" />
-  <button class="btn btn-info" (click)="sendQuestion()">Send</button>
+  <label>Question</label><br>
+  <div class="btn-group">
+    <button *ngFor="let qbuf of questions" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody)">{{qbuf.qnum}}</button>
+  </div>
+  <!--<input class="form-control" type="text" [(ngModel)]="Cquestion" />
+  <button class="btn btn-info" (click)="sendQuestion()">Send</button><br>-->
   <button class="btn" (click)="changeGraph()">Show Graph</button>
   <button class="btn" (click)="changeRanking()">Show Ranking</button>
   <button class="btn btn-danger" (click)="resetResult();">Reset</button>
-  <h3>{{result}}</h3>
+  <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
 </div>
 <app-graph *ngIf="showGraph" [varYes]="varYes" [varNo]="varNo"></app-graph>
 <div *ngIf="showRanking">
