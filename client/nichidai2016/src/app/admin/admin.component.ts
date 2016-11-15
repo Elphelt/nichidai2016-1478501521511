@@ -67,6 +67,7 @@ export class AdminComponent implements OnInit {
   sendQuestion(qbody: string) {
     // this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.Cquestion }));
     this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
+    this.Cquestion=qbody;
   }
 
   connect() {

@@ -66,6 +66,7 @@ export class MainComponent implements OnInit {
             that.question=JSON.parse(greeting.body).content;
             that.sendFlag=false;
             that.showAns=true;
+            that.result="";
         });
     }, function (err) {
         console.log('err', err);

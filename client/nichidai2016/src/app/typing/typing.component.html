@@ -10,7 +10,7 @@
     <button class="btn btn-succsess" (click)="setName()" *ngIf="showOK">OK</button>
     <label *ngIf="!showOK">Player:</label>
     <label class="font-weight-bold" *ngIf="!showOK">{{player}}</label>
-    <button class="btn btn-succsess" (click)="edifffftName()" *ngIf="!showOK">Edit</button>
+    <button class="btn btn-succsess" (click)="editName()" *ngIf="!showOK">Edit</button>
   </div>
   <h4>Q.{{question}}</h4>
   <div class="form-group" *ngIf="showAns">

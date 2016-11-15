@@ -13,6 +13,10 @@
   <button class="btn" (click)="changeGraph()">Show Graph</button>
   <button class="btn" (click)="changeRanking()">Show Ranking</button>
   <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+  <br>
+  <br>
+  <h1>Q: {{Cquestion}}</h1>
+  <br>
   <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
 </div>
 <app-graph *ngIf="showGraph" [varYes]="varYes" [varNo]="varNo"></app-graph>
