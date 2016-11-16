@@ -54918,8 +54918,8 @@ var AdminComponent = (function () {
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
-        this.choiceNo = 0;
-        this.choiceYes = 0;
+        this.choiceNo = 1;
+        this.choiceYes = 1;
         this.rank = 1;
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("フリック1", "日本大学生産工学部"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("フリック2", "penpineappleapplepen"));
@@ -59117,7 +59117,7 @@ module.exports = "<nav class=\"navbar navbar-dark navbar-fixed-top bg-inverse\">
 /* 650 */
 /***/ function(module, exports) {
 
-module.exports = "<div style=\"display: block\">\n  <canvas baseChart width=\"400\" height=\"400\"\n              [data]=\"doughnutChartData\"\n              [labels]=\"doughnutChartLabels\"\n              [chartType]=\"doughnutChartType\"\n              (chartHover)=\"chartHovered($event)\"\n              (chartClick)=\"chartClicked($event)\"></canvas>\n</div>\n"
+module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\n  <canvas baseChart \n              [data]=\"doughnutChartData\"\n              [labels]=\"doughnutChartLabels\"\n              [chartType]=\"doughnutChartType\"\n              (chartHover)=\"chartHovered($event)\"\n              (chartClick)=\"chartClicked($event)\"></canvas>\n</div>\n"
 
 /***/ },
 /* 651 */

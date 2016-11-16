@@ -36,8 +36,8 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.setConnected(false);
-    this.choiceNo=0;
-    this.choiceYes=0;
+    this.choiceNo=1;
+    this.choiceYes=1;
     this.rank=1;
     this.questions.push(new Question("フリック1","日本大学生産工学部"));
     this.questions.push(new Question("フリック2","penpineappleapplepen"));
