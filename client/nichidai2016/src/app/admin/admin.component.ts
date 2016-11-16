@@ -31,7 +31,6 @@ export class AdminComponent implements OnInit {
   private rank: number;
   private result: number;
   private questions: Question[] = [];
-  private debug: string = "https://nichidai2016.mybluemix.net";
   
   constructor() { }
 
@@ -48,7 +47,6 @@ export class AdminComponent implements OnInit {
     this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
     this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
-    this.debug="";
   }
   
   setConnected(connected) {
@@ -63,27 +61,27 @@ export class AdminComponent implements OnInit {
     this.players=[];
     this.rank=0;
     this.result=0;
-    this.stompClient.send(this.debug+'/app/reset', {}, );
+    this.stompClient.send('/app/reset', {}, );
   }
 
   sendQuestion(qbody: string) {
     // this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.Cquestion }));
-    this.stompClient.send(this.debug+'/app/question', {}, JSON.stringify({ 'question': qbody }));
+    this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
     this.Cquestion=qbody;
   }
 
   connect() {
     var that = this;
-    var socket = new SockJS(this.debug+'/hello');
+    var socket = new SockJS('/hello');
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
-      that.stompClient.subscribe(this.debug+'/topic/admin', function (greeting) {
+      that.stompClient.subscribe('/topic/admin', function (greeting) {
         that.choiceYes += (JSON.parse(greeting.body).choiceYes);
         that.choiceNo += (JSON.parse(greeting.body).choiceNo);
         that.result = that.choiceNo+that.choiceYes;
       });
-      that.stompClient.subscribe(this.debug+'/topic/result', function (greeting) {
+      that.stompClient.subscribe('/topic/result', function (greeting) {
         that.players.push(new Player((JSON.parse(greeting.body).rank), (JSON.parse(greeting.body).name)));
         that.rank=(JSON.parse(greeting.body).rank);
       });

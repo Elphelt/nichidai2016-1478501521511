@@ -54915,7 +54915,6 @@ var AdminComponent = (function () {
         this.showRanking = false;
         this.players = [];
         this.questions = [];
-        this.debug = "https://nichidai2016.mybluemix.net";
     }
     AdminComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
@@ -54930,7 +54929,6 @@ var AdminComponent = (function () {
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問2-1", "プログラマーになりたいと思っている人！"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問2-2", "SEになりたいと思っている人！"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問3", "IT系以外に就きたいと思っている人！"));
-        this.debug = "";
     };
     AdminComponent.prototype.setConnected = function (connected) {
         document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
@@ -54943,25 +54941,25 @@ var AdminComponent = (function () {
         this.players = [];
         this.rank = 0;
         this.result = 0;
-        this.stompClient.send(this.debug + '/app/reset', {});
+        this.stompClient.send('/app/reset', {});
     };
     AdminComponent.prototype.sendQuestion = function (qbody) {
         // this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.Cquestion }));
-        this.stompClient.send(this.debug + '/app/question', {}, JSON.stringify({ 'question': qbody }));
+        this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
         this.Cquestion = qbody;
     };
     AdminComponent.prototype.connect = function () {
         var that = this;
-        var socket = new SockJS(this.debug + '/hello');
+        var socket = new SockJS('/hello');
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            that.stompClient.subscribe(this.debug + '/topic/admin', function (greeting) {
+            that.stompClient.subscribe('/topic/admin', function (greeting) {
                 that.choiceYes += (JSON.parse(greeting.body).choiceYes);
                 that.choiceNo += (JSON.parse(greeting.body).choiceNo);
                 that.result = that.choiceNo + that.choiceYes;
             });
-            that.stompClient.subscribe(this.debug + '/topic/result', function (greeting) {
+            that.stompClient.subscribe('/topic/result', function (greeting) {
                 that.players.push(new __WEBPACK_IMPORTED_MODULE_1__player__["a" /* Player */]((JSON.parse(greeting.body).rank), (JSON.parse(greeting.body).name)));
                 that.rank = (JSON.parse(greeting.body).rank);
             });
