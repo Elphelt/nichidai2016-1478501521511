@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
 
@@ -7,13 +7,12 @@ var Stomp = require('stompjs');
 
 
 @Component({
-  selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
 
 
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
   stompClient: any;
   isValid: any;
@@ -31,7 +30,8 @@ export class AdminComponent implements OnInit {
   private rank: number;
   private result: number;
   private questions: Question[] = [];
-  
+  socket: any;
+
   constructor() { }
 
   ngOnInit() {
@@ -47,6 +47,13 @@ export class AdminComponent implements OnInit {
     this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
     this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
+    this.socket = new SockJS('/hello');
+    this.stompClient = Stomp.over(this.socket);
+  }
+
+  ngOnDestroy() {
+    this.disconnect();
+    this.socket.close();
   }
   
   setConnected(connected) {
@@ -72,8 +79,6 @@ export class AdminComponent implements OnInit {
 
   connect() {
     var that = this;
-    var socket = new SockJS('/hello');
-    this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
