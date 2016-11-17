@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
@@ -9,8 +9,8 @@ var Stomp = require('stompjs');
   templateUrl: './typing.component.html',
   styleUrls: ['./typing.component.css']
 })
-export class TypingComponent implements OnInit {
-  stompClient: any;
+export class TypingComponent implements OnInit, OnDestroy {
+  private stompClient: any;
   isValid: any;
   result: any;
   messages: Array<String> = new Array<String>();
@@ -32,7 +32,13 @@ export class TypingComponent implements OnInit {
     this.showOK=true;
     this.showRanking=false;
   }
-  
+
+  ngOnDestroy() {
+    if (this.stompClient != null) {
+        this.stompClient.disconnect();
+    }
+  }
+
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';

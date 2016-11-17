@@ -6,10 +6,8 @@
 <div id="conversationDiv">
   <label>Question</label><br>
   <div class="btn-group">
-    <button *ngFor="let qbuf of questions" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody)">{{qbuf.qnum}}</button>
+    <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
   </div>
-  <!--<input class="form-control" type="text" [(ngModel)]="Cquestion" />
-  <button class="btn btn-info" (click)="sendQuestion()">Send</button><br>-->
   <button class="btn" (click)="changeGraph()">Show Graph</button>
   <button class="btn" (click)="changeRanking()">Show Ranking</button>
   <button class="btn btn-danger" (click)="resetResult();">Reset</button>

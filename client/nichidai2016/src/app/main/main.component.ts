@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
@@ -8,7 +8,7 @@ var Stomp = require('stompjs');
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   stompClient: any;
   isValid: any;
   result: any;
@@ -23,6 +23,12 @@ export class MainComponent implements OnInit {
     this.setConnected(false);
     this.question=" Loading..."
     this.showAns=false;
+  }
+
+  ngOnDestroy() {
+    if (this.stompClient != null) {
+        this.stompClient.disconnect();
+    }
   }
   
   setConnected(connected) {

@@ -7,6 +7,7 @@ var Stomp = require('stompjs');
 
 
 @Component({
+  selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
 })
@@ -14,7 +15,7 @@ var Stomp = require('stompjs');
 
 export class AdminComponent implements OnInit, OnDestroy {
 
-  stompClient: any;
+  private stompClient: any;
   isValid: any;
   choiceYes: number;
   choiceNo: number;
@@ -30,14 +31,16 @@ export class AdminComponent implements OnInit, OnDestroy {
   private rank: number;
   private result: number;
   private questions: Question[] = [];
-  socket: any;
+  private resultList: number[][] = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
+  private nowIndex: number;
 
   constructor() { }
 
   ngOnInit() {
     this.setConnected(false);
-    this.choiceNo=1;
-    this.choiceYes=1;
+    this.choiceNo=0;
+    this.choiceYes=0;
+    this.nowIndex=0;
     this.rank=1;
     this.questions.push(new Question("フリック1","日本大学生産工学部"));
     this.questions.push(new Question("フリック2","penpineappleapplepen"));
@@ -47,13 +50,12 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
     this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
-    this.socket = new SockJS('/hello');
-    this.stompClient = Stomp.over(this.socket);
   }
 
   ngOnDestroy() {
-    this.disconnect();
-    this.socket.close();
+    if (this.stompClient != null) {
+        this.stompClient.disconnect();
+    }
   }
   
   setConnected(connected) {
@@ -71,14 +73,21 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.stompClient.send('/app/reset', {}, );
   }
 
-  sendQuestion(qbody: string) {
-    // this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': this.Cquestion }));
-    this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
+  sendQuestion(qbody: string, nextIndex: number) {
+    this.resultList[this.nowIndex][0] = this.choiceYes;
+    this.resultList[this.nowIndex][1] = this.choiceNo;
+    this.choiceYes = this.resultList[nextIndex][0];
+    this.choiceNo = this.resultList[nextIndex][1];
+    this.result=this.choiceYes+this.choiceNo;
+    this.nowIndex=nextIndex;
+    if(this.choiceNo==0 && this.choiceYes==0) this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
     this.Cquestion=qbody;
   }
 
   connect() {
     var that = this;
+    var socket = new SockJS('/hello');
+    this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
