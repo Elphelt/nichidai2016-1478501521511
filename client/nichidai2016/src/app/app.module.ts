@@ -9,6 +9,7 @@ import { MainComponent } from './main/main.component';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { GraphComponent } from './graph/graph.component';
 import { TypingComponent } from './typing/typing.component';
+import { DengonComponent } from './dengon/dengon.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { TypingComponent } from './typing/typing.component';
     AdminComponent,
     MainComponent,
     GraphComponent,
-    TypingComponent
+    TypingComponent,
+    DengonComponent
   ],
   imports: [
     BrowserModule,

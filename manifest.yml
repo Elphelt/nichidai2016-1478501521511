@@ -1,6 +1,6 @@
 applications:
 - path: target/Nichidai2016App.war
-  memory: 256M
+  memory: 1024M
   instances: 1
   domain: mybluemix.net
   name: nichidai2016

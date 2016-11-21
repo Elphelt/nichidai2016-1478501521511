@@ -4,18 +4,20 @@
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
 <div id="conversationDiv">
-  <label>Question</label><br>
-  <div class="btn-group">
-    <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
+  <div *ngIf="!showDengon">
+    <label>Question</label><br>
+    <div class="btn-group">
+      <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
+    </div>
+    <button class="btn" (click)="changeGraph()">Show Graph</button>
+    <button class="btn" (click)="changeRanking()">Show Ranking</button>
+    <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+    <br>
+    <br>
+    <h1>Q: {{Cquestion}}</h1>
+    <br>
+    <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
   </div>
-  <button class="btn" (click)="changeGraph()">Show Graph</button>
-  <button class="btn" (click)="changeRanking()">Show Ranking</button>
-  <button class="btn btn-danger" (click)="resetResult();">Reset</button>
-  <br>
-  <br>
-  <h1>Q: {{Cquestion}}</h1>
-  <br>
-  <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
 </div>
 <app-graph *ngIf="showGraph" [varYes]="varYes" [varNo]="varNo"></app-graph>
 <div *ngIf="showRanking">
