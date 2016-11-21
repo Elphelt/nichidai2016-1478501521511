@@ -1,3 +1,16 @@
-<p>
-  dengon works!
-</p>
+<h4>Connect to "伝言ゲーム" system.</h4>
+<button class="btn btn-secondary" (click)="changePlayer()">プレイヤー</button>
+<button class="btn btn-secondary" (click)="changeDisplay()">途中結果画面</button>
+<br><br>
+<div id="conversationDiv">
+  <div class="form-group row " *ngIf="showPlayer">
+    <h4>プレイヤー接続</h4>
+    <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
+    <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
+  </div>
+  <div class="form-group row " *ngIf="showDisplay">
+    <h4>ディスプレイ接続</h4>
+    <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
+    <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
+  </div>
+</div>
