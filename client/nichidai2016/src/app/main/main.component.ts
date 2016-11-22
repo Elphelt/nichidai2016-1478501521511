@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
-    this.uploader = new FileUploader({url: 'http://localhost:8080/up',  itemAlias: 'multipartFile', disableMultipart: false});
+    this.uploader = new FileUploader({url: '/up',  itemAlias: 'multipartFile', disableMultipart: false});
     this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
       this.watsonResult=JSON.parse(response).images[0].classifiers[0].classes;
     };
