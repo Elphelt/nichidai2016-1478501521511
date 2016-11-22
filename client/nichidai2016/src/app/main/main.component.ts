@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { FileUploader } from 'ng2-file-upload'
 
 var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
@@ -16,8 +17,26 @@ export class MainComponent implements OnInit, OnDestroy {
   question: string;
   sendFlag: boolean;
   showAns: boolean;
+  watsonResult: any;
 
-  constructor() { }
+  public uploader:FileUploader;
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
+  constructor() {
+    this.uploader = new FileUploader({url: 'http://localhost:8080/up',  itemAlias: 'multipartFile', disableMultipart: false});
+    this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+      this.watsonResult=JSON.parse(response).images[0].classifiers[0].classes;
+    };
+   }
 
   ngOnInit() {
     this.setConnected(false);
@@ -90,3 +109,4 @@ export class MainComponent implements OnInit, OnDestroy {
   } 
 
 }
+

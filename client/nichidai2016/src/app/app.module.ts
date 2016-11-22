@@ -11,6 +11,8 @@ import { GraphComponent } from './graph/graph.component';
 import { TypingComponent } from './typing/typing.component';
 import { DengonComponent } from './dengon/dengon.component';
 
+import { FileSelectDirective } from 'ng2-file-upload';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { DengonComponent } from './dengon/dengon.component';
     MainComponent,
     GraphComponent,
     TypingComponent,
-    DengonComponent
+    DengonComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,

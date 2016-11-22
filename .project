@@ -41,7 +41,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1478656944963</id>
+			<id>1479774125925</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -50,12 +50,12 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1478656944971</id>
+			<id>1479774125932</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-projectRelativePath-matches-false-false-.vscode</arguments>
+				<arguments>1.0-projectRelativePath-matches-true-false-.vscode</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
