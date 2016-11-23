@@ -12,6 +12,10 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +26,14 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
+import net.mybluemix.model.Dengon;
+
 @RestController
 public class HelloController {
 
+	@Autowired
+	private SimpMessagingTemplate simpmessage;
+	
 	@RequestMapping("/test")
 	public VisualClassification greeting() {
 		VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
@@ -80,4 +89,11 @@ public class HelloController {
 		fos.close();
 		return convFile;
 	}
+	
+	@RequestMapping(value = "/dengon", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String dengonController(@RequestBody Dengon dengon){
+		simpmessage.convertAndSend("/topic/dengon", dengon);
+		return "test";
+	}
+	
 }

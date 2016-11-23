@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import net.mybluemix.model.Choice;
+import net.mybluemix.model.Dengon;
 import net.mybluemix.model.FlickPlayer;
 import net.mybluemix.model.Greeting;
 import net.mybluemix.model.Message;
