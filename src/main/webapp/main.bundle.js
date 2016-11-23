@@ -55346,7 +55346,7 @@ var DengonComponent = (function () {
             console.log('Connected: ' + frame);
             that.stompClient.subscribe('/topic/dengon', function (greeting) {
                 that.choiceNum = JSON.parse(greeting.body).choiceNum;
-                if (JSON.parse(greeting.body).teamNum == 1) {
+                if (JSON.parse(greeting.body).teamNum == 0) {
                     that.choice1 = that.choiceNum;
                 }
                 else {
@@ -55390,7 +55390,7 @@ var DengonComponent = (function () {
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* RequestOptions */]({ headers: headers });
         return this.http.post('/dengon', body, options)
             .subscribe(function (res) {
-            return res.json();
+            return res;
         });
     };
     DengonComponent.prototype.teamSet = function (num) {

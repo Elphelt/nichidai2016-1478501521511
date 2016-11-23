@@ -48,7 +48,7 @@ export class DengonComponent implements OnInit {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/dengon', function (greeting) {
         that.choiceNum = JSON.parse(greeting.body).choiceNum;
-        if(JSON.parse(greeting.body).teamNum == 1){
+        if(JSON.parse(greeting.body).teamNum == 0){
           that.choice1 = that.choiceNum;
         }else{
           that.choice2 = that.choiceNum;
@@ -100,7 +100,7 @@ export class DengonComponent implements OnInit {
 
     return this.http.post('/dengon', body, options)
     .subscribe((res) => {
-            return res.json();
+            return res;
         });
   }
 
