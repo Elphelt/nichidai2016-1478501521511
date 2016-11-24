@@ -1,11 +1,11 @@
 applications:
 - path: target/Nichidai2016App.war
-  memory: 2048M
+  memory: 1024M
   instances: 1
   domain: mybluemix.net
   name: nichidai2016
   host: nichidai2016
-  disk_quota: 2048M
+  disk_quota: 1024M
   services:
   - availability-monitoring-auto
   buildpack: java_buildpack
