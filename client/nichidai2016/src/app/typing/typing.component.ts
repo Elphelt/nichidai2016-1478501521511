@@ -59,10 +59,12 @@ export class TypingComponent implements OnInit, OnDestroy {
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         that.stompClient.subscribe('/topic/greetings', function (greeting) {
+            if(that.answer=that.question) that.answer="";
             that.question=JSON.parse(greeting.body).content;
             that.sendFlag=false;
             that.showAns=true;
             that.showRanking=false;
+            that.result="";
         });
         that.stompClient.subscribe('/user/queue/flick', function (greeting) {
             that.rank=JSON.parse(greeting.body).content;

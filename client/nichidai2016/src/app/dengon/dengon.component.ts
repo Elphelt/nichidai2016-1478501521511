@@ -20,6 +20,7 @@ export class DengonComponent implements OnInit {
   private choice2: string[] = [];
   private teamNum: number;
   private loading: string;
+  private result: string;
 
   constructor(private http: Http) { }
 
@@ -82,12 +83,6 @@ export class DengonComponent implements OnInit {
     this.showDisplay = true;
   }
 
-  // private choice(buf: number): void {
-  //   this.choiceNum.push(buf);
-  //   this.isDisabled[buf]="false";
-
-  // }
-
   private reset(): void {
     this.choiceNum=[];
     this.isDisabled[0]=null;
@@ -100,11 +95,11 @@ export class DengonComponent implements OnInit {
     let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum' : this.choiceNum });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-
+    this.result="";
     return this.http.post('/dengon', body, options)
     .subscribe((res) => {
-            return res;
-        });
+      this.result="送信完了";
+    });
   }
 
   teamSet(num: number): void{
