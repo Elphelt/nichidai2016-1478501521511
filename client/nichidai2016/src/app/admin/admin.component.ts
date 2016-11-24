@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
 
-var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
 
 
@@ -87,7 +86,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   connect() {
     var that = this;
-    var socket = new SockJS('/hello');
+    var socket = new WebSocket('ws://' + location.host + '/hello');
     this.Cquestion=" Loading..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {

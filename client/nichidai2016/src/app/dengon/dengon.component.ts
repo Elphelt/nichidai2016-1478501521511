@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http'
 
-var SockJS = require('sockjs-client');
 var Stomp = require('stompjs');
 
 @Component({
@@ -44,7 +43,7 @@ export class DengonComponent implements OnInit {
 
   connect() {
     var that = this;
-    var socket = new SockJS('/hello');
+    var socket = new WebSocket('ws://' + location.host + '/hello');
     this.loading = " Loading...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
