@@ -14,10 +14,10 @@ export class DengonComponent implements OnInit {
   private stompClient: any;
   private showPlayer: boolean = false;
   private showDisplay: boolean = false;
-  private choiceNum: number[] = [];
+  private choiceNum: string[] = [];
   private isDisabled: any[] = [];
-  private choice1: number[] = [];
-  private choice2: number[] = [];
+  private choice1: string[] = [];
+  private choice2: string[] = [];
   private teamNum: number;
 
   constructor(private http: Http) { }
@@ -79,11 +79,11 @@ export class DengonComponent implements OnInit {
     this.showDisplay = true;
   }
 
-  private choice(buf: number): void {
-    this.choiceNum.push(buf);
-    this.isDisabled[buf]="false";
+  // private choice(buf: number): void {
+  //   this.choiceNum.push(buf);
+  //   this.isDisabled[buf]="false";
 
-  }
+  // }
 
   private reset(): void {
     this.choiceNum=[];

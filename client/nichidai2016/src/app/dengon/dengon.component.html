@@ -9,14 +9,18 @@
     <button class="btn btn-secondary" (click)="teamSet(1)">1</button>
     <h4>チーム：{{teamNum}}</h4>
     <h4>順番選択</h4>
-    <button class="btn btn-secondary" [attr.disabled]="isDisabled[0]" (click)="choice(0)">0:〇</button>
+    <!--<button class="btn btn-secondary" [attr.disabled]="isDisabled[0]" (click)="choice(0)">0:〇</button>
     <button class="btn btn-secondary" [attr.disabled]="isDisabled[1]" (click)="choice(1)">1:△</button>
     <button class="btn btn-secondary" [attr.disabled]="isDisabled[2]" (click)="choice(2)">2:□</button>
-    <button class="btn btn-secondary" [attr.disabled]="isDisabled[3]" (click)="choice(3)">3:×</button>
+    <button class="btn btn-secondary" [attr.disabled]="isDisabled[3]" (click)="choice(3)">3:×</button>-->
+    <span>1:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[0]" />
+    <span>2:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[1]" />
+    <span>3:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[2]" />
+    <span>4:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[3]" />
     <br>
     <button class="btn btn-danger" (click)="reset()">Reset</button>
     <br>
-    <span *ngFor="let num of choiceNum">{{num}}</span>
+    <span *ngFor="let num of choiceNum">{{num}} </span>
     <br>
     <button class="btn btn-success" (click)="sendAns()">Send Answer</button>
   </div>

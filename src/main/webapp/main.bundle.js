@@ -55373,10 +55373,10 @@ var DengonComponent = (function () {
         this.showPlayer = false;
         this.showDisplay = true;
     };
-    DengonComponent.prototype.choice = function (buf) {
-        this.choiceNum.push(buf);
-        this.isDisabled[buf] = "false";
-    };
+    // private choice(buf: number): void {
+    //   this.choiceNum.push(buf);
+    //   this.isDisabled[buf]="false";
+    // }
     DengonComponent.prototype.reset = function () {
         this.choiceNum = [];
         this.isDisabled[0] = null;
@@ -58945,11 +58945,11 @@ module.exports = {
  * Helpers.
  */
 
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
 
 /**
  * Parse or format the given `val`.
@@ -58960,23 +58960,17 @@ var y = d * 365.25
  *
  * @param {String|Number} val
  * @param {Object} options
- * @throws {Error} throw an error if val is not a non-empty string or a number
  * @return {String|Number}
  * @api public
  */
 
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
-  if (type === 'string' && val.length > 0) {
-    return parse(val)
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
+module.exports = function(val, options){
+  options = options || {};
+  if ('string' == typeof val) return parse(val);
+  return options.long
+    ? long(val)
+    : short(val);
+};
 
 /**
  * Parse the given `str` and return milliseconds.
@@ -58987,53 +58981,47 @@ module.exports = function (val, options) {
  */
 
 function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
-  if (!match) {
-    return
-  }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
+  str = '' + str;
+  if (str.length > 10000) return;
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+  if (!match) return;
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
   switch (type) {
     case 'years':
     case 'year':
     case 'yrs':
     case 'yr':
     case 'y':
-      return n * y
+      return n * y;
     case 'days':
     case 'day':
     case 'd':
-      return n * d
+      return n * d;
     case 'hours':
     case 'hour':
     case 'hrs':
     case 'hr':
     case 'h':
-      return n * h
+      return n * h;
     case 'minutes':
     case 'minute':
     case 'mins':
     case 'min':
     case 'm':
-      return n * m
+      return n * m;
     case 'seconds':
     case 'second':
     case 'secs':
     case 'sec':
     case 's':
-      return n * s
+      return n * s;
     case 'milliseconds':
     case 'millisecond':
     case 'msecs':
     case 'msec':
     case 'ms':
-      return n
-    default:
-      return undefined
+      return n;
   }
 }
 
@@ -59045,20 +59033,12 @@ function parse(str) {
  * @api private
  */
 
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd'
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h'
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm'
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's'
-  }
-  return ms + 'ms'
+function short(ms) {
+  if (ms >= d) return Math.round(ms / d) + 'd';
+  if (ms >= h) return Math.round(ms / h) + 'h';
+  if (ms >= m) return Math.round(ms / m) + 'm';
+  if (ms >= s) return Math.round(ms / s) + 's';
+  return ms + 'ms';
 }
 
 /**
@@ -59069,12 +59049,12 @@ function fmtShort(ms) {
  * @api private
  */
 
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms'
+function long(ms) {
+  return plural(ms, d, 'day')
+    || plural(ms, h, 'hour')
+    || plural(ms, m, 'minute')
+    || plural(ms, s, 'second')
+    || ms + ' ms';
 }
 
 /**
@@ -59082,13 +59062,9 @@ function fmtLong(ms) {
  */
 
 function plural(ms, n, name) {
-  if (ms < n) {
-    return
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's'
+  if (ms < n) return;
+  if (ms < n * 1.5) return Math.floor(ms / n) + ' ' + name;
+  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
 
@@ -60232,25 +60208,25 @@ module.exports = "<nav class=\"navbar navbar-dark navbar-fixed-top bg-inverse\">
 /* 660 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"伝言ゲーム\" system.</h4>\r\n<button class=\"btn btn-secondary\" (click)=\"changePlayer()\">プレイヤー</button>\r\n<button class=\"btn btn-secondary\" (click)=\"changeDisplay()\">途中結果画面</button>\r\n<br><br>\r\n<div id=\"conversationDiv\">\r\n  <div class=\"form-group row \" *ngIf=\"showPlayer\">\r\n    <h4>チーム選択</h4>\r\n    <button class=\"btn btn-secondary\" (click)=\"teamSet(0)\">0</button>\r\n    <button class=\"btn btn-secondary\" (click)=\"teamSet(1)\">1</button>\r\n    <h4>チーム：{{teamNum}}</h4>\r\n    <h4>順番選択</h4>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[0]\" (click)=\"choice(0)\">0:〇</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[1]\" (click)=\"choice(1)\">1:△</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[2]\" (click)=\"choice(2)\">2:□</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[3]\" (click)=\"choice(3)\">3:×</button>\r\n    <br>\r\n    <button class=\"btn btn-danger\" (click)=\"reset()\">Reset</button>\r\n    <br>\r\n    <span *ngFor=\"let num of choiceNum\">{{num}}</span>\r\n    <br>\r\n    <button class=\"btn btn-success\" (click)=\"sendAns()\">Send Answer</button>\r\n  </div>\r\n  <div class=\"form-group row \" *ngIf=\"showDisplay\">\r\n    <h4>ディスプレイ接続</h4>\r\n    <button class=\"btn btn-danger\" id=\"disconnect\" style=\"visibility:hidden;\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\r\n    <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\r\n    <h5>チーム0</h5>\r\n    <h5>{{choice1}}</h5>\r\n    <br>\r\n    <h5>チーム1</h5>\r\n    <h5>{{choice2}}</h5>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h4>Connect to \"伝言ゲーム\" system.</h4>\r\n<button class=\"btn btn-secondary\" (click)=\"changePlayer()\">プレイヤー</button>\r\n<button class=\"btn btn-secondary\" (click)=\"changeDisplay()\">途中結果画面</button>\r\n<br><br>\r\n<div id=\"conversationDiv\">\r\n  <div class=\"form-group row \" *ngIf=\"showPlayer\">\r\n    <h4>チーム選択</h4>\r\n    <button class=\"btn btn-secondary\" (click)=\"teamSet(0)\">0</button>\r\n    <button class=\"btn btn-secondary\" (click)=\"teamSet(1)\">1</button>\r\n    <h4>チーム：{{teamNum}}</h4>\r\n    <h4>順番選択</h4>\r\n    <!--<button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[0]\" (click)=\"choice(0)\">0:〇</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[1]\" (click)=\"choice(1)\">1:△</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[2]\" (click)=\"choice(2)\">2:□</button>\r\n    <button class=\"btn btn-secondary\" [attr.disabled]=\"isDisabled[3]\" (click)=\"choice(3)\">3:×</button>-->\r\n    <span>1:</span><input class=\"form-control\" type=\"text\" [(ngModel)]=\"choiceNum[0]\" />\r\n    <span>2:</span><input class=\"form-control\" type=\"text\" [(ngModel)]=\"choiceNum[1]\" />\r\n    <span>3:</span><input class=\"form-control\" type=\"text\" [(ngModel)]=\"choiceNum[2]\" />\r\n    <span>4:</span><input class=\"form-control\" type=\"text\" [(ngModel)]=\"choiceNum[3]\" />\r\n    <br>\r\n    <button class=\"btn btn-danger\" (click)=\"reset()\">Reset</button>\r\n    <br>\r\n    <span *ngFor=\"let num of choiceNum\">{{num}} </span>\r\n    <br>\r\n    <button class=\"btn btn-success\" (click)=\"sendAns()\">Send Answer</button>\r\n  </div>\r\n  <div class=\"form-group row \" *ngIf=\"showDisplay\">\r\n    <h4>ディスプレイ接続</h4>\r\n    <button class=\"btn btn-danger\" id=\"disconnect\" style=\"visibility:hidden;\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\r\n    <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\r\n    <h5>チーム0</h5>\r\n    <h5>{{choice1}}</h5>\r\n    <br>\r\n    <h5>チーム1</h5>\r\n    <h5>{{choice2}}</h5>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 661 */
 /***/ function(module, exports) {
 
-module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\r\n  <canvas baseChart \r\n              [data]=\"doughnutChartData\"\r\n              [labels]=\"doughnutChartLabels\"\r\n              [chartType]=\"doughnutChartType\"\r\n              (chartHover)=\"chartHovered($event)\"\r\n              (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n"
+module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\n  <canvas baseChart \n              [data]=\"doughnutChartData\"\n              [labels]=\"doughnutChartLabels\"\n              [chartType]=\"doughnutChartType\"\n              (chartHover)=\"chartHovered($event)\"\n              (chartClick)=\"chartClicked($event)\"></canvas>\n</div>\n"
 
 /***/ },
 /* 662 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\r\n<div class=\"form-group row\">\r\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\r\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\r\n</div>\r\n<div class=\"form-inline\" id=\"conversationDiv\">\r\n  <h4>Q.{{question}}</h4>\r\n  <div *ngIf=\"showAns\">\r\n    <h6>Select Your Choice!</h6>\r\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\r\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\r\n    <h4>A.{{result}}</h4>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <h4>Q.{{question}}</h4>\n  <div *ngIf=\"showAns\">\n    <h6>Select Your Choice!</h6>\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n    <h4>A.{{result}}</h4>\n  </div>\n</div>\n"
 
 /***/ },
 /* 663 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to Flick Type Battle.</h4>\r\n<div class=\"form-group row\">\r\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\r\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\r\n</div>\r\n<div class=\"form-inline\" id=\"conversationDiv\">\r\n  <div class=\"form-group\">\r\n    <label *ngIf=\"showOK\">What is your name?</label>\r\n    <input class=\"form-control\" type=\"text\" [(ngModel)]=\"player\"  *ngIf=\"showOK\"/>\r\n    <button class=\"btn btn-success\" (click)=\"setName()\" *ngIf=\"showOK\">OK</button>\r\n    <label *ngIf=\"!showOK\">Player:</label>\r\n    <label class=\"font-weight-bold\" *ngIf=\"!showOK\">{{player}}</label>\r\n    <button class=\"btn btn-outline-success\" (click)=\"editName()\" *ngIf=\"!showOK\">Edit</button>\r\n  </div>\r\n  <h4>Q.{{question}}</h4>\r\n  <div class=\"form-group\" *ngIf=\"showAns\">\r\n    <input class=\"form-control\" type=\"text\" [(ngModel)]=\"answer\" />\r\n    <button class=\"btn btn-info\" (click)=\"sendAns()\">Send</button>\r\n  </div>\r\n  <h4 *ngIf=\"showRanking\">Rank:{{rank}}</h4>\r\n</div>\r\n"
+module.exports = "<h4>Connect to Flick Type Battle.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <div class=\"form-group\">\n    <label *ngIf=\"showOK\">What is your name?</label>\n    <input class=\"form-control\" type=\"text\" [(ngModel)]=\"player\"  *ngIf=\"showOK\"/>\n    <button class=\"btn btn-success\" (click)=\"setName()\" *ngIf=\"showOK\">OK</button>\n    <label *ngIf=\"!showOK\">Player:</label>\n    <label class=\"font-weight-bold\" *ngIf=\"!showOK\">{{player}}</label>\n    <button class=\"btn btn-outline-success\" (click)=\"editName()\" *ngIf=\"!showOK\">Edit</button>\n  </div>\n  <h4>Q.{{question}}</h4>\n  <div class=\"form-group\" *ngIf=\"showAns\">\n    <input class=\"form-control\" type=\"text\" [(ngModel)]=\"answer\" />\n    <button class=\"btn btn-info\" (click)=\"sendAns()\">Send</button>\n  </div>\n  <h4 *ngIf=\"showRanking\">Rank:{{rank}}</h4>\n</div>\n"
 
 /***/ },
 /* 664 */
