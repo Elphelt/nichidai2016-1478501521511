@@ -88,6 +88,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
+    this.Cquestion=" Loading..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);

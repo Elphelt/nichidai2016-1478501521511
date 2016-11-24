@@ -3,6 +3,7 @@
   <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
   <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
 </div>
+<h4>{{loading}}</h4>
 <div class="form-inline" id="conversationDiv">
   <h4>Q.{{question}}</h4>
   <div *ngIf="showAns">

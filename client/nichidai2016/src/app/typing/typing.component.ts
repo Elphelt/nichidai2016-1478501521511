@@ -55,6 +55,7 @@ export class TypingComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
+    this.question=" Loading..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);

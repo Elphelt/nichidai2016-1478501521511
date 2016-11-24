@@ -18,6 +18,7 @@ export class MainComponent implements OnInit, OnDestroy {
   sendFlag: boolean;
   showAns: boolean;
   watsonResult: any;
+  private loading: string;
 
   public uploader:FileUploader;
   public hasBaseDropZoneOver:boolean = false;
@@ -40,7 +41,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setConnected(false);
-    this.question=" Loading..."
+    this.question=" Loading...";
+    this.loading=" Loading...";
     this.showAns=false;
   }
 
@@ -84,6 +86,7 @@ export class MainComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
+    this.loading=" Loading...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
@@ -93,10 +96,10 @@ export class MainComponent implements OnInit, OnDestroy {
             that.showAns=true;
             that.result="";
         });
-        that.question=null;
+        that.loading=null;
     }, function (err) {
         console.log('err', err);
-        that.question="再度Connectを押して下さい";
+        that.loading="再度Connectを押して下さい";
         that.setConnected(false);
     });
     this.setConnected(true);

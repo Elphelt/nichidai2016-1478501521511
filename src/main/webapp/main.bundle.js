@@ -55177,6 +55177,7 @@ var AdminComponent = (function () {
     AdminComponent.prototype.connect = function () {
         var that = this;
         var socket = new SockJS('/hello');
+        this.Cquestion = " Loading...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -55346,6 +55347,7 @@ var DengonComponent = (function () {
     DengonComponent.prototype.connect = function () {
         var that = this;
         var socket = new SockJS('/hello');
+        this.loading = " Loading...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -55530,6 +55532,7 @@ var MainComponent = (function () {
     MainComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
         this.question = " Loading...";
+        this.loading = " Loading...";
         this.showAns = false;
     };
     MainComponent.prototype.ngOnDestroy = function () {
@@ -55569,6 +55572,7 @@ var MainComponent = (function () {
     MainComponent.prototype.connect = function () {
         var that = this;
         var socket = new SockJS('/hello');
+        this.loading = " Loading...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -55578,10 +55582,10 @@ var MainComponent = (function () {
                 that.showAns = true;
                 that.result = "";
             });
-            that.question = null;
+            that.loading = null;
         }, function (err) {
             console.log('err', err);
-            that.question = "再度Connectを押して下さい";
+            that.loading = "再度Connectを押して下さい";
             that.setConnected(false);
         });
         this.setConnected(true);
@@ -55685,6 +55689,7 @@ var TypingComponent = (function () {
     TypingComponent.prototype.connect = function () {
         var that = this;
         var socket = new SockJS('/hello');
+        this.question = " Loading...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -60238,7 +60243,7 @@ module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\n
 /* 662 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <h4>Q.{{question}}</h4>\n  <div *ngIf=\"showAns\">\n    <h6>Select Your Choice!</h6>\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n    <h4>A.{{result}}</h4>\n  </div>\n</div>\n"
+module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<h4>{{loading}}</h4>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <h4>Q.{{question}}</h4>\n  <div *ngIf=\"showAns\">\n    <h6>Select Your Choice!</h6>\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n    <h4>A.{{result}}</h4>\n  </div>\n</div>\n"
 
 /***/ },
 /* 663 */

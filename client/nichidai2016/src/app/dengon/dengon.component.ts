@@ -45,6 +45,7 @@ export class DengonComponent implements OnInit {
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
+    this.loading = " Loading...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
