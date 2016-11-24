@@ -5,7 +5,7 @@ applications:
   domain: mybluemix.net
   name: nichidai2016
   host: nichidai2016
-  disk_quota: 1024M
+  disk_quota: 2048M
   services:
   - availability-monitoring-auto
   buildpack: java_buildpack

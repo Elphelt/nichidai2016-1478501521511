@@ -96,6 +96,8 @@ export class MainComponent implements OnInit, OnDestroy {
         that.question=null;
     }, function (err) {
         console.log('err', err);
+        that.question="再度Connectを押して下さい";
+        that.setConnected(false);
     });
     this.setConnected(true);
   }

@@ -103,6 +103,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       that.Cquestion=null;
     }, function (err) {
       console.log('err', err);
+      that.Cquestion="再度Connectを押して下さい";
+      that.setConnected(false);
     });
     this.setConnected(true);
   }

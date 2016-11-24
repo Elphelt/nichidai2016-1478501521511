@@ -55192,6 +55192,8 @@ var AdminComponent = (function () {
             that.Cquestion = null;
         }, function (err) {
             console.log('err', err);
+            that.Cquestion = "再度Connectを押して下さい";
+            that.setConnected(false);
         });
         this.setConnected(true);
     };
@@ -55359,6 +55361,8 @@ var DengonComponent = (function () {
             that.loading = null;
         }, function (err) {
             console.log('err', err);
+            that.loading = "再度Connectを押して下さい";
+            that.setConnected(false);
         });
         this.setConnected(true);
     };
@@ -55577,6 +55581,8 @@ var MainComponent = (function () {
             that.question = null;
         }, function (err) {
             console.log('err', err);
+            that.question = "再度Connectを押して下さい";
+            that.setConnected(false);
         });
         this.setConnected(true);
     };
@@ -55698,6 +55704,8 @@ var TypingComponent = (function () {
             that.question = null;
         }, function (err) {
             console.log('err', err);
+            that.question = "再度Connectを押して下さい";
+            that.setConnected(false);
         });
         this.setConnected(true);
     };
