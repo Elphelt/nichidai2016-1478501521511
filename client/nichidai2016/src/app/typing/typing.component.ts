@@ -68,6 +68,7 @@ export class TypingComponent implements OnInit, OnDestroy {
             that.rank=JSON.parse(greeting.body).content;
             that.showRanking=true;
         });
+        that.question=null;
     }, function (err) {
         console.log('err', err);
     });
@@ -80,6 +81,7 @@ export class TypingComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
+    this.question=" Loading..."
     console.log("Disconnected");
   } 
 

@@ -19,15 +19,16 @@ export class DengonComponent implements OnInit {
   private choice1: string[] = [];
   private choice2: string[] = [];
   private teamNum: number;
+  private loading: string;
 
   constructor(private http: Http) { }
 
   ngOnInit() {
-    this.isDisabled.push(null);
-    this.isDisabled.push(null);
-    this.isDisabled.push(null);
-    this.isDisabled.push(null);
-   }
+    for(var i = 0; i < 6; i++) {
+      this.isDisabled.push(null);
+    }
+    this.loading = " Loading...";
+  }
 
   ngOnDestroy() {
     if (this.stompClient != null) {
@@ -54,6 +55,7 @@ export class DengonComponent implements OnInit {
           that.choice2 = that.choiceNum;
         }
       });
+      that.loading=null;
     }, function (err) {
       console.log('err', err);
     });
@@ -66,6 +68,7 @@ export class DengonComponent implements OnInit {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
+    this.loading = " Loading...";
     console.log("Disconnected");
   } 
 

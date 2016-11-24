@@ -50,6 +50,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
     this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
+    this.Cquestion=" Loading..."
   }
 
   ngOnDestroy() {
@@ -99,6 +100,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.players.push(new Player((JSON.parse(greeting.body).rank), (JSON.parse(greeting.body).name)));
         that.rank=(JSON.parse(greeting.body).rank);
       });
+      that.Cquestion=null;
     }, function (err) {
       console.log('err', err);
     });
@@ -111,6 +113,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
+    this.Cquestion=" Loading..."
     console.log("Disconnected");
   } 
 

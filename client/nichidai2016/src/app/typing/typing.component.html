@@ -12,7 +12,7 @@
     <label class="font-weight-bold" *ngIf="!showOK">{{player}}</label>
     <button class="btn btn-outline-success" (click)="editName()" *ngIf="!showOK">Edit</button>
   </div>
-  <h4>Q.{{question}}</h4>
+  <h4>{{question}}</h4>
   <div class="form-group" *ngIf="showAns">
     <input class="form-control" type="text" [(ngModel)]="answer" />
     <button class="btn btn-info" (click)="sendAns()">Send</button>

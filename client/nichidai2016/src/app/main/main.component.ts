@@ -93,6 +93,7 @@ export class MainComponent implements OnInit, OnDestroy {
             that.showAns=true;
             that.result="";
         });
+        that.question=null;
     }, function (err) {
         console.log('err', err);
     });
@@ -105,6 +106,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
+    this.question=" Loading..."
     console.log("Disconnected");
   } 
 
