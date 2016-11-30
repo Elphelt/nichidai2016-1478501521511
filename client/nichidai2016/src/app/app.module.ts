@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, enableProdMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -13,8 +13,6 @@ import { DengonComponent } from './dengon/dengon.component';
 
 import { FileSelectDirective } from 'ng2-file-upload';
 import { VisualRecoComponent } from './visual-reco/visual-reco.component';
-
-enableProdMode();
 
 @NgModule({
   declarations: [

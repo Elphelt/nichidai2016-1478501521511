@@ -55248,7 +55248,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["enableProdMode"])();
 var AppModule = (function () {
     function AppModule() {
     }
@@ -55771,12 +55770,8 @@ var VisualRecoComponent = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `angular-cli.json`.
 var environment = {
-    production: false
+    production: true
 };
 
 
