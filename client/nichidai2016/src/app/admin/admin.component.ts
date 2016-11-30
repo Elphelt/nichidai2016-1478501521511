@@ -3,7 +3,7 @@ import { Player } from '../player';
 import { Question } from '../question';
 
 var Stomp = require('stompjs');
-
+var SockJS = require('sockjs-client');
 
 @Component({
   selector: 'app-admin',
@@ -84,7 +84,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   connect() {
     var that = this;
-    var socket = new WebSocket('ws://' + location.host + '/hello');
+    var socket = new SockJS('/hello');
     this.Cquestion=" Connecting..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {

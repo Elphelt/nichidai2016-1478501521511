@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload'
 
 var Stomp = require('stompjs');
+var SockJS = require('sockjs-client');
 
 @Component({
   selector: 'app-main',
@@ -84,7 +85,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   connect() {
     var that = this;
-    var socket = new WebSocket('ws://' + location.host + '/hello');
+    var socket = new SockJS('/hello');
     this.loading=" Connecting...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {

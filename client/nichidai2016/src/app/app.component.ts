@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private showMain: boolean = true;
+  private showMain: boolean = false;
   private showAdmin: boolean = false;
-  private showFlick: boolean = false;
+  private showFlick: boolean = true;
   private showDengon: boolean = false;
   private showWatson: boolean = false;
 

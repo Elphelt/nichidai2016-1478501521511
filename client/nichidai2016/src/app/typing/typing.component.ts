@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 var Stomp = require('stompjs');
+var SockJS = require('sockjs-client');
 
 
 @Component({
@@ -53,7 +54,7 @@ export class TypingComponent implements OnInit, OnDestroy {
 
   connect() {
     var that = this;
-    var socket = new WebSocket('ws://' + location.host + '/hello');
+    var socket = new SockJS('/hello');
     this.question=" Connecting..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
