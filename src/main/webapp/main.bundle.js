@@ -55248,6 +55248,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["enableProdMode"])();
 var AppModule = (function () {
     function AppModule() {
     }
