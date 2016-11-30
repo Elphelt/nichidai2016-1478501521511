@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
   }
-  
+
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
@@ -115,9 +115,9 @@ export class AdminComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
-    this.Cquestion=" Loading..."
+    this.Cquestion=" Connecting..."
     console.log("Disconnected");
-  } 
+  }
 
   private changeGraph(): void {
     this.varYes = this.choiceYes;

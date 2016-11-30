@@ -51873,7 +51873,7 @@ var AdminComponent = (function () {
             this.stompClient.disconnect();
         }
         this.setConnected(false);
-        this.Cquestion = " Loading...";
+        this.Cquestion = " Connecting...";
         console.log("Disconnected");
     };
     AdminComponent.prototype.changeGraph = function () {
@@ -52016,7 +52016,7 @@ var DengonComponent = (function () {
     DengonComponent.prototype.connect = function () {
         var that = this;
         var socket = new WebSocket('ws://' + location.host + '/hello');
-        this.loading = " Loading...";
+        this.loading = " Connecting...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -52042,7 +52042,7 @@ var DengonComponent = (function () {
             this.stompClient.disconnect();
         }
         this.setConnected(false);
-        this.loading = " Loading...";
+        this.loading = " Connecting...";
         console.log("Disconnected");
     };
     DengonComponent.prototype.changePlayer = function () {
@@ -52200,7 +52200,7 @@ var MainComponent = (function () {
     MainComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
         this.question = " Loading...";
-        this.loading = " Loading...";
+        this.loading = " Connecting...";
         this.showAns = false;
     };
     MainComponent.prototype.ngOnDestroy = function () {
@@ -52240,7 +52240,7 @@ var MainComponent = (function () {
     MainComponent.prototype.connect = function () {
         var that = this;
         var socket = new WebSocket('ws://' + location.host + '/hello');
-        this.loading = " Loading...";
+        this.loading = " Connecting...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -52356,7 +52356,7 @@ var TypingComponent = (function () {
     TypingComponent.prototype.connect = function () {
         var that = this;
         var socket = new WebSocket('ws://' + location.host + '/hello');
-        this.question = " Loading...";
+        this.question = " Connecting...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);

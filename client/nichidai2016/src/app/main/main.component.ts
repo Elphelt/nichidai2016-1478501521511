@@ -41,7 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setConnected(false);
     this.question=" Loading...";
-    this.loading=" Loading...";
+    this.loading=" Connecting...";
     this.showAns=false;
   }
 
@@ -50,7 +50,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.stompClient.disconnect();
     }
   }
-  
+
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
@@ -80,12 +80,12 @@ export class MainComponent implements OnInit, OnDestroy {
       this.sendFlag=true;
     }
   }
-  
+
 
   connect() {
     var that = this;
     var socket = new WebSocket('ws://' + location.host + '/hello');
-    this.loading=" Loading...";
+    this.loading=" Connecting...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
@@ -112,7 +112,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.setConnected(false);
     this.question=" Loading..."
     console.log("Disconnected");
-  } 
+  }
 
 }
 

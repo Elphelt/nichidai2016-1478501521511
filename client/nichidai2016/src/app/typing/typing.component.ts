@@ -54,7 +54,7 @@ export class TypingComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new WebSocket('ws://' + location.host + '/hello');
-    this.question=" Loading..."
+    this.question=" Connecting..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
@@ -87,7 +87,7 @@ export class TypingComponent implements OnInit, OnDestroy {
     this.setConnected(false);
     this.question=" Loading..."
     console.log("Disconnected");
-  } 
+  }
 
   setName() {
     this.showOK = !this.showOK;

@@ -35,7 +35,7 @@ export class DengonComponent implements OnInit {
         this.stompClient.disconnect();
     }
   }
-  
+
   setConnected(connected) {
     document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
     document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
@@ -44,7 +44,7 @@ export class DengonComponent implements OnInit {
   connect() {
     var that = this;
     var socket = new WebSocket('ws://' + location.host + '/hello');
-    this.loading = " Loading...";
+    this.loading = " Connecting...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
@@ -71,9 +71,9 @@ export class DengonComponent implements OnInit {
         this.stompClient.disconnect();
     }
     this.setConnected(false);
-    this.loading = " Loading...";
+    this.loading = " Connecting...";
     console.log("Disconnected");
-  } 
+  }
 
   private changePlayer(): void {
     this.showPlayer = true;
