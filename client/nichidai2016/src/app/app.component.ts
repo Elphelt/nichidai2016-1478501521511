@@ -10,12 +10,14 @@ export class AppComponent {
   private showAdmin: boolean = false;
   private showFlick: boolean = false;
   private showDengon: boolean = false;
+  private showWatson: boolean = false;
 
   private changeYesNo(): void {
     this.showMain = true;
     this.showAdmin = false;
     this.showFlick = false;
     this.showDengon = false;
+    this.showWatson = false;
   }
 
   private changeAdmin(): void {
@@ -23,6 +25,7 @@ export class AppComponent {
     this.showAdmin = true;
     this.showFlick = false;
     this.showDengon = false;
+    this.showWatson = false;
   }
 
   private changeFlick(): void {
@@ -30,6 +33,7 @@ export class AppComponent {
     this.showAdmin = false;
     this.showFlick = true;
     this.showDengon = false;
+    this.showWatson = false;
   }
 
   private changeDengon(): void {
@@ -37,6 +41,15 @@ export class AppComponent {
     this.showAdmin = false;
     this.showFlick = false;
     this.showDengon = true;
+    this.showWatson = false;
+  }
+
+  private changeWatson(): void {
+    this.showMain = false;
+    this.showAdmin = false;
+    this.showFlick = false;
+    this.showDengon = false;
+    this.showWatson = true;
   }
 
 

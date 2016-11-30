@@ -12,6 +12,7 @@ import { TypingComponent } from './typing/typing.component';
 import { DengonComponent } from './dengon/dengon.component';
 
 import { FileSelectDirective } from 'ng2-file-upload';
+import { VisualRecoComponent } from './visual-reco/visual-reco.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { FileSelectDirective } from 'ng2-file-upload';
     GraphComponent,
     TypingComponent,
     DengonComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    VisualRecoComponent
   ],
   imports: [
     BrowserModule,

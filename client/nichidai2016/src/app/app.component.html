@@ -5,13 +5,16 @@
   <div class="collapse navbar-toggleable-xs" id="navbar-header">
     <ul class="nav navbar-nav">
       <li class="nav-item">
-        <button class="btn btn-secondary" (click)="changeYesNo()">Yes or No</button>
-      </li>
-      <li class="nav-item">
         <button class="btn btn-secondary" (click)="changeFlick()">フリック</button>
       </li>
       <li class="nav-item">
+        <button class="btn btn-secondary" (click)="changeYesNo()">Yes or No</button>
+      </li>
+      <li class="nav-item">
         <button class="btn btn-secondary" (click)="changeDengon()">伝言ゲーム</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-secondary" (click)="changeWatson()">画像認識</button>
       </li>
       <li class="nav-item">
         <button class="btn" (click)="changeAdmin()">管理者</button>
@@ -25,5 +28,6 @@
     <app-admin *ngIf="showAdmin">Loading main....</app-admin>
     <app-typing *ngIf="showFlick">Loading main....</app-typing>
     <app-dengon *ngIf="showDengon">Loading main....</app-dengon>
+    <app-visual-reco *ngIf="showWatson">Loading main....</app-visual-reco>
   </div>
 </div>

@@ -17,7 +17,7 @@ export class DengonComponent implements OnInit {
   private isDisabled: any[] = [];
   private choice1: string[] = [];
   private choice2: string[] = [];
-  private teamNum: number;
+  private teamNum: string;
   private loading: string;
   private result: string;
 
@@ -27,7 +27,7 @@ export class DengonComponent implements OnInit {
     for(var i = 0; i < 6; i++) {
       this.isDisabled.push(null);
     }
-    this.loading = " Loading...";
+    this.loading = "";
   }
 
   ngOnDestroy() {
@@ -50,7 +50,7 @@ export class DengonComponent implements OnInit {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/dengon', function (greeting) {
         that.choiceNum = JSON.parse(greeting.body).choiceNum;
-        if(JSON.parse(greeting.body).teamNum == 0){
+        if(JSON.parse(greeting.body).teamNum == "ウォーターフォール"){
           that.choice1 = that.choiceNum;
         }else{
           that.choice2 = that.choiceNum;
@@ -91,6 +91,7 @@ export class DengonComponent implements OnInit {
     this.isDisabled[1]=null;
     this.isDisabled[2]=null;
     this.isDisabled[3]=null;
+    this.result="";
   }
 
   sendAns() {
@@ -104,7 +105,7 @@ export class DengonComponent implements OnInit {
     });
   }
 
-  teamSet(num: number): void{
+  teamSet(num: string): void{
     this.teamNum = num;
   }
 

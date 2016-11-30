@@ -5,8 +5,8 @@
 <div id="conversationDiv">
   <div class="form-group row " *ngIf="showPlayer">
     <h4>チーム選択</h4>
-    <button class="btn btn-secondary" (click)="teamSet(0)">0</button>
-    <button class="btn btn-secondary" (click)="teamSet(1)">1</button>
+    <button class="btn btn-secondary" (click)="teamSet('ウォーターフォール')">ウォーターフォール</button>
+    <button class="btn btn-secondary" (click)="teamSet('アジャイル')">アジャイル</button>
     <h4>チーム：{{teamNum}}</h4>
     <h4>順番選択</h4>
     <span>1:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[0]" />
@@ -28,10 +28,10 @@
     <button class="btn btn-danger" id="disconnect" style="visibility:hidden;" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
     <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
     <h4>{{loading}}</h4>
-    <h5>チーム0</h5>
+    <h5>ウォーターフォール</h5>
     <h5>{{choice1}}</h5>
     <br>
-    <h5>チーム1</h5>
+    <h5>アジャイル</h5>
     <h5>{{choice2}}</h5>
   </div>
 </div>
