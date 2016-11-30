@@ -27,7 +27,7 @@ export class TypingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setConnected(false);
     this.question=" Loading..."
-    this.showAns=false;
+    this.showAns=true;
     this.showOK=true;
     this.showRanking=false;
   }
@@ -62,7 +62,7 @@ export class TypingComponent implements OnInit, OnDestroy {
             if(that.answer=that.question) that.answer="";
             that.question=JSON.parse(greeting.body).content;
             that.sendFlag=false;
-            that.showAns=true;
+            // that.showAns=true;
             that.showRanking=false;
             that.result="";
         });

@@ -41,7 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setConnected(false);
     this.question=" Loading...";
-    this.loading=" Connecting...";
+    this.loading="";
     this.showAns=false;
   }
 

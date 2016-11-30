@@ -52214,7 +52214,7 @@ var MainComponent = (function () {
     MainComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
         this.question = " Loading...";
-        this.loading = " Connecting...";
+        this.loading = "";
         this.showAns = false;
     };
     MainComponent.prototype.ngOnDestroy = function () {
@@ -52347,7 +52347,7 @@ var TypingComponent = (function () {
     TypingComponent.prototype.ngOnInit = function () {
         this.setConnected(false);
         this.question = " Loading...";
-        this.showAns = false;
+        this.showAns = true;
         this.showOK = true;
         this.showRanking = false;
     };
@@ -52379,7 +52379,7 @@ var TypingComponent = (function () {
                     that.answer = "";
                 that.question = JSON.parse(greeting.body).content;
                 that.sendFlag = false;
-                that.showAns = true;
+                // that.showAns=true;
                 that.showRanking = false;
                 that.result = "";
             });
