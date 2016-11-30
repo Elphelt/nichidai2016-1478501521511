@@ -51810,10 +51810,8 @@ var AdminComponent = (function () {
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("フリック3", "ユニーク誠実利他変化挑戦結束グローバル凛"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問1", "就職しようと思っている人！"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問2", "IT系の仕事に就きたいと思っている人！"));
-        this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問2-1", "プログラマーになりたいと思っている人！"));
-        this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問2-2", "SEになりたいと思っている人！"));
         this.questions.push(new __WEBPACK_IMPORTED_MODULE_2__question__["a" /* Question */]("質問3", "IT系以外に就きたいと思っている人！"));
-        this.Cquestion = " Loading...";
+        this.Cquestion = "";
     };
     AdminComponent.prototype.ngOnDestroy = function () {
         if (this.stompClient != null) {
@@ -51847,7 +51845,7 @@ var AdminComponent = (function () {
     AdminComponent.prototype.connect = function () {
         var that = this;
         var socket = new WebSocket('ws://' + location.host + '/hello');
-        this.Cquestion = " Loading...";
+        this.Cquestion = " Connecting...";
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
@@ -56673,7 +56671,7 @@ module.exports = "<h4>Connect to \"Admin\" system.</h4>\r\n<div class=\"form-gro
 /* 623 */
 /***/ function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-dark navbar-fixed-top bg-inverse\">\r\n  <button class=\"navbar-toggler hidden-sm-up\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-header\" aria-controls=\"navbar-header\"\r\n    aria-expanded=\"false\" aria-label=\"Toggle navigation\"></button>\r\n  <a class=\"navbar-brand\" href=\"\">Nichidai2016</a>\r\n  <div class=\"collapse navbar-toggleable-xs\" id=\"navbar-header\">\r\n    <ul class=\"nav navbar-nav\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeYesNo()\">Yes or No</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeFlick()\">Flick</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeDengon()\">伝言ゲーム</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn\" (click)=\"changeAdmin()\">Admin</button>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"container-fluid\">\r\n  <div class=\"col-sm-11 offset-sm-1 col-md-12 offset-md-0 main\">\r\n    <app-main *ngIf=\"showMain\">Loading main....</app-main>\r\n    <app-admin *ngIf=\"showAdmin\">Loading main....</app-admin>\r\n    <app-typing *ngIf=\"showFlick\">Loading main....</app-typing>\r\n    <app-dengon *ngIf=\"showDengon\">Loading main....</app-dengon>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<nav class=\"navbar navbar-dark navbar-fixed-top bg-inverse\">\r\n  <button class=\"navbar-toggler hidden-sm-up\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-header\" aria-controls=\"navbar-header\"\r\n    aria-expanded=\"false\" aria-label=\"Toggle navigation\"></button>\r\n  <a class=\"navbar-brand\" href=\"\">Nichidai2016</a>\r\n  <div class=\"collapse navbar-toggleable-xs\" id=\"navbar-header\">\r\n    <ul class=\"nav navbar-nav\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeYesNo()\">Yes or No</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeFlick()\">フリック</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-secondary\" (click)=\"changeDengon()\">伝言ゲーム</button>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn\" (click)=\"changeAdmin()\">管理者</button>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"container-fluid\">\r\n  <div class=\"col-sm-11 offset-sm-1 col-md-12 offset-md-0 main\">\r\n    <app-main *ngIf=\"showMain\">Loading main....</app-main>\r\n    <app-admin *ngIf=\"showAdmin\">Loading main....</app-admin>\r\n    <app-typing *ngIf=\"showFlick\">Loading main....</app-typing>\r\n    <app-dengon *ngIf=\"showDengon\">Loading main....</app-dengon>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 624 */
@@ -56685,13 +56683,13 @@ module.exports = "<h4>Connect to \"伝言ゲーム\" system.</h4>\r\n<button cla
 /* 625 */
 /***/ function(module, exports) {
 
-module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\n  <canvas baseChart \n              [data]=\"doughnutChartData\"\n              [labels]=\"doughnutChartLabels\"\n              [chartType]=\"doughnutChartType\"\n              (chartHover)=\"chartHovered($event)\"\n              (chartClick)=\"chartClicked($event)\"></canvas>\n</div>\n"
+module.exports = "<div style=\"display: block; width: 800px; height: 600px;\">\r\n  <canvas baseChart \r\n              [data]=\"doughnutChartData\"\r\n              [labels]=\"doughnutChartLabels\"\r\n              [chartType]=\"doughnutChartType\"\r\n              (chartHover)=\"chartHovered($event)\"\r\n              (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n"
 
 /***/ },
 /* 626 */
 /***/ function(module, exports) {
 
-module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\n<div class=\"form-group row\">\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\n</div>\n<h4>{{loading}}</h4>\n<div class=\"form-inline\" id=\"conversationDiv\">\n  <h4>Q.{{question}}</h4>\n  <div *ngIf=\"showAns\">\n    <h6>Select Your Choice!</h6>\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\n    <h4>A.{{result}}</h4>\n  </div>\n</div>\n"
+module.exports = "<h4>Connect to \"Yes or No\" system.</h4>\r\n<div class=\"form-group row\">\r\n  <button class=\"btn btn-danger\" id=\"disconnect\" [disabled]=\"isValid\" (click)=\"disconnect()\">Disconnect</button>\r\n  <button class=\"btn btn-success\" id=\"connect\" [disabled]=\"isValid\" (click)=\"connect()\">Connect</button>\r\n</div>\r\n<h4>{{loading}}</h4>\r\n<div class=\"form-inline\" id=\"conversationDiv\">\r\n  <h4>Q.{{question}}</h4>\r\n  <div *ngIf=\"showAns\">\r\n    <h6>Select Your Choice!</h6>\r\n    <button class=\"btn btn-danger\" (click)=\"sendNo()\">No</button>\r\n    <button class=\"btn btn-success\" (click)=\"sendYes()\">Yes</button>\r\n    <h4>A.{{result}}</h4>\r\n  </div>\r\n</div>\r\n"
 
 /***/ },
 /* 627 */

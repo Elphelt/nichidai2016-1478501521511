@@ -46,10 +46,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("フリック3","ユニーク誠実利他変化挑戦結束グローバル凛"));
     this.questions.push(new Question("質問1","就職しようと思っている人！"));
     this.questions.push(new Question("質問2","IT系の仕事に就きたいと思っている人！"));
-    this.questions.push(new Question("質問2-1","プログラマーになりたいと思っている人！"));
-    this.questions.push(new Question("質問2-2","SEになりたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
-    this.Cquestion=" Loading..."
+    this.Cquestion=""
   }
 
   ngOnDestroy() {
@@ -87,7 +85,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new WebSocket('ws://' + location.host + '/hello');
-    this.Cquestion=" Loading..."
+    this.Cquestion=" Connecting..."
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
