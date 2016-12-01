@@ -71,6 +71,7 @@ export class DengonComponent implements OnInit {
       console.log('err', err);
       that.loading="再度Connectを押して下さい";
       that.setConnected(false);
+      that.connect();
     });
     this.setConnected(true);
   }

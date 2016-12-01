@@ -16,12 +16,12 @@
     <!--<span>5:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[4]" />
     <span>6:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[5]" />-->
     <br>
-    <button class="btn btn-danger" (click)="reset()">Reset</button>
+    <button class="btn btn-success" (click)="sendAns()">Send Answer</button>
+    <span>{{result}}</span>
     <br>
     <span *ngFor="let num of choiceNum">{{num}} </span>
     <br>
-    <button class="btn btn-success" (click)="sendAns()">Send Answer</button>
-    <span>{{result}}</span>
+    <button class="btn btn-danger" (click)="reset()">Reset</button>
   </div>
   <div class="form-group row " *ngIf="showDisplay">
     <h4>ディスプレイ接続</h4>
@@ -39,8 +39,7 @@
         <tbody *ngFor="let dengon of dengons">
           <tr>
             <td>{{dengon.water[0]}} → {{dengon.water[1]}} → {{dengon.water[2]}} → {{dengon.water[3]}} </td>
-            <td>{{dengon.agile}}</td>
-          </tr>
+            <td>{{dengon.agile[0]}} → {{dengon.agile[1]}} → {{dengon.agile[2]}} → {{dengon.agile[3]}} </td>          </tr>
         </tbody>
       </table>
     </div>
