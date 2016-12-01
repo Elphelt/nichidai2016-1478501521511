@@ -47,7 +47,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("質問1","就職しようと思っている人！"));
     this.questions.push(new Question("質問2","IT系の仕事に就きたいと思っている人！"));
     this.questions.push(new Question("質問3","IT系以外に就きたいと思っている人！"));
-    this.Cquestion=""
+    this.questions.push(new Question("質問4","口頭で質問を出します"));
+    this.Cquestion="";
   }
 
   ngOnDestroy() {
@@ -95,7 +96,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.result = that.choiceNo+that.choiceYes;
       });
       that.stompClient.subscribe('/topic/result', function (greeting) {
-        that.players.push(new Player((JSON.parse(greeting.body).rank), (JSON.parse(greeting.body).name)));
+        that.players.push(new Player(JSON.parse(greeting.body).rank, JSON.parse(greeting.body).name,JSON.parse(greeting.body).time));
         that.rank=(JSON.parse(greeting.body).rank);
       });
       that.Cquestion=null;

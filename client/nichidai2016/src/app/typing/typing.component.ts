@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Stopwatch } from '../stopwatch';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -21,7 +22,8 @@ export class TypingComponent implements OnInit, OnDestroy {
   player: string;
   showOK: boolean;
   showRanking: boolean;
-  rank: number;
+  rank: string;
+  sw: Stopwatch = new Stopwatch();
 
   constructor() { }
 
@@ -47,7 +49,8 @@ export class TypingComponent implements OnInit, OnDestroy {
 
   sendAns() {
     if(this.answer==this.question && this.sendFlag==false && this.player!=""){
-      this.stompClient.send('/app/flick', {}, JSON.stringify({ 'name': this.player }));
+      this.sw.toggle();
+      this.stompClient.send('/app/flick', {}, JSON.stringify({ 'name': this.player, 'time': this.sw.timeString }));
       this.sendFlag=true;
     }
   }
@@ -66,9 +69,11 @@ export class TypingComponent implements OnInit, OnDestroy {
             // that.showAns=true;
             that.showRanking=false;
             that.result="";
+            that.sw.reset();
+            that.sw.toggle();
         });
         that.stompClient.subscribe('/user/queue/flick', function (greeting) {
-            that.rank=JSON.parse(greeting.body).content;
+            that.rank=JSON.parse(greeting.body).content + " タイム：" + that.sw.timeString;
             that.showRanking=true;
         });
         that.question=null;

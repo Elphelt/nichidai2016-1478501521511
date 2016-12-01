@@ -24,14 +24,16 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Name</th>
+        <th class="h4">Rank</th>
+        <th class="h4">Name</th>
+        <th class="h4">Time(ms)</th>
       </tr>
     </thead>
     <tbody *ngFor="let player of players">
       <tr>
-        <th scope="row">{{player.rank}}</th>
-        <td>{{player.name}}</td>
+        <th scope="row" class="h4">{{player.rank}}</th>
+        <td class="h4">{{player.name}}</td>
+        <td class="h4">{{player.time}}</td>
       </tr>
     </tbody>
   </table>
