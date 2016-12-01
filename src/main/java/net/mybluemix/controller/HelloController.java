@@ -59,7 +59,7 @@ public class HelloController {
 			VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 			service.setApiKey("ee08899658034e2f4ca599d2c2ba32da6eaa3435");
 			File imageF = convert(multipartFile);
-			File out = new File("temp.jpg");
+			File out = new File("/usr/share/tomcat8/webapps/ROOT/"+"temp.jpg");
 			out.createNewFile();
 			BufferedImage image = ImageIO.read(imageF);
 			JPEGImageWriteParam param = new JPEGImageWriteParam(Locale.getDefault());
@@ -82,7 +82,7 @@ public class HelloController {
 	}
 
 	public File convert(MultipartFile file) throws IOException {
-		File convFile = new File(file.getOriginalFilename());
+		File convFile = new File("/usr/share/tomcat8/webapps/ROOT/"+file.getOriginalFilename());
 		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());
