@@ -4,17 +4,29 @@
 <br><br>
 <div id="conversationDiv">
   <div class="form-group row " *ngIf="showPlayer">
-    <h4>チーム選択</h4>
-    <button class="btn btn-secondary" (click)="teamSet('ウォーターフォール')">ウォーターフォール</button>
-    <button class="btn btn-secondary" (click)="teamSet('アジャイル')">アジャイル</button>
+    <div *ngIf="showTeamSelect">
+      <h4>チーム選択</h4>
+      <button class="btn btn-secondary" (click)="teamSet('ウォーターフォール')">ウォーターフォール</button>
+      <button class="btn btn-secondary" (click)="teamSet('アジャイル')">アジャイル</button>
+    </div>
     <h4>チーム：{{teamNum}}</h4>
-    <h4>順番選択</h4>
-    <span>1:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[0]" />
-    <span>2:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[1]" />
-    <span>3:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[2]" />
-    <span>4:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[3]" />
-    <!--<span>5:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[4]" />
-    <span>6:</span><input class="form-control" type="text" [(ngModel)]="choiceNum[5]" />-->
+    <h4>伝言を入力してください</h4>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">1:</span>
+      <input class="form-control" type="text" [(ngModel)]="choiceNum[0]">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">2:</span>
+      <input class="form-control" type="text" [(ngModel)]="choiceNum[1]">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">3:</span>
+      <input class="form-control" type="text" [(ngModel)]="choiceNum[2]">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon3">4:</span>
+      <input class="form-control" type="text" [(ngModel)]="choiceNum[3]">
+    </div>
     <br>
     <button class="btn btn-success" (click)="sendAns()">Send Answer</button>
     <span>{{result}}</span>
@@ -32,14 +44,17 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>ウォーターフォール</th>
-            <th>アジャイル</th>
+            <th class="h3">#</th>
+            <th class="h3">ウォーターフォール</th>
+            <th class="h3">アジャイル</th>
           </tr>
         </thead>
-        <tbody *ngFor="let dengon of dengons">
+        <tbody *ngFor="let dengon of dengons; let idx = index;">
           <tr>
+            <th scope="row">{{idx+1}}</th>
             <td>{{dengon.water[0]}} → {{dengon.water[1]}} → {{dengon.water[2]}} → {{dengon.water[3]}} </td>
-            <td>{{dengon.agile[0]}} → {{dengon.agile[1]}} → {{dengon.agile[2]}} → {{dengon.agile[3]}} </td>          </tr>
+            <td>{{dengon.agile[0]}} → {{dengon.agile[1]}} → {{dengon.agile[2]}} → {{dengon.agile[3]}} </td>
+          </tr>
         </tbody>
       </table>
     </div>

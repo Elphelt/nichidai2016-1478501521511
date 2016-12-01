@@ -25,6 +25,7 @@ export class DengonComponent implements OnInit {
   private dengons: Dengon[] = [];
   private waterNum: number=0;
   private agileNum: number=0;
+  private showTeamSelect: boolean = true;
 
   constructor(private http: Http) { }
 
@@ -118,6 +119,7 @@ export class DengonComponent implements OnInit {
 
   teamSet(num: string): void{
     this.teamNum = num;
+    this.showTeamSelect = false;
   }
 
 
