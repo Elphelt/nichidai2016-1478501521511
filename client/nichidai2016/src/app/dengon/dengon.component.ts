@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http'
+import { Dengon } from '../dengon';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -21,12 +22,16 @@ export class DengonComponent implements OnInit {
   private teamNum: string;
   private loading: string;
   private result: string;
+  private dengons: Dengon[] = [];
+  private waterNum: number=0;
+  private agileNum: number=0;
 
   constructor(private http: Http) { }
 
   ngOnInit() {
-    for(var i = 0; i < 6; i++) {
+    for(var i = 0; i < 4; i++) {
       this.isDisabled.push(null);
+      this.dengons.push( new Dengon([],[]));
     }
     this.loading = "";
   }
@@ -52,9 +57,13 @@ export class DengonComponent implements OnInit {
       that.stompClient.subscribe('/topic/dengon', function (greeting) {
         that.choiceNum = JSON.parse(greeting.body).choiceNum;
         if(JSON.parse(greeting.body).teamNum == "ウォーターフォール"){
-          that.choice1 = that.choiceNum;
+          // that.choice1 = that.choiceNum;
+          that.dengons[that.waterNum].setWater(that.choiceNum);
+          that.waterNum++;
         }else{
-          that.choice2 = that.choiceNum;
+          // that.choice2 = that.choiceNum;
+          that.dengons[that.agileNum].setAgile(that.choiceNum);
+          that.agileNum++;
         }
       });
       that.loading=null;

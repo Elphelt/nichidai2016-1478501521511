@@ -28,10 +28,21 @@
     <button class="btn btn-danger" id="disconnect" style="visibility:hidden;" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
     <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
     <h4>{{loading}}</h4>
-    <h5>ウォーターフォール</h5>
-    <h5>{{choice1}}</h5>
-    <br>
-    <h5>アジャイル</h5>
-    <h5>{{choice2}}</h5>
+    <div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ウォーターフォール</th>
+            <th>アジャイル</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let dengon of dengons">
+          <tr>
+            <td>{{dengon.water[0]}} → {{dengon.water[1]}} → {{dengon.water[2]}} → {{dengon.water[3]}} </td>
+            <td>{{dengon.agile}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

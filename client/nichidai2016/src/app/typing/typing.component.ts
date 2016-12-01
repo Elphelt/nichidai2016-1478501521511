@@ -74,8 +74,9 @@ export class TypingComponent implements OnInit, OnDestroy {
         that.question=null;
     }, function (err) {
         console.log('err', err);
-        that.question="再度Connectを押して下さい";
+        // that.question="再度Connectを押して下さい";
         that.setConnected(false);
+        that.connect();
     });
     this.setConnected(true);
   }
