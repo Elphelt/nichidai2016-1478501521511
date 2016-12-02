@@ -19,99 +19,93 @@ export class MainComponent implements OnInit, OnDestroy {
   showAns: boolean;
   watsonResult: any;
   private loading: string;
+  private showMain: boolean = false;
 
-  public uploader:FileUploader;
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
+  public uploader: FileUploader;
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
 
-  public fileOverBase(e:any):void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
-  public fileOverAnother(e:any):void {
+  public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
 
   constructor() {
-    this.uploader = new FileUploader({url: '/up',  itemAlias: 'multipartFile', disableMultipart: false});
-    this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-      this.watsonResult=JSON.parse(response).images[0].classifiers[0].classes;
+    this.uploader = new FileUploader({ url: '/up', itemAlias: 'multipartFile', disableMultipart: false });
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.watsonResult = JSON.parse(response).images[0].classifiers[0].classes;
     };
-   }
+  }
 
   ngOnInit() {
-    this.setConnected(false);
-    this.question=" Loading...";
-    this.loading="";
-    this.showAns=false;
+    this.question = " Loading...";
+    this.loading = "";
+    this.showAns = false;
+    this.isValid = true;
   }
 
   ngOnDestroy() {
     if (this.stompClient != null) {
-        this.stompClient.disconnect();
+      this.stompClient.disconnect();
     }
   }
 
-  setConnected(connected) {
-    document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
-    document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
-    document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-  }
-
   sendYes() {
-    if(this.result!="Yes"){
-      if(this.sendFlag==true){
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : -1 }));
-      }else{
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo' : 0 }));
+    if (this.result != "Yes") {
+      if (this.sendFlag == true) {
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': -1 }));
+      } else {
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': 0 }));
       }
-      this.result="Yes";
-      this.sendFlag=true;
+      this.result = "Yes";
+      this.sendFlag = true;
     }
   }
 
   sendNo() {
-    if(this.result!="No"){
-      if(this.sendFlag==true){
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': -1, 'choiceNo' : 1 }));
-      }else{
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo' : 1 }));
+    if (this.result != "No") {
+      if (this.sendFlag == true) {
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': -1, 'choiceNo': 1 }));
+      } else {
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo': 1 }));
       }
-      this.result="No";
-      this.sendFlag=true;
+      this.result = "No";
+      this.sendFlag = true;
     }
   }
-
 
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
-    this.loading=" Connecting...";
+    this.isValid = false;
+    this.showMain = true;
+    this.loading = " Connecting...";
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        that.stompClient.subscribe('/topic/greetings', function (greeting) {
-            that.question=JSON.parse(greeting.body).content;
-            that.sendFlag=false;
-            that.showAns=true;
-            that.result="";
-        });
-        that.loading=null;
+      console.log('Connected: ' + frame);
+      that.stompClient.subscribe('/topic/greetings', function (greeting) {
+        that.question = JSON.parse(greeting.body).content;
+        that.sendFlag = false;
+        that.showAns = true;
+        that.result = "";
+      });
+      that.loading = null;
     }, function (err) {
-        console.log('err', err);
-        that.loading="再度Connectを押して下さい";
-        that.setConnected(false);
+      console.log('err', err);
+      that.loading = "再度Connectを押して下さい";
+      that.connect();
     });
-    this.setConnected(true);
   }
 
 
   disconnect() {
     if (this.stompClient != null) {
-        this.stompClient.disconnect();
+      this.stompClient.disconnect();
     }
-    this.setConnected(false);
-    this.question=" Loading..."
+    this.question = " Loading..."
     console.log("Disconnected");
   }
 

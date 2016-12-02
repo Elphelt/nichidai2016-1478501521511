@@ -23,23 +23,24 @@ export class DengonComponent implements OnInit {
   private loading: string;
   private result: string;
   private dengons: Dengon[] = [];
-  private waterNum: number=0;
-  private agileNum: number=0;
+  private waterNum: number = 0;
+  private agileNum: number = 0;
   private showTeamSelect: boolean = true;
+  private isValid: boolean = true;
 
   constructor(private http: Http) { }
 
   ngOnInit() {
-    for(var i = 0; i < 6; i++) {
+    for (var i = 0; i < 6; i++) {
       this.isDisabled.push(null);
-      this.dengons.push( new Dengon([],[]));
+      this.dengons.push(new Dengon([], []));
     }
     this.loading = "";
   }
 
   ngOnDestroy() {
     if (this.stompClient != null) {
-        this.stompClient.disconnect();
+      this.stompClient.disconnect();
     }
   }
 
@@ -52,35 +53,35 @@ export class DengonComponent implements OnInit {
     var that = this;
     var socket = new SockJS('/hello');
     this.loading = " Connecting...";
+    this.isValid = false;
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/dengon', function (greeting) {
         that.choiceNum = JSON.parse(greeting.body).choiceNum;
-        if(JSON.parse(greeting.body).teamNum == "ウォーターフォール"){
+        if (JSON.parse(greeting.body).teamNum == "ウォーターフォール") {
           // that.choice1 = that.choiceNum;
           that.dengons[that.waterNum].setWater(that.choiceNum);
           that.waterNum++;
-        }else{
+        } else {
           // that.choice2 = that.choiceNum;
           that.dengons[that.agileNum].setAgile(that.choiceNum);
           that.agileNum++;
         }
       });
-      that.loading=null;
+      that.loading = null;
     }, function (err) {
       console.log('err', err);
-      that.loading="再度Connectを押して下さい";
+      that.loading = "再度Connectを押して下さい";
       that.setConnected(false);
       that.connect();
     });
     this.setConnected(true);
   }
 
-
   disconnect() {
     if (this.stompClient != null) {
-        this.stompClient.disconnect();
+      this.stompClient.disconnect();
     }
     this.setConnected(false);
     this.loading = " Connecting...";
@@ -98,26 +99,26 @@ export class DengonComponent implements OnInit {
   }
 
   private reset(): void {
-    this.choiceNum=[];
-    this.isDisabled[0]=null;
-    this.isDisabled[1]=null;
-    this.isDisabled[2]=null;
-    this.isDisabled[3]=null;
-    this.result="";
+    this.choiceNum = [];
+    this.isDisabled[0] = null;
+    this.isDisabled[1] = null;
+    this.isDisabled[2] = null;
+    this.isDisabled[3] = null;
+    this.result = "";
   }
 
   sendAns() {
-    let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum' : this.choiceNum });
+    let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum': this.choiceNum });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    this.result="";
+    this.result = "";
     return this.http.post('/dengon', body, options)
-    .subscribe((res) => {
-      this.result="送信完了";
-    });
+      .subscribe((res) => {
+        this.result = "送信完了";
+      });
   }
 
-  teamSet(num: string): void{
+  teamSet(num: string): void {
     this.teamNum = num;
     this.showTeamSelect = false;
   }

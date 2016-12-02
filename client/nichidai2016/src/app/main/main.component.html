@@ -1,10 +1,9 @@
 <h4>Connect to "Yes or No" system.</h4>
-<div class="form-group row">
-  <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
-  <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
+<div class="form-group row" *ngIf="isValid">
+  <button class="btn btn-success" id="connect" (click)="connect()">Connect</button>
 </div>
 <h4>{{loading}}</h4>
-<div class="form-inline" id="conversationDiv">
+<div class="form-inline" *ngIf="showMain">
   <h4>Q.{{question}}</h4>
   <div *ngIf="showAns">
     <h6>Select Your Choice!</h6>

@@ -1,11 +1,9 @@
 <h4>Connect to "Admin" system.</h4>
-<div class="form-group row">
-  <button class="btn btn-danger" id="disconnect" [disabled]="isValid" (click)="disconnect()">Disconnect</button>
-  <button class="btn btn-success" id="connect" [disabled]="isValid" (click)="connect()">Connect</button>
+<div class="form-group row"  *ngIf="isValid">
+  <button class="btn btn-success" id="connect" (click)="connect()">Connect</button>
 </div>
-<div id="conversationDiv">
+<div id="conversationDiv" *ngIf="showMain">
   <div *ngIf="!showDengon">
-    <label>Question</label><br>
     <div class="btn-group">
       <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
     </div>

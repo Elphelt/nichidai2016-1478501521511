@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.DetectedFaces;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualRecognitionOptions;
 
 import net.mybluemix.model.Dengon;
 
@@ -49,17 +51,19 @@ public class HelloController {
 	}
 
 	@RequestMapping(value = "/up", method = RequestMethod.POST)
-	public VisualClassification post(@RequestParam MultipartFile multipartFile) throws IOException {
-
+	public String post(@RequestParam MultipartFile multipartFile) throws IOException {
+		
 		// ファイルが空の場合は異常終了
 		if (multipartFile.isEmpty()) {
 			// 異常終了時の処理
 			return null;
 		} else {
+			makeTempDir();
 			VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 			service.setApiKey("ee08899658034e2f4ca599d2c2ba32da6eaa3435");
+			
 			File imageF = convert(multipartFile);
-			File out = new File("/usr/share/tomcat8/webapps/ROOT/"+"temp.jpg");
+			File out = new File(System.getProperty("user.dir") + "/temp/temp" + imageF.getName());
 			out.createNewFile();
 			BufferedImage image = ImageIO.read(imageF);
 			JPEGImageWriteParam param = new JPEGImageWriteParam(Locale.getDefault());
@@ -71,24 +75,35 @@ public class HelloController {
 			writer.write(null, new IIOImage(image, null, null), param);
 			writer.dispose();
 
-			System.out.println("Classify an image");
+//			System.out.println("Classify an image");
 			ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().images(out).build();
 			VisualClassification result = service.classify(options).execute();
-
-			System.out.println(result);
-			return result;
+			VisualRecognitionOptions vop = new VisualRecognitionOptions.Builder().images(out).build();
+			DetectedFaces df = service.detectFaces(vop).execute();
+			
+			//tempファイル削除
+			imageF.delete();
+			out.delete();
+//			System.out.println(result);
+			return "{\"result\":["+result.toString()+","+df.toString()+"]}";
 		}
 
 	}
 
 	public File convert(MultipartFile file) throws IOException {
-		File convFile = new File("/usr/share/tomcat8/webapps/ROOT/"+file.getOriginalFilename());
+		File convFile = new File(System.getProperty("user.dir") + "/temp/"+file.getOriginalFilename());
 		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());
 		fos.close();
 		return convFile;
 	}
+	
+	public void makeTempDir() {
+		File mkdir = new File(System.getProperty("user.dir") + "/temp");
+		if(!mkdir.exists()) mkdir.mkdirs();
+	}
+	
 	
 	@RequestMapping(value = "/dengon", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String dengonController(@RequestBody Dengon dengon){

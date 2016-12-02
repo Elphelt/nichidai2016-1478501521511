@@ -2,7 +2,7 @@
   {{title}}
 </h1>
 <input type="file" ng2FileSelect [uploader]="uploader" />
-<div class="col-md-9" style="margin-bottom: 40px">
+<div class="col-md-12" style="margin-bottom: 40px">
   <h3>Upload queue</h3>
   <p>Queue length: {{ uploader?.queue?.length }}</p>
   <table class="table">
@@ -27,6 +27,8 @@
     </tbody>
   </table>
 </div>
+<br>
+<h4>全体認識</h4>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -36,8 +38,38 @@
   </thead>
   <tbody *ngFor="let wr of watsonResult">
     <tr>
-      <th scope="row">{{wr.name}}</th>
+      <th scope="row">{{wr.class}}</th>
       <td>{{wr.score*100}}%</td>
     </tr>
   </tbody>
 </table>
+<br><br>
+<div *ngIf="showFace'">
+  <h4>顔認識</h4>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>大分類</th>
+        <th>中分類</th>
+        <th>確率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="showAge">
+        <th scope="row">年齢</th>
+        <td>{{watsonFace.age.min}} - {{watsonFace.age.max}}</td>
+        <td>{{watsonFace.age.score*100}}%</td>
+      </tr>
+      <tr *ngIf="showGender">
+        <th scope="row">性別</th>
+        <td>{{watsonFace.gender.gender}}</td>
+        <td>{{watsonFace.gender.score*100}}%</td>
+      </tr>
+      <tr *ngIf="showIdentity">
+        <th scope="row">この人かも？</th>
+        <td>{{watsonFace.identity.name}}</td>
+        <td>{{watsonFace.identity.score*100}}%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
