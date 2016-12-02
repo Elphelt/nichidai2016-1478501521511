@@ -15,6 +15,7 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,7 +64,7 @@ public class HelloController {
 			service.setApiKey("ee08899658034e2f4ca599d2c2ba32da6eaa3435");
 			
 			File imageF = convert(multipartFile);
-			File out = new File(System.getProperty("user.dir") + "/temp/temp" + imageF.getName());
+			File out = new File(System.getProperty("user.dir") + "/temp/temp" + DigestUtils.md5DigestAsHex(imageF.getName().getBytes()) + ".jpg");
 			out.createNewFile();
 			BufferedImage image = ImageIO.read(imageF);
 			JPEGImageWriteParam param = new JPEGImageWriteParam(Locale.getDefault());
@@ -91,7 +92,7 @@ public class HelloController {
 	}
 
 	public File convert(MultipartFile file) throws IOException {
-		File convFile = new File(System.getProperty("user.dir") + "/temp/"+file.getOriginalFilename());
+		File convFile = new File(System.getProperty("user.dir") + "/temp/" + DigestUtils.md5DigestAsHex(file.getName().getBytes()) + ".jpg");
 		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());

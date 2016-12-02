@@ -27,6 +27,7 @@ export class DengonComponent implements OnInit {
   private agileNum: number = 0;
   private showTeamSelect: boolean = true;
   private isValid: boolean = true;
+  private sendFlag: boolean = true;
 
   constructor(private http: Http) { }
 
@@ -108,6 +109,7 @@ export class DengonComponent implements OnInit {
   }
 
   sendAns() {
+
     let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum': this.choiceNum });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
