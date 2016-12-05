@@ -28,7 +28,7 @@
       <input class="form-control" placeholder="4番目" type="text" [(ngModel)]="choiceNum[3]">
     </div>
     <br>
-    <button class="btn btn-success" (click)="sendAns()">Send Answer</button>
+    <button class="btn btn-success" [disabled]=”sendFlag” (click)="sendAns()">Send Answer</button>
     <span>{{result}}</span>
     <br>
     <span *ngFor="let num of choiceNum">{{num}} </span>

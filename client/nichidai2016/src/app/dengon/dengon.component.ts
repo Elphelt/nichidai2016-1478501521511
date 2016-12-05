@@ -109,7 +109,8 @@ export class DengonComponent implements OnInit {
   }
 
   sendAns() {
-
+    this.result = "送信中...";
+    this.sendFlag = false;
     let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum': this.choiceNum });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -117,6 +118,7 @@ export class DengonComponent implements OnInit {
     return this.http.post('/dengon', body, options)
       .subscribe((res) => {
         this.result = "送信完了";
+        this.sendFlag = true;
       });
   }
 

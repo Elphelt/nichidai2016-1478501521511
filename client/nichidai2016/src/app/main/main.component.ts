@@ -43,7 +43,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.question = " Loading...";
     this.loading = "";
-    this.showAns = false;
+    this.showAns = true;
     this.isValid = true;
   }
 
