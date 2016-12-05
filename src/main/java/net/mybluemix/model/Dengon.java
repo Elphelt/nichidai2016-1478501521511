@@ -2,6 +2,7 @@ package net.mybluemix.model;
 
 public class Dengon {
 	private String teamNum;
+	private String myNum;
 	private String[] choiceNum;
 
 	public String getTeamNum() {
@@ -12,6 +13,14 @@ public class Dengon {
 		this.teamNum = teamNum;
 	}
 
+	public String getMyNum() {
+		return myNum;
+	}
+	
+	public void setMyNum(String myNum) {
+		this.myNum = myNum;
+	}
+	
 	public String[] getChoiceNum() {
 		return choiceNum;
 	}

@@ -1,7 +1,9 @@
-<h4>Connect to "伝言ゲーム" system.</h4>
-<button class="btn btn-secondary" (click)="changePlayer()">プレイヤー</button>
-<button class="btn btn-secondary" (click)="changeDisplay()">途中結果画面</button>
-<br><br>
+<h3>伝言ゲーム system.</h3>
+<div *ngIf="connectFlag">
+  <h4>Menu.</h4>
+  <button class="btn btn-secondary" (click)="changePlayer()">プレイヤー</button>
+  <button class="btn btn-secondary" (click)="changeDisplay()">途中結果画面</button>
+</div>
 <div id="conversationDiv">
   <div class="form-group row " *ngIf="showPlayer">
     <div *ngIf="showTeamSelect">
@@ -9,7 +11,15 @@
       <button class="btn btn-secondary" (click)="teamSet('ウォーターフォール')">ウォーターフォール</button>
       <button class="btn btn-secondary" (click)="teamSet('アジャイル')">アジャイル</button>
     </div>
-    <h4>チーム：{{teamNum}}</h4>
+    <div *ngIf="showNumSelect">
+      <h4>順番</h4>
+      <button class="btn btn-secondary" (click)="numSet('0')">1</button>
+      <button class="btn btn-secondary" (click)="numSet('1')">2</button>
+      <button class="btn btn-secondary" (click)="numSet('2')">3</button>
+      <button class="btn btn-secondary" (click)="numSet('3')">4</button>
+      <button class="btn btn-secondary" (click)="numSet('4')">5</button>
+    </div>
+    <h4>チーム：{{teamNum}} 順番：{{myNum}}</h4>
     <h4>伝言を入力してください</h4>
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon3">1:</span>
@@ -28,7 +38,7 @@
       <input class="form-control" placeholder="4番目" type="text" [(ngModel)]="choiceNum[3]">
     </div>
     <br>
-    <button class="btn btn-success" [disabled]=”sendFlag” (click)="sendAns()">Send Answer</button>
+    <button class="btn btn-success" [disabled]="sendFlag" (click)="sendAns()">Send Answer</button>
     <span>{{result}}</span>
     <br>
     <span *ngFor="let num of choiceNum">{{num}} </span>
@@ -58,4 +68,5 @@
       </table>
     </div>
   </div>
+  <button class="btn btn-secondary" *ngIf="!connectFlag" (click)="connectFlag=true;showPlayer=false;showDisplay=false;">メニューに戻る</button>
 </div>

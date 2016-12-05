@@ -23,7 +23,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   varYes: number;
   varNo: number;
   private showGraph: boolean = false;
-  private showRanking: boolean = false;
+  private showRanking: boolean = true;
   private domElement: HTMLElement;
   private players: Player[] = [];
   private rank: number;

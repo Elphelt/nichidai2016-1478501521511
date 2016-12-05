@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http'
 import { Dengon } from '../dengon';
+import { Observable } from 'rxjs/Rx';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -23,11 +24,12 @@ export class DengonComponent implements OnInit {
   private loading: string;
   private result: string;
   private dengons: Dengon[] = [];
-  private waterNum: number = 0;
-  private agileNum: number = 0;
   private showTeamSelect: boolean = true;
   private isValid: boolean = true;
-  private sendFlag: boolean = true;
+  private sendFlag: boolean = false;
+  private connectFlag: boolean;
+  private myNum: string;
+  private showNumSelect: boolean = true;
 
   constructor(private http: Http) { }
 
@@ -37,6 +39,7 @@ export class DengonComponent implements OnInit {
       this.dengons.push(new Dengon([], []));
     }
     this.loading = "";
+    this.connectFlag = true;
   }
 
   ngOnDestroy() {
@@ -60,14 +63,11 @@ export class DengonComponent implements OnInit {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/dengon', function (greeting) {
         that.choiceNum = JSON.parse(greeting.body).choiceNum;
+        that.myNum = JSON.parse(greeting.body).myNum;
         if (JSON.parse(greeting.body).teamNum == "ウォーターフォール") {
-          // that.choice1 = that.choiceNum;
-          that.dengons[that.waterNum].setWater(that.choiceNum);
-          that.waterNum++;
+          that.dengons[that.myNum].setWater(that.choiceNum);
         } else {
-          // that.choice2 = that.choiceNum;
-          that.dengons[that.agileNum].setAgile(that.choiceNum);
-          that.agileNum++;
+          that.dengons[that.myNum].setAgile(that.choiceNum);
         }
       });
       that.loading = null;
@@ -90,11 +90,13 @@ export class DengonComponent implements OnInit {
   }
 
   private changePlayer(): void {
+    this.connectFlag = false;
     this.showPlayer = true;
     this.showDisplay = false;
   }
 
   private changeDisplay(): void {
+    this.connectFlag = false;
     this.showPlayer = false;
     this.showDisplay = true;
   }
@@ -110,15 +112,18 @@ export class DengonComponent implements OnInit {
 
   sendAns() {
     this.result = "送信中...";
-    this.sendFlag = false;
-    let body = JSON.stringify({ 'teamNum': this.teamNum, 'choiceNum': this.choiceNum });
+    this.sendFlag = true;
+    let body = JSON.stringify({ 'teamNum': this.teamNum, 'myNum': this.myNum, 'choiceNum': this.choiceNum });
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    this.result = "";
     return this.http.post('/dengon', body, options)
       .subscribe((res) => {
-        this.result = "送信完了";
-        this.sendFlag = true;
+        Observable.interval(1000).take(1).subscribe((x) => {
+          this.result = "送信完了";
+        });
+        Observable.interval(2000).take(1).subscribe((x) => {
+          this.sendFlag = false;
+        });
       });
   }
 
@@ -127,5 +132,9 @@ export class DengonComponent implements OnInit {
     this.showTeamSelect = false;
   }
 
+  numSet(num: string): void {
+    this.myNum = num;
+    this.showNumSelect = false;
+  }
 
 }

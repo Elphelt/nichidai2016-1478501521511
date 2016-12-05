@@ -11,7 +11,7 @@ import net.mybluemix.model.Choice;
 import net.mybluemix.model.FlickPlayer;
 import net.mybluemix.model.Greeting;
 import net.mybluemix.model.Message;
-
+import net.mybluemix.model.Timer;
 
 @Controller
 public class GreetingController {
@@ -19,7 +19,8 @@ public class GreetingController {
 	@Autowired
 	private SimpMessagingTemplate simpmessage;
 
-	private Integer rank=0;
+	private Integer rank = 0;
+	private Timer stopwatch = new Timer();
 
 	@MessageMapping("/choice") // エンドポイントの指定
 	@SendTo("/topic/admin") // メッセージの宛先を指定
@@ -29,7 +30,7 @@ public class GreetingController {
 
 	@MessageMapping("/reset") // エンドポイントの指定
 	public void resetRank() {
-		rank=0;
+		rank = 0;
 		return;
 	}
 
@@ -38,16 +39,18 @@ public class GreetingController {
 	public Greeting backResult(FlickPlayer flick) {
 		rank++;
 		flick.setRank(rank);
+		double buf=stopwatch.getTime();
+		String numBuf = String.format("%.0f", buf/1000) + "." + String.format("%.0f", buf%1000);
+		flick.setTime(numBuf);
 		simpmessage.convertAndSend("/topic/result", flick);
-		return new Greeting(rank.toString());
+		return new Greeting(rank.toString() + " Time(秒): " + numBuf);
 	}
-	
-	
+
 	@MessageMapping("/question") // エンドポイントの指定
 	@SendTo("/topic/greetings") // メッセージの宛先を指定
 	public Greeting setQuestion(Message message) {
+		stopwatch.start();
 		return new Greeting(message.getQuestion());
 	}
-	
-	
+
 }
