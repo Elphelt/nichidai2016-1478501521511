@@ -35,7 +35,7 @@ export class DengonComponent implements OnInit {
   constructor(private http: Http) { }
 
   ngOnInit() {
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 5; i++) {
       this.isDisabled.push(null);
       this.dengons.push(new Dengon([], []));
     }
