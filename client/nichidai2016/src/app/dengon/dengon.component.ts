@@ -28,8 +28,9 @@ export class DengonComponent implements OnInit {
   private isValid: boolean = true;
   private sendFlag: boolean = false;
   private connectFlag: boolean;
-  private myNum: string;
+  private myNum: number;
   private showNumSelect: boolean = true;
+  private showNum: number;
 
   constructor(private http: Http) { }
 
@@ -40,6 +41,7 @@ export class DengonComponent implements OnInit {
     }
     this.loading = "";
     this.connectFlag = true;
+    this.showNum = null;
   }
 
   ngOnDestroy() {
@@ -124,9 +126,10 @@ export class DengonComponent implements OnInit {
     this.showTeamSelect = false;
   }
 
-  numSet(num: string): void {
+  numSet(num: number): void {
     this.myNum = num;
     this.showNumSelect = false;
+    this.showNum = +num+1;
   }
 
 }
