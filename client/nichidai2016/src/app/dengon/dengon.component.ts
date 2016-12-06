@@ -48,11 +48,6 @@ export class DengonComponent implements OnInit {
     }
   }
 
-  setConnected(connected) {
-    document.getElementById('connect').style.visibility = !connected ? 'visible' : 'hidden';
-    document.getElementById('disconnect').style.visibility = connected ? 'visible' : 'hidden';
-  }
-
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
@@ -74,17 +69,14 @@ export class DengonComponent implements OnInit {
     }, function (err) {
       console.log('err', err);
       that.loading = "再度Connectを押して下さい";
-      that.setConnected(false);
       that.connect();
     });
-    this.setConnected(true);
   }
 
   disconnect() {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
-    this.setConnected(false);
     this.loading = " Connecting...";
     console.log("Disconnected");
   }

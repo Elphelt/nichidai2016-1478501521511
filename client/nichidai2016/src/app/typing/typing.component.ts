@@ -63,7 +63,7 @@ export class TypingComponent implements OnInit, OnDestroy {
         that.sendFlag = false;
         // that.showAns=true;
         that.showRanking = false;
-        that.result = "";
+        that.result = "入力する文章がここに表示されます。";
       });
       that.stompClient.subscribe('/user/queue/flick', function (greeting) {
         that.rank = JSON.parse(greeting.body).content;

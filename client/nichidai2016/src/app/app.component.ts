@@ -11,6 +11,9 @@ export class AppComponent {
   private showFlick: boolean = true;
   private showDengon: boolean = false;
   private showWatson: boolean = false;
+  private location: any;
+
+  constructor() { }
 
   private changeYesNo(): void {
     this.showMain = true;

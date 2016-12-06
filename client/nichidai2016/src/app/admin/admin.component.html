@@ -1,20 +1,25 @@
-<h4>Connect to "Admin" system.</h4>
-<div class="form-group row"  *ngIf="isValid">
+<h4>管理者 system.</h4>
+<div class="form-group row" *ngIf="isValid">
   <button class="btn btn-success" id="connect" (click)="connect()">Connect</button>
 </div>
 <div id="conversationDiv" *ngIf="showMain">
   <div *ngIf="!showDengon">
-    <div class="btn-group">
-      <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
+    <div class="row">
+      <div class="btn-group">
+        <button *ngFor="let qbuf of questions; let idx = index;" class="btn  btn-secondary" (click)="sendQuestion(qbuf.qbody, idx)">{{qbuf.qnum}}</button>
+      </div>
     </div>
-    <button class="btn" (click)="changeGraph()">Show Graph</button>
-    <button class="btn" (click)="changeRanking()">Show Ranking</button>
-    <button class="btn btn-danger" (click)="resetResult();">Reset</button>
-    <br>
-    <br>
-    <h1>Q: {{Cquestion}}</h1>
-    <br>
-    <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
+    <div class="row pt-1">
+      <button class="btn" (click)="changeGraph()">Show Graph</button>
+      <button class="btn" (click)="changeRanking()">Show Ranking</button>
+      <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+    </div>
+    <div class="row pt-1">
+      <h1>Q: {{Cquestion}}</h1>
+    </div>
+    <div class="row">
+      <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
+    </div>
   </div>
 </div>
 <app-graph *ngIf="showGraph" [varYes]="varYes" [varNo]="varNo"></app-graph>

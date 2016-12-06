@@ -23,7 +23,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   varYes: number;
   varNo: number;
   private showGraph: boolean = false;
-  private showRanking: boolean = true;
+  private showRanking: boolean = false;
   private domElement: HTMLElement;
   private players: Player[] = [];
   private rank: number;
@@ -82,6 +82,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     var socket = new SockJS('/hello');
     this.Cquestion = " Connecting..."
     this.showMain = true;
+    this.showRanking = true;
     this.isValid = false;
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {

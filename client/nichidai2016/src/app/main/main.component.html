@@ -1,4 +1,4 @@
-<h4>Connect to "Yes or No" system.</h4>
+<h4>"Yes or No" system.</h4>
 <div class="form-group row" *ngIf="isValid">
   <button class="btn btn-success" id="connect" (click)="connect()">Connect</button>
 </div>
@@ -7,8 +7,18 @@
   <h4>Q.{{question}}</h4>
   <div *ngIf="showAns">
     <h6>Select Your Choice!</h6>
-    <button class="btn btn-danger" (click)="sendNo()">No</button>
-    <button class="btn btn-success" (click)="sendYes()">Yes</button>
-    <h4>A.{{result}}</h4>
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="card card-danger card-block" (click)="sendNo()">
+          <p class="card-title text-xs-center h2">No</p>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="card card-success card-block" (click)="sendYes()">
+          <p class="card-title text-xs-center h2">Yes</p>
+        </div>
+      </div>
+    </div>
+    <h3>A.{{result}}</h3>
   </div>
 </div>
