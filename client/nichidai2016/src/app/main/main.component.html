@@ -9,13 +9,13 @@
     <h6>Select Your Choice!</h6>
     <div class="row">
       <div class="col-xs-6">
-        <div class="card card-danger card-block" (click)="sendNo()">
-          <p class="card-title text-xs-center h2">No</p>
+        <div [ngClass]="yes ? 'card-outline-success':'card-success'" class="card card-block" (click)="sendYes();yes=false;no=true;">
+          <p class="card-title text-xs-center h2">Yes</p>
         </div>
       </div>
       <div class="col-xs-6">
-        <div class="card card-success card-block" (click)="sendYes()">
-          <p class="card-title text-xs-center h2">Yes</p>
+        <div [ngClass]="no ? 'card-outline-danger':'card-danger'" class="card card-block" (click)="sendNo();yes=true;no=false;">
+          <p class="card-title text-xs-center h2">No</p>
         </div>
       </div>
     </div>
