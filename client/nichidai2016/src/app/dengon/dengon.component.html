@@ -4,6 +4,15 @@
   <button class="btn btn-secondary" (click)="changePlayer()">プレイヤー</button>
   <button class="btn btn-secondary" (click)="changeDisplay()">途中結果画面</button>
 </div>
+<div *ngIf="showLogin">
+  <div class="input-group">
+    <input class="form-control" type="text" type="number" [(ngModel)]="password" (keyup.enter)="login(password)" />
+    <span class="input-group-btn">
+        <button class="btn btn-success" (click)="login(password)" >OK</button>
+      </span>
+  </div>
+  <p>{{passResult}}</p>
+</div>
 <div id="conversationDiv">
   <div class="form-group row " *ngIf="showPlayer">
     <div *ngIf="showTeamSelect">

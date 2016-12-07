@@ -13,3 +13,4 @@
 /target/classes/
 /temp/
 ROOT.war
+/target/*

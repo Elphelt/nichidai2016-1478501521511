@@ -31,6 +31,8 @@ export class DengonComponent implements OnInit {
   private myNum: number;
   private showNumSelect: boolean = true;
   private showNum: number;
+  private showLogin: boolean = false;
+  private passResult: string;
 
   constructor(private http: Http) { }
 
@@ -42,6 +44,7 @@ export class DengonComponent implements OnInit {
     this.loading = "";
     this.connectFlag = true;
     this.showNum = null;
+    this.passResult = "";
   }
 
   ngOnDestroy() {
@@ -85,14 +88,27 @@ export class DengonComponent implements OnInit {
 
   private changePlayer(): void {
     this.connectFlag = false;
-    this.showPlayer = true;
+    this.showPlayer = false;
     this.showDisplay = false;
+    this.showLogin = true;
   }
 
   private changeDisplay(): void {
     this.connectFlag = false;
     this.showPlayer = false;
     this.showDisplay = true;
+    this.showLogin = false;
+  }
+
+  private login(pass: number): void {
+    if (pass == 3800) {
+      this.connectFlag = false;
+      this.showPlayer = true;
+      this.showDisplay = false;
+      this.showLogin = false;
+    }else{
+      this.passResult = "パスワードが間違っています";
+    }
   }
 
   private reset(): void {
@@ -129,7 +145,7 @@ export class DengonComponent implements OnInit {
   numSet(num: number): void {
     this.myNum = num;
     this.showNumSelect = false;
-    this.showNum = +num+1;
+    this.showNum = +num + 1;
   }
 
 }
