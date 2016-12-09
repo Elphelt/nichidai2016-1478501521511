@@ -24,21 +24,22 @@ export class AdminComponent implements OnInit, OnDestroy {
   varNo: number;
   private showGraph: boolean = false;
   private showRanking: boolean = false;
-  private domElement: HTMLElement;
   private players: Player[] = [];
+  private flickResult: Player[][] = [[]];
   private rank: number;
   private result: number;
   private questions: Question[] = [];
   private resultList: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
   private nowIndex: number;
   private showMain: boolean = false;
+  private ansFlag: boolean[] = [];
 
   constructor() { }
 
   ngOnInit() {
     this.choiceNo = 0;
     this.choiceYes = 0;
-    this.nowIndex = 0;
+    this.nowIndex = -1;
     this.rank = 1;
     this.questions.push(new Question("フリック1", "日本大学生産工学部"));
     this.questions.push(new Question("フリック2", "penpineappleapplepen"));
@@ -48,6 +49,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("質問3", "IT系以外に就きたいと思っている人！"));
     this.questions.push(new Question("質問4", "口頭で質問を出します"));
     this.Cquestion = "";
+    for (var i = 0; i < 7; i++) {
+      this.ansFlag.push(false);
+    }
+
   }
 
   ngOnDestroy() {
@@ -63,17 +68,32 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.players = [];
     this.rank = 0;
     this.result = 0;
+    this.ansFlag[this.nowIndex] = false;
     this.stompClient.send('/app/reset', {}, );
   }
 
   sendQuestion(qbody: string, nextIndex: number) {
-    this.resultList[this.nowIndex][0] = this.choiceYes;
-    this.resultList[this.nowIndex][1] = this.choiceNo;
-    this.choiceYes = this.resultList[nextIndex][0];
-    this.choiceNo = this.resultList[nextIndex][1];
-    this.result = this.choiceYes + this.choiceNo;
+    if (this.nowIndex != -1) {
+      this.resultList[this.nowIndex][0] = this.choiceYes;
+      this.resultList[this.nowIndex][1] = this.choiceNo;
+      this.choiceYes = this.resultList[nextIndex][0];
+      this.choiceNo = this.resultList[nextIndex][1];
+      this.result = this.choiceYes + this.choiceNo;
+      this.showGraph = false;
+
+      this.flickResult[this.nowIndex] = this.players;
+      if (this.flickResult[nextIndex] != undefined) this.players = this.flickResult[nextIndex];
+      else {
+        this.players = [];
+        this.stompClient.send('/app/reset', {}, );
+        this.rank = 0;
+        this.result = 0;
+      }
+
+      if (this.nowIndex != nextIndex) this.ansFlag[this.nowIndex] = true;
+    }
     this.nowIndex = nextIndex;
-    if (this.choiceNo == 0 && this.choiceYes == 0) this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
+    if (this.ansFlag[nextIndex] == false) this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
     this.Cquestion = qbody;
   }
 
@@ -88,9 +108,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
-        that.choiceYes += (JSON.parse(greeting.body).choiceYes);
-        that.choiceNo += (JSON.parse(greeting.body).choiceNo);
-        that.result = that.choiceNo + that.choiceYes;
+        if (that.ansFlag[that.nowIndex] == false) {
+          that.choiceYes += (JSON.parse(greeting.body).choiceYes);
+          that.choiceNo += (JSON.parse(greeting.body).choiceNo);
+          that.result = that.choiceNo + that.choiceYes;
+        }
       });
       that.stompClient.subscribe('/topic/result', function (greeting) {
         that.players.push(new Player(JSON.parse(greeting.body).rank, JSON.parse(greeting.body).name, JSON.parse(greeting.body).time));

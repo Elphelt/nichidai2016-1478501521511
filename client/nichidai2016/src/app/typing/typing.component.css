@@ -1,0 +1,9 @@
+h4 {
+  /*CSS3*/
+  user-select: none;
+  /*Firefoxでアクセスしてきている人用*/
+  -moz-user-select: none;
+  /*Safari等でアクセスしてきている人用*/
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+}

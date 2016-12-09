@@ -6,7 +6,7 @@
   <div class="form-group">
     <label *ngIf="showOK">What is your name?</label>
     <div class="input-group">
-      <input class="form-control" type="text" [(ngModel)]="player" *ngIf="showOK" (keyup.enter)="setName()"/>
+      <input class="form-control" type="text" [(ngModel)]="player" *ngIf="showOK" (keyup.enter)="setName()" />
       <span class="input-group-btn">
         <button class="btn btn-success" (click)="setName()" *ngIf="showOK">OK</button>
       </span>
@@ -18,7 +18,8 @@
   <h4>{{question}}</h4>
   <div class="form-group" *ngIf="showAns">
     <div class="input-group">
-      <input class="form-control" type="text" [(ngModel)]="answer" (keyup.enter)="sendAns()"/>
+      <input class="form-control" type="text" onpaste="alert('コピペダメ。ゼッタイ。');return false;" [(ngModel)]="answer" (keyup.enter)="sendAns()"
+      />
       <span class="input-group-btn">
         <button class="btn btn-info" (click)="sendAns()">Send</button>
       </span>

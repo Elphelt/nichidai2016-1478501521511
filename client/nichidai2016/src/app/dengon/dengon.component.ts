@@ -106,7 +106,7 @@ export class DengonComponent implements OnInit {
       this.showPlayer = true;
       this.showDisplay = false;
       this.showLogin = false;
-    }else{
+    } else {
       this.passResult = "パスワードが間違っています";
     }
   }
@@ -146,6 +146,13 @@ export class DengonComponent implements OnInit {
     this.myNum = num;
     this.showNumSelect = false;
     this.showNum = +num + 1;
+  }
+
+  resultReset(): void {
+    for (var i = 0; i < 5; i++) {
+      this.isDisabled[i] = null;
+      this.dengons[i] = new Dengon([], []);
+    }
   }
 
 }
