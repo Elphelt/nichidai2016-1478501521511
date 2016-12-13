@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
+import { UUID } from 'angular2-uuid';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -33,6 +34,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   private nowIndex: number;
   private showMain: boolean = false;
   private ansFlag: boolean[] = [];
+  private qid: any;
+  private connectCt: number;
 
   constructor() { }
 
@@ -68,6 +71,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.players = [];
     this.rank = 0;
     this.result = 0;
+    this.connectCt = 0;
     this.ansFlag[this.nowIndex] = false;
     this.stompClient.send('/app/reset', {}, );
   }
@@ -93,7 +97,10 @@ export class AdminComponent implements OnInit, OnDestroy {
       if (this.nowIndex != nextIndex) this.ansFlag[this.nowIndex] = true;
     }
     this.nowIndex = nextIndex;
-    if (this.ansFlag[nextIndex] == false) this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody }));
+    if (this.ansFlag[nextIndex] == false) {
+      this.qid = UUID.UUID();
+      this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody, 'qId': this.qid }));
+    }
     this.Cquestion = qbody;
   }
 
@@ -109,9 +116,11 @@ export class AdminComponent implements OnInit, OnDestroy {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
         if (that.ansFlag[that.nowIndex] == false) {
-          that.choiceYes += (JSON.parse(greeting.body).choiceYes);
-          that.choiceNo += (JSON.parse(greeting.body).choiceNo);
-          that.result = that.choiceNo + that.choiceYes;
+          if (JSON.parse(greeting.body).qId == that.qid) {
+            that.choiceYes += (JSON.parse(greeting.body).choiceYes);
+            that.choiceNo += (JSON.parse(greeting.body).choiceNo);
+            that.result = that.choiceNo + that.choiceYes;
+          }
         }
       });
       that.stompClient.subscribe('/topic/result', function (greeting) {
@@ -119,6 +128,9 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.rank = (JSON.parse(greeting.body).rank);
       });
       that.Cquestion = null;
+      that.stompClient.subscribe('/topic/adminHb', function (greeting) {
+        that.connectCt = greeting.body;
+      });
     }, function (err) {
       console.log('err', err);
       that.Cquestion = "再度Connectを押して下さい";

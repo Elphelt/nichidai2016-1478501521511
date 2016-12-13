@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
@@ -52,7 +53,7 @@ public class HelloController {
 	}
 
 	@RequestMapping(value = "/up", method = RequestMethod.POST)
-	public String post(@RequestParam MultipartFile multipartFile) throws IOException {
+	public String post(@RequestParam MultipartFile multipartFile, WebRequest request) throws IOException {
 		
 		// ファイルが空の場合は異常終了
 		if (multipartFile.isEmpty()) {
@@ -62,9 +63,10 @@ public class HelloController {
 			makeTempDir();
 			VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 			service.setApiKey("ee08899658034e2f4ca599d2c2ba32da6eaa3435");
+			String fName = DigestUtils.md5DigestAsHex((multipartFile.getName()+request.getSessionId()).getBytes()) + ".jpg";
 			
-			File imageF = convert(multipartFile);
-			File out = new File(System.getProperty("user.dir") + "/temp/temp" + DigestUtils.md5DigestAsHex(imageF.getName().getBytes()) + ".jpg");
+			File imageF = convert(multipartFile, fName);
+			File out = new File(System.getProperty("user.dir") + "/temp/temp" + fName);
 			out.createNewFile();
 			BufferedImage image = ImageIO.read(imageF);
 			JPEGImageWriteParam param = new JPEGImageWriteParam(Locale.getDefault());
@@ -91,8 +93,8 @@ public class HelloController {
 
 	}
 
-	public File convert(MultipartFile file) throws IOException {
-		File convFile = new File(System.getProperty("user.dir") + "/temp/" + DigestUtils.md5DigestAsHex(file.getName().getBytes()) + ".jpg");
+	public File convert(MultipartFile file, String fName) throws IOException {
+		File convFile = new File(System.getProperty("user.dir") + "/temp/" + fName);
 		convFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(convFile);
 		fos.write(file.getBytes());

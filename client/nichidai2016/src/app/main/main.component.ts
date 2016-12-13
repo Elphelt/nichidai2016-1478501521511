@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -8,7 +8,7 @@ var SockJS = require('sockjs-client');
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   stompClient: any;
   isValid: any;
   result: any;
@@ -21,6 +21,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private showMain: boolean = false;
   private yes: boolean = false;
   private no: boolean = false;
+  private qId: string;
 
 
   constructor() { }
@@ -32,6 +33,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isValid = true;
   }
 
+  ngAfterViewInit() {
+    this.connect();
+  }
+
   ngOnDestroy() {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
@@ -41,9 +46,9 @@ export class MainComponent implements OnInit, OnDestroy {
   sendYes() {
     if (this.result != "Yes") {
       if (this.sendFlag == true) {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': -1 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': -1, 'qId': this.qId }));
       } else {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': 0 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 1, 'choiceNo': 0, 'qId': this.qId }));
       }
       this.result = "Yes";
       this.sendFlag = true;
@@ -53,9 +58,9 @@ export class MainComponent implements OnInit, OnDestroy {
   sendNo() {
     if (this.result != "No") {
       if (this.sendFlag == true) {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': -1, 'choiceNo': 1 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': -1, 'choiceNo': 1, 'qId': this.qId }));
       } else {
-        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo': 1 }));
+        this.stompClient.send('/app/choice', {}, JSON.stringify({ 'choiceYes': 0, 'choiceNo': 1, 'qId': this.qId }));
       }
       this.result = "No";
       this.sendFlag = true;
@@ -73,6 +78,7 @@ export class MainComponent implements OnInit, OnDestroy {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/greetings', function (greeting) {
         that.question = JSON.parse(greeting.body).content;
+        that.qId = JSON.parse(greeting.body).qId;
         that.sendFlag = false;
         that.showAns = true;
         that.result = "";

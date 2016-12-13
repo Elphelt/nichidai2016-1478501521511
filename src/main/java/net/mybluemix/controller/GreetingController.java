@@ -21,11 +21,18 @@ public class GreetingController {
 
 	private Integer rank = 0;
 	private Timer stopwatch = new Timer();
-
+	private String randomUUIDString;
+	private Integer connectCt = 0;
+	
 	@MessageMapping("/choice") // エンドポイントの指定
 	@SendTo("/topic/admin") // メッセージの宛先を指定
 	public Choice setChoice(Choice choice) {
-		return choice;
+		if(choice.getqId().equals(randomUUIDString)) return choice;
+		else{
+			choice.setChoiceNo(0);
+			choice.setChoiceYes(0);
+			return choice;
+		}
 	}
 
 	@MessageMapping("/reset") // エンドポイントの指定
@@ -38,8 +45,8 @@ public class GreetingController {
 	@SendToUser // メッセージの宛先を指定
 	public Greeting backResult(FlickPlayer flick) {
 		rank++;
-		flick.setRank(rank);
 		double buf=stopwatch.getTime();
+		flick.setRank(rank);
 		String numBuf = String.format("%.0f", buf/1000) + "." + String.format("%.0f", buf%1000);
 		flick.setTime(numBuf);
 		simpmessage.convertAndSend("/topic/result", flick);
@@ -50,7 +57,19 @@ public class GreetingController {
 	@SendTo("/topic/greetings") // メッセージの宛先を指定
 	public Greeting setQuestion(Message message) {
 		stopwatch.start();
-		return new Greeting(message.getQuestion());
+        randomUUIDString = message.getqId();
+		return new Greeting(message.getQuestion(), randomUUIDString);
 	}
 
+	@MessageMapping("/resetHB") // エンドポイントの指定
+	@SendTo("/topic/hb")
+	public void resetHB(){
+		connectCt = 0;
+	}
+	
+	@MessageMapping("/heartBeat") // エンドポイントの指定
+	public void setHB(){
+		connectCt++;
+		simpmessage.convertAndSend("/topic/adminHb", connectCt);
+	}
 }

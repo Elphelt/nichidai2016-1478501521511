@@ -2,13 +2,13 @@ package net.mybluemix.model;
 
 public class Message {
     private String question;
-    private String choice;
+    private String qId;
     
-    public String getChoice() {
-		return choice;
+	public String getqId() {
+		return qId;
 	}
-	public void setChoice(String choice) {
-		this.choice = choice;
+	public void setqId(String qId) {
+		this.qId = qId;
 	}
 	public String getQuestion() {
 		return question;
