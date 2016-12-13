@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
 import { UUID } from 'angular2-uuid';
+import { Observable } from 'rxjs/Rx';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -36,6 +37,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private ansFlag: boolean[] = [];
   private qid: any;
   private connectCt: number;
+  private bufCt: number;
 
   constructor() { }
 
@@ -55,7 +57,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     for (var i = 0; i < 7; i++) {
       this.ansFlag.push(false);
     }
-
+    this.connectCt = 0;
+    this.result = 0;
   }
 
   ngOnDestroy() {
@@ -129,8 +132,15 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
       that.Cquestion = null;
       that.stompClient.subscribe('/topic/adminHb', function (greeting) {
-        that.connectCt = greeting.body;
+        that.bufCt = greeting.body;
       });
+      Observable.interval(5000).subscribe((x) => {
+        if (that.connectCt != that.bufCt && that.bufCt >= 0) {
+          that.connectCt = that.bufCt;
+        }
+        that.sendHbToClient();
+      });
+
     }, function (err) {
       console.log('err', err);
       that.Cquestion = "再度Connectを押して下さい";
@@ -157,6 +167,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   private changeRanking(): void {
     this.showRanking = !this.showRanking;
     this.showGraph = false;
+  }
+
+  private sendHbToClient() {
+    this.stompClient.send('/app/resetHb', {}, );
   }
 
 }

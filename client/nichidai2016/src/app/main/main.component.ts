@@ -85,7 +85,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         that.yes = false;
         that.no = false;
       });
+      that.stompClient.subscribe('/topic/clientHeartBeat', function (greeting) {
+        that.sendHb();
+      });
       that.loading = null;
+      that.sendHb();
     }, function (err) {
       console.log('err', err);
       that.loading = "再度Connectを押して下さい";
@@ -100,6 +104,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.question = " Loading..."
     console.log("Disconnected");
+  }
+
+  private sendHb(): void {
+    this.stompClient.send('/app/heartBeat', {} );
   }
 
 }
