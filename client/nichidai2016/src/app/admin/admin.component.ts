@@ -135,10 +135,10 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.bufCt = greeting.body;
       });
       Observable.interval(5000).subscribe((x) => {
+        that.sendHbToClient();
         if (that.connectCt != that.bufCt && that.bufCt >= 0) {
           that.connectCt = that.bufCt;
         }
-        that.sendHbToClient();
       });
 
     }, function (err) {

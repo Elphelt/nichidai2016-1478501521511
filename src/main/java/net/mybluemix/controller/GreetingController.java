@@ -65,6 +65,7 @@ public class GreetingController {
 	@MessageMapping("/resetHb") // エンドポイントの指定
 	@SendTo("/topic/clientHeartBeat")
 	public Greeting resetHB(){
+		simpmessage.convertAndSend("/topic/adminHb", connectCt);
 		connectCt = 0;
 		return new Greeting("");
 	}
@@ -72,7 +73,6 @@ public class GreetingController {
 	@MessageMapping("/heartBeat") // エンドポイントの指定
 	public void setHB(){
 		addCt();
-		simpmessage.convertAndSend("/topic/adminHb", connectCt);
 	}
 	
 	public synchronized void addCt(){
