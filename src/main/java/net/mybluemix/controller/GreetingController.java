@@ -23,13 +23,13 @@ public class GreetingController {
 	private Timer stopwatch = new Timer();
 	private String randomUUIDString;
 	private Integer connectCt = 0;
-	private boolean available = true;
-	
+
 	@MessageMapping("/choice") // エンドポイントの指定
 	@SendTo("/topic/admin") // メッセージの宛先を指定
 	public Choice setChoice(Choice choice) {
-		if(choice.getqId().equals(randomUUIDString)) return choice;
-		else{
+		if (choice.getqId().equals(randomUUIDString))
+			return choice;
+		else {
 			choice.setChoiceNo(0);
 			choice.setChoiceYes(0);
 			return choice;
@@ -45,37 +45,43 @@ public class GreetingController {
 	@MessageMapping("/flick") // エンドポイントの指定
 	@SendToUser // メッセージの宛先を指定
 	public Greeting backResult(FlickPlayer flick) {
-		rank++;
-		double buf=stopwatch.getTime();
+		double buf = getRank();
 		flick.setRank(rank);
-		String numBuf = String.format("%.0f", buf/1000) + "." + String.format("%.0f", buf%1000);
+		String numBuf = String.format("%.0f", buf / 1000) + "." + String.format("%.0f", buf % 1000);
 		flick.setTime(numBuf);
 		simpmessage.convertAndSend("/topic/result", flick);
 		return new Greeting(rank.toString() + " Time(秒): " + numBuf);
+	}
+
+	public synchronized double getRank() {
+		rank++;
+		double buf = stopwatch.getTime();
+		notifyAll();
+		return buf;
 	}
 
 	@MessageMapping("/question") // エンドポイントの指定
 	@SendTo("/topic/greetings") // メッセージの宛先を指定
 	public Greeting setQuestion(Message message) {
 		stopwatch.start();
-        randomUUIDString = message.getqId();
+		randomUUIDString = message.getqId();
 		return new Greeting(message.getQuestion(), randomUUIDString);
 	}
 
 	@MessageMapping("/resetHb") // エンドポイントの指定
 	@SendTo("/topic/clientHeartBeat")
-	public Greeting resetHB(){
+	public Greeting resetHB() {
 		simpmessage.convertAndSend("/topic/adminHb", connectCt);
 		connectCt = 0;
 		return new Greeting("");
 	}
-	
+
 	@MessageMapping("/heartBeat") // エンドポイントの指定
-	public void setHB(){
+	public void setHB() {
 		addCt();
 	}
-	
-	public synchronized void addCt(){
+
+	public synchronized void addCt() {
 		connectCt++;
 		notifyAll();
 	}
