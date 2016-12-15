@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
@@ -18,7 +18,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   showAns: boolean;
   watsonResult: any;
   private loading: string;
-  private showMain: boolean = false;
+  private showMain: boolean;
   private yes: boolean = false;
   private no: boolean = false;
   private qId: string;
@@ -28,9 +28,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.question = " Loading...";
-    this.loading = "";
-    this.showAns = true;
-    this.isValid = true;
+    this.loading;
+    this.isValid = false;
+    this.showMain = true;
+    this.loading = " Connecting...";
   }
 
   ngAfterViewInit() {

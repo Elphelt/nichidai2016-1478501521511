@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
 body {
   padding-top: 5rem;
+}
+
+.watsonsan {
+  background: url(./assets/pw_maze_black_2X.png) left top repeat;
 }

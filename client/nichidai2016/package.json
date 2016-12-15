@@ -25,6 +25,8 @@
     "bootstrap": "^4.0.0-alpha.5",
     "chart.js": "^2.4.0",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
+    "ng2-animate": "^1.2.1",
     "ng2-charts": "^1.4.1",
     "ng2-file-upload": "^1.1.4-2",
     "reflect-metadata": "^0.1.8",

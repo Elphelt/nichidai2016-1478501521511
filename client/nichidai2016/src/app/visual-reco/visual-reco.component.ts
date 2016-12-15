@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { FileUploader } from 'ng2-file-upload';
+import { animateFactory } from 'ng2-animate';
 
 @Component({
   selector: 'app-visual-reco',
   templateUrl: './visual-reco.component.html',
-  styleUrls: ['./visual-reco.component.css']
+  styleUrls: ['./visual-reco.component.css'],
+   animations: [animateFactory(500, 200, 'ease-in')]
 })
 
 export class VisualRecoComponent implements OnInit {
-  title = '日大特別講義2016 画像解析アプリ';
+  title = '画像解析アプリ';
   private alc: any;
   public uploader: FileUploader;
   watsonResult: any;
@@ -17,12 +20,23 @@ export class VisualRecoComponent implements OnInit {
   private showAge: boolean = false;
   private showGender: boolean = false;
   private showIdentity: boolean = false;
+  private loadingFlag: boolean = false;
+  private resultFlag: boolean = false;
 
+  public filePreviewPath: SafeUrl;
 
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
     var that = this;
-    that.uploader = new FileUploader({ url: '/up', itemAlias: 'multipartFile', disableMultipart: false });
-    that.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    this.uploader = new FileUploader({ url: '/up', itemAlias: 'multipartFile', disableMultipart: false });
+    this.uploader.onAfterAddingFile = (fileItem: any) => {
+      that.filePreviewPath = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(fileItem._file)));
+      that.loadingFlag = true;
+      that.resultFlag = false;
+      that.uploader.uploadAll();
+    }
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      that.loadingFlag = false;
+      that.resultFlag = true;
       that.showAge = false;
       that.showGender = false;
       that.showIdentity = false;

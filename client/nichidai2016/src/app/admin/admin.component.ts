@@ -77,6 +77,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.connectCt = 0;
     this.ansFlag[this.nowIndex] = false;
     this.stompClient.send('/app/reset', {}, );
+    this.qid = UUID.UUID();
   }
 
   sendQuestion(qbody: string, nextIndex: number) {

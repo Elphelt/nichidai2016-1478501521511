@@ -1,74 +1,63 @@
-<h1>
-  {{title}}
-</h1>
-<input type="file" ng2FileSelect [uploader]="uploader" />
-<div class="col-md-12" style="margin-bottom: 40px">
-  <h3>Upload queue</h3>
-  <p>Queue length: {{ uploader?.queue?.length }}</p>
-  <table class="table">
-    <thead>
-      <tr>
-        <th width="50%">Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of uploader.queue">
-        <td><strong>{{ item?.file?.name }}</strong></td>
-        <td nowrap>
-          <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span class="glyphicon glyphicon-upload"></span> 送信
-                        </button>
-          <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span> 削除
-                        </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <h1 [@animate]="'fadeInDown'">{{title}}</h1>
+  <div [@animate]="'fadeInUp'">
+    <p class="h3">アップロードされた画像から成分を抽出します。</p>
+    <input type="file" value="upload" ng2FileSelect [uploader]="uploader" />
+  </div>
 </div>
 <br>
-<h4>全体認識</h4>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>分類</th>
-      <th>確率</th>
-    </tr>
-  </thead>
-  <tbody *ngFor="let wr of watsonResult">
-    <tr>
-      <th scope="row">{{wr.class}}</th>
-      <td>{{wr.score*100}}%</td>
-    </tr>
-  </tbody>
-</table>
-<div *ngIf="showFace">
-  <h4>顔認識</h4>
+<div class="text-xs-center">
+  <div style="position: relative;">
+    <img [src]="filePreviewPath" width="200" *ngIf="filePreviewPath" />
+    <div *ngIf="loadingFlag" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">
+      <i class="fa fa-spinner fa-spin fa-10x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<div [@animate]="bounceIn" *ngIf="resultFlag">
+  <h4>全体認識</h4>
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>大分類</th>
-        <th>中分類</th>
+        <th>分類</th>
         <th>確率</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngIf="showAge">
-        <th scope="row">年齢</th>
-        <td>{{watsonFace.age.min}} - {{watsonFace.age.max}}</td>
-        <td>{{watsonFace.age.score*100}}%</td>
-      </tr>
-      <tr *ngIf="showGender">
-        <th scope="row">性別</th>
-        <td>{{watsonFace.gender.gender}}</td>
-        <td>{{watsonFace.gender.score*100}}%</td>
-      </tr>
-      <tr *ngIf="showIdentity">
-        <th scope="row">この人かも？</th>
-        <td>{{watsonFace.identity.name}}</td>
-        <td>{{watsonFace.identity.score*100}}%</td>
+    <tbody *ngFor="let wr of watsonResult">
+      <tr>
+        <th scope="row">{{wr.class}}</th>
+        <td>{{wr.score*100}}%</td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf="showFace">
+    <h4>顔認識</h4>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>大分類</th>
+          <th>中分類</th>
+          <th>確率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="showAge">
+          <th scope="row">年齢</th>
+          <td>{{watsonFace.age.min}} - {{watsonFace.age.max}}</td>
+          <td>{{watsonFace.age.score*100}}%</td>
+        </tr>
+        <tr *ngIf="showGender">
+          <th scope="row">性別</th>
+          <td>{{watsonFace.gender.gender}}</td>
+          <td>{{watsonFace.gender.score*100}}%</td>
+        </tr>
+        <tr *ngIf="showIdentity">
+          <th scope="row">この人かも？</th>
+          <td>{{watsonFace.identity.name}}</td>
+          <td>{{watsonFace.identity.score*100}}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
