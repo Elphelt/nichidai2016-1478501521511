@@ -29,7 +29,7 @@
     </div>
   </div>
 </div>
-<div [@visibilityChangedChapter]="resultFlag">
+<div *ngIf="resultFlag" [@visibilityChangedChapter]="resultFlag">
   <h4>全体認識</h4>
   <table class="table table-hover">
     <thead>
@@ -38,8 +38,8 @@
         <th>確率</th>
       </tr>
     </thead>
-    <tbody *ngFor="let wr of watsonResult">
-      <tr>
+    <tbody>
+      <tr *ngFor="let wr of watsonResult">
         <th scope="row">{{wr.class}}</th>
         <td>{{wr.score*100}}%</td>
       </tr>

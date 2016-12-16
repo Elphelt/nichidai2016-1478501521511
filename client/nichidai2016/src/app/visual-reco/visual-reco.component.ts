@@ -69,14 +69,19 @@ export class VisualRecoComponent implements OnInit {
       that.updateFlag = true;
       that.uploader.uploadAll();
       that.outFlag = false;
+      Observable.interval(3000).take(1).subscribe((x) => {
+        that.updateFlag = false;
+        that.modifyFlag = true;
+      });
     }
     this.uploader.onBeforeUploadItem = () => {
-      that.updateFlag = false;
-      that.modifyFlag = true;
+      // that.updateFlag = false;
+      // that.modifyFlag = true;
       // that.upText = false;
     }
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       that.loadingFlag = false;
+      that.updateFlag = false;
       that.modifyFlag = false;
       // that.exText = false;
       if (JSON.parse(response).out != undefined) {
