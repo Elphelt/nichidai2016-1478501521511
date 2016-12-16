@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -15,7 +16,6 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,8 +64,7 @@ public class HelloController {
 			VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 			service.setApiKey("ee08899658034e2f4ca599d2c2ba32da6eaa3435");
 			String suffix = getSuffix(multipartFile.getOriginalFilename());
-			String fName = DigestUtils.md5DigestAsHex(
-					(multipartFile.getOriginalFilename() + request.getSessionId()).getBytes()) + "." + suffix;
+			String fName = UUID.randomUUID() + "." + suffix;
 
 			File imageF = convert(multipartFile, fName);
 			File out = new File(System.getProperty("user.dir") + "/temp/temp" + fName);
@@ -73,7 +72,7 @@ public class HelloController {
 			BufferedImage image = ImageIO.read(imageF);
 			JPEGImageWriteParam param = new JPEGImageWriteParam(Locale.getDefault());
 			param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-			param.setCompressionQuality(0.9f);
+			param.setCompressionQuality(0.85f);
 
 			ImageWriter writer = ImageIO.getImageWritersByFormatName(suffix).next();
 			writer.setOutput(ImageIO.createImageOutputStream(out));

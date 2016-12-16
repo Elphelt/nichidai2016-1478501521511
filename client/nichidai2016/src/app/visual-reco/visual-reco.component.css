@@ -7,17 +7,17 @@
 }
 
 .fa-refresh {
-  color: crimson;
-}
-
-.fa-cog {
   color: dodgerblue;
 }
 
+.fa-cog {
+  color: crimson;
+}
+
 .upText {
-  color: greenyellow;
+  color: darkorange;
 }
 
 .exText {
-color: darkorange;
+  color: greenyellow;
 }
