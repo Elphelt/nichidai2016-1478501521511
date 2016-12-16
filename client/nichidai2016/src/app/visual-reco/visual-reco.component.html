@@ -1,21 +1,35 @@
 <div class="container">
   <h1 [@animate]="'fadeInDown'">{{title}}</h1>
   <div [@animate]="'fadeInUp'">
-    <p class="h3">アップロードされた画像から成分を抽出します。</p>
-    <input type="file" value="upload" ng2FileSelect [uploader]="uploader" />
-  </div>
-</div>
-<br>
-<div class="text-xs-center">
-  <div style="position: relative;">
-    <img [src]="filePreviewPath" width="200" *ngIf="filePreviewPath" />
-    <div *ngIf="loadingFlag" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">
-      <i class="fa fa-spinner fa-spin fa-10x fa-fw"></i>
-      <span class="sr-only">Loading...</span>
+    <p class="h4">アップロードされた画像から成分を抽出します。</p>
+    <br>
+    <input id="lefile" type="file" style="display:none" ng2FileSelect [uploader]="uploader" />
+    <div class="input-group text-xs-center">
+      <span class="input-group-btn"><button type="button" [disabled]="sendFlag" class="btn btn-info" onclick="$('input[id=lefile]').click();"><i class="fa fa-upload fa-1x fa-fw"></i>Browse</button></span>
     </div>
   </div>
 </div>
-<div [@animate]="bounceIn" *ngIf="resultFlag">
+<br>
+<div *ngIf="outFlag">
+  <p class="h5">頑張って画像を圧縮したけど重すぎて解析できませんでした。</p>
+  <p class="h5">{{fileSize}}/2MB</p>
+</div>
+<div class="text-xs-center">
+  <div style="position: relative;">
+    <img [src]="filePreviewPath" width="200" *ngIf="filePreviewPath" />
+    <div *ngIf="updateFlag" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">
+      <i class="fa fa-refresh fa-spin fa-10x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+      <p class="h4 upText" [@visibilityChangedChapter]="upText">Uploading Data</p>
+    </div>
+    <div *ngIf="modifyFlag" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">
+      <i class="fa fa-cog fa-spin fa-10x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+      <p class="h4 exText" [@visibilityChangedChapter]="exText">Extracting Data</p>
+    </div>
+  </div>
+</div>
+<div [@visibilityChangedChapter]="resultFlag">
   <h4>全体認識</h4>
   <table class="table table-hover">
     <thead>

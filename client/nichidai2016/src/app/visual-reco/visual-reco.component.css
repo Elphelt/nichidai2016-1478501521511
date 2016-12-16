@@ -6,6 +6,18 @@
   color: white;
 }
 
-.fa-spin {
+.fa-refresh {
   color: crimson;
+}
+
+.fa-cog {
+  color: dodgerblue;
+}
+
+.upText {
+  color: greenyellow;
+}
+
+.exText {
+color: darkorange;
 }
