@@ -1,7 +1,4 @@
 <h4>管理者 system.</h4>
-<div class="form-group row" *ngIf="isValid">
-  <button class="btn btn-success" id="connect" (click)="connect()">Connect</button>
-</div>
 <div id="conversationDiv" *ngIf="showMain">
   <div *ngIf="!showDengon">
     <div class="row">
@@ -15,10 +12,10 @@
       <button class="btn btn-danger" (click)="resetResult();">Reset</button>
     </div>
     <div class="row pt-1">
-      <h1>Q: {{Cquestion}}</h1>
+      <h1>Q: {{Cquestion}} {{endFlag}}</h1>
     </div>
     <div class="row">
-      <h3 *ngIf="!showRanking">接続数：{{connectCt}}  投票数:{{result}}</h3>
+      <h3 *ngIf="!showRanking">投票数:{{result}}</h3>
     </div>
   </div>
 </div>

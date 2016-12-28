@@ -8,11 +8,11 @@ declare var $: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  private showMain: boolean = false;
+  private showMain: boolean = true;
   private showAdmin: boolean = false;
   private showFlick: boolean = false;
   private showDengon: boolean = false;
-  private showWatson: boolean = true;
+  private showWatson: boolean = false;
   private location: any;
 
   constructor() { }

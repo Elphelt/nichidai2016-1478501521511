@@ -23,6 +23,7 @@ public class GreetingController {
 	private Timer stopwatch = new Timer();
 	private String randomUUIDString;
 	private Integer connectCt = 0;
+	private Message nowMessage;
 
 	@MessageMapping("/choice") // エンドポイントの指定
 	@SendTo("/topic/admin") // メッセージの宛先を指定
@@ -39,6 +40,7 @@ public class GreetingController {
 	@MessageMapping("/reset") // エンドポイントの指定
 	public void resetRank() {
 		rank = 0;
+		nowMessage = new Message();
 		return;
 	}
 
@@ -65,6 +67,7 @@ public class GreetingController {
 	public Greeting setQuestion(Message message) {
 		stopwatch.start();
 		randomUUIDString = message.getqId();
+		nowMessage = message;
 		return new Greeting(message.getQuestion(), randomUUIDString);
 	}
 
@@ -74,6 +77,13 @@ public class GreetingController {
 		simpmessage.convertAndSend("/topic/adminHb", connectCt);
 		connectCt = 0;
 		return new Greeting("");
+	}
+
+	@MessageMapping("/getq") // エンドポイントの指定
+	@SendTo("/topic/greetings") // メッセージの宛先を指定
+	public Greeting getQuestion() {
+		randomUUIDString = nowMessage.getqId();
+		return new Greeting(nowMessage.getQuestion(), randomUUIDString);
 	}
 
 	@MessageMapping("/heartBeat") // エンドポイントの指定

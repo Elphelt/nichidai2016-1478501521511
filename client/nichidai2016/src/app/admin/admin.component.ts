@@ -38,6 +38,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private qid: any;
   private connectCt: number;
   private bufCt: number;
+  private endFlag: string;
 
   constructor() { }
 
@@ -46,19 +47,21 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.choiceYes = 0;
     this.nowIndex = -1;
     this.rank = 1;
-    this.questions.push(new Question("フリック1", "日本大学生産工学部"));
-    this.questions.push(new Question("フリック2", "penpineappleapplepen"));
-    this.questions.push(new Question("フリック3", "ユニーク誠実利他変化挑戦結束グローバル凛"));
-    this.questions.push(new Question("質問1", "就職しようと思っている人！"));
-    this.questions.push(new Question("質問2", "IT系の仕事に就きたいと思っている人！"));
-    this.questions.push(new Question("質問3", "IT系以外に就きたいと思っている人！"));
-    this.questions.push(new Question("質問4", "口頭で質問を出します"));
+    this.endFlag = "";
+    this.questions.push(new Question("質問1", "年賀状を“ハガキ”で送りますか？"));
+    this.questions.push(new Question("質問2", "大晦日に「年越しそば」は食べますか？"));
+    this.questions.push(new Question("質問3", "今年は帰省しますか？"));
+    this.questions.push(new Question("質問4", "今年１年は、あなたにとって良い1年でしたか？"));
+    this.questions.push(new Question("口頭質問1", "口頭で質問を出します 1"));
+    this.questions.push(new Question("口頭質問2", "口頭で質問を出します 2"));
+    this.questions.push(new Question("口頭質問3", "口頭で質問を出します 3"));
     this.Cquestion = "";
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < this.questions.length; i++) {
       this.ansFlag.push(false);
     }
     this.connectCt = 0;
     this.result = 0;
+    this.connect();
   }
 
   ngOnDestroy() {
@@ -76,7 +79,9 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.result = 0;
     this.connectCt = 0;
     this.ansFlag[this.nowIndex] = false;
+    this.showGraph = false;
     this.stompClient.send('/app/reset', {}, );
+    this.endFlag = "リセット";
     this.qid = UUID.UUID();
   }
 
@@ -101,9 +106,11 @@ export class AdminComponent implements OnInit, OnDestroy {
       if (this.nowIndex != nextIndex) this.ansFlag[this.nowIndex] = true;
     }
     this.nowIndex = nextIndex;
+    this.endFlag = "投票締め切り";
     if (this.ansFlag[nextIndex] == false) {
       this.qid = UUID.UUID();
       this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody, 'qId': this.qid }));
+      this.endFlag = "受付中";
     }
     this.Cquestion = qbody;
   }
@@ -113,7 +120,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     var socket = new SockJS('/hello');
     this.Cquestion = " Connecting..."
     this.showMain = true;
-    this.showRanking = true;
+    this.showRanking = false;
     this.isValid = false;
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, function (frame) {
@@ -132,15 +139,15 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.rank = (JSON.parse(greeting.body).rank);
       });
       that.Cquestion = null;
-      that.stompClient.subscribe('/topic/adminHb', function (greeting) {
-        that.bufCt = greeting.body;
-      });
-      Observable.interval(5000).subscribe((x) => {
-        that.sendHbToClient();
-        if (that.connectCt != that.bufCt && that.bufCt >= 0) {
-          that.connectCt = that.bufCt;
-        }
-      });
+      // that.stompClient.subscribe('/topic/adminHb', function (greeting) {
+      //   that.bufCt = greeting.body;
+      // });
+      // Observable.interval(5000).subscribe((x) => {
+      //   that.sendHbToClient();
+      //   if (that.connectCt != that.bufCt && that.bufCt >= 0) {
+      //     that.connectCt = that.bufCt;
+      //   }
+      // });
 
     }, function (err) {
       console.log('err', err);
@@ -163,6 +170,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.varNo = this.choiceNo;
     this.showGraph = !this.showGraph;
     this.showRanking = false;
+    if (this.showGraph) {
+      this.endFlag = "投票締め切り";
+      this.qid = UUID.UUID();
+    }
   }
 
   private changeRanking(): void {

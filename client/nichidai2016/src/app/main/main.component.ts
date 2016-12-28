@@ -32,6 +32,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isValid = false;
     this.showMain = true;
     this.loading = " Connecting...";
+    this.showAns = true;
   }
 
   ngAfterViewInit() {
@@ -86,11 +87,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         that.yes = false;
         that.no = false;
       });
-      that.stompClient.subscribe('/topic/clientHeartBeat', function (greeting) {
-        that.sendHb();
-      });
+      // that.stompClient.subscribe('/topic/clientHeartBeat', function (greeting) {
+      //   that.sendHb();
+      // });
       that.loading = null;
-      that.sendHb();
+      // that.sendHb();
+      that.getQuestion();
     }, function (err) {
       console.log('err', err);
       that.loading = "再度Connectを押して下さい";
@@ -108,8 +110,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private sendHb(): void {
-    this.stompClient.send('/app/heartBeat', {} );
+    this.stompClient.send('/app/heartBeat', {});
   }
+
+  private getQuestion(): void {
+    this.stompClient.send('/app/getq', {});
+  }
+
 
 }
 
