@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
 import { UUID } from 'angular2-uuid';
-import { Observable } from 'rxjs/Rx';
 
+// tslint:disable-next-line:no-var-keyword
 var Stomp = require('stompjs');
 var SockJS = require('sockjs-client');
 
@@ -35,10 +35,11 @@ export class AdminComponent implements OnInit, OnDestroy {
   private nowIndex: number;
   private showMain: boolean = false;
   private ansFlag: boolean[] = [];
-  private qid: any;
+  private qId: any;
   private connectCt: number;
-  private bufCt: number;
   private endFlag: string;
+  private qbuf: string;
+
 
   constructor() { }
 
@@ -47,18 +48,18 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.choiceYes = 0;
     this.nowIndex = -1;
     this.rank = 1;
-    this.endFlag = "";
-    this.questions.push(new Question("質問1", "年賀状を“ハガキ”で送りますか？"));
-    this.questions.push(new Question("質問2", "大晦日に「年越しそば」は食べますか？"));
-    this.questions.push(new Question("質問3", "今年は帰省しますか？"));
-    this.questions.push(new Question("質問4", "今年１年は、あなたにとって良い1年でしたか？"));
-    this.questions.push(new Question("口頭質問1", "口頭で質問を出します 1"));
-    this.questions.push(new Question("口頭質問2", "口頭で質問を出します 2"));
-    this.questions.push(new Question("口頭質問3", "口頭で質問を出します 3"));
-    this.questions.push(new Question("フリック１", "ユニリタ"));
-    this.questions.push(new Question("フリック２", "ユニーク誠実利他変化挑戦結束グローバル凛"));
-    this.Cquestion = "";
-    for (var i = 0; i < this.questions.length; i++) {
+    this.endFlag = '';
+    this.questions.push(new Question('質問1', '年賀状を“ハガキ”で送りますか？'));
+    this.questions.push(new Question('質問2', '大晦日に「年越しそば」は食べますか？'));
+    this.questions.push(new Question('質問3', '今年は帰省しますか？'));
+    this.questions.push(new Question('質問4', '今年１年は、あなたにとって良い1年でしたか？'));
+    this.questions.push(new Question('口頭質問1', '口頭で質問を出します 1'));
+    this.questions.push(new Question('口頭質問2', '口頭で質問を出します 2'));
+    this.questions.push(new Question('口頭質問3', '口頭で質問を出します 3'));
+    this.questions.push(new Question('フリック１', 'ユニリタ'));
+    this.questions.push(new Question('フリック２', 'ユニーク誠実利他変化挑戦結束グローバル凛'));
+    this.Cquestion = '';
+    for (let i = 0; i < this.questions.length; i++) {
       this.ansFlag.push(false);
     }
     this.connectCt = 0;
@@ -83,12 +84,12 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.ansFlag[this.nowIndex] = false;
     this.showGraph = false;
     this.stompClient.send('/app/reset', {}, );
-    this.endFlag = "リセット";
-    this.qid = UUID.UUID();
+    this.endFlag = 'リセット';
+    this.qId = UUID.UUID();
   }
 
   sendQuestion(qbody: string, nextIndex: number) {
-    if (this.nowIndex != -1) {
+    if (this.nowIndex !== -1) {
       this.resultList[this.nowIndex][0] = this.choiceYes;
       this.resultList[this.nowIndex][1] = this.choiceNo;
       this.choiceYes = this.resultList[nextIndex][0];
@@ -97,22 +98,23 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.showGraph = false;
 
       this.flickResult[this.nowIndex] = this.players;
-      if (this.flickResult[nextIndex] != undefined) this.players = this.flickResult[nextIndex];
-      else {
+      if (this.flickResult[nextIndex] !== undefined) {
+        this.players = this.flickResult[nextIndex];
+      } else {
         this.players = [];
         this.stompClient.send('/app/reset', {}, );
         this.rank = 0;
         this.result = 0;
       }
 
-      if (this.nowIndex != nextIndex) this.ansFlag[this.nowIndex] = true;
+      if (this.nowIndex !== nextIndex) { this.ansFlag[this.nowIndex] = true; }
     }
     this.nowIndex = nextIndex;
-    this.endFlag = "投票締め切り";
-    if (this.ansFlag[nextIndex] == false) {
-      this.qid = UUID.UUID();
-      this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody, 'qId': this.qid }));
-      this.endFlag = "受付中";
+    this.endFlag = '投票締め切り';
+    if (this.ansFlag[nextIndex] === false) {
+      this.qId = UUID.UUID();
+      this.stompClient.send('/app/question', {}, JSON.stringify({ 'question': qbody, 'qId': this.qId }));
+      this.endFlag = '受付中';
     }
     this.Cquestion = qbody;
   }
@@ -120,7 +122,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   connect() {
     var that = this;
     var socket = new SockJS('/hello');
-    this.Cquestion = " Connecting..."
+    this.Cquestion = ' Connecting...'
     this.showMain = true;
     this.showRanking = false;
     this.isValid = false;
@@ -128,8 +130,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       that.stompClient.subscribe('/topic/admin', function (greeting) {
-        if (that.ansFlag[that.nowIndex] == false) {
-          if (JSON.parse(greeting.body).qId == that.qid) {
+        if (that.ansFlag[that.nowIndex] === false) {
+          if (JSON.parse(greeting.body).qId === that.qId) {
             that.choiceYes += (JSON.parse(greeting.body).choiceYes);
             that.choiceNo += (JSON.parse(greeting.body).choiceNo);
             that.result = that.choiceNo + that.choiceYes;
@@ -141,19 +143,10 @@ export class AdminComponent implements OnInit, OnDestroy {
         that.rank = (JSON.parse(greeting.body).rank);
       });
       that.Cquestion = null;
-      // that.stompClient.subscribe('/topic/adminHb', function (greeting) {
-      //   that.bufCt = greeting.body;
-      // });
-      // Observable.interval(5000).subscribe((x) => {
-      //   that.sendHbToClient();
-      //   if (that.connectCt != that.bufCt && that.bufCt >= 0) {
-      //     that.connectCt = that.bufCt;
-      //   }
-      // });
 
     }, function (err) {
       console.log('err', err);
-      that.Cquestion = "再度Connectを押して下さい";
+      that.Cquestion = '再度Connectを押して下さい';
       that.connect();
     });
   }
@@ -163,8 +156,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
-    this.Cquestion = " Connecting..."
-    console.log("Disconnected");
+    this.Cquestion = ' Connecting...';
+    console.log('Disconnected');
   }
 
   private changeGraph(): void {
@@ -173,8 +166,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.showGraph = !this.showGraph;
     this.showRanking = false;
     if (this.showGraph) {
-      this.endFlag = "投票締め切り";
-      this.qid = UUID.UUID();
+      this.sendAnswer();
     }
   }
 
@@ -183,8 +175,14 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.showGraph = false;
   }
 
-  private sendHbToClient() {
-    this.stompClient.send('/app/resetHb', {}, );
+  private endAns(): void {
+    this.qbuf = this.qId;
+    this.qId = UUID.UUID();
+    this.endFlag = '投票締め切り';
+  }
+
+  private sendAnswer(): void {
+    this.stompClient.send('/app/sendans', {}, JSON.stringify({ 'choiceYes': this.choiceYes, 'choiceNo': this.choiceNo, 'qId': this.qbuf }));
   }
 
 }

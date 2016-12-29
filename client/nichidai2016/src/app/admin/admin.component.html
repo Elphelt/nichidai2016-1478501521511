@@ -1,4 +1,4 @@
-<h4>管理者 system.</h4>
+<h4>結果表示画面</h4>
 <div id="conversationDiv" *ngIf="showMain">
   <div *ngIf="!showDengon">
     <div class="row">
@@ -7,9 +7,10 @@
       </div>
     </div>
     <div class="row pt-1">
-      <button class="btn" (click)="changeGraph()">Show Graph</button>
-      <button class="btn" (click)="changeRanking()">Show Ranking</button>
-      <button class="btn btn-danger" (click)="resetResult();">Reset</button>
+      <button class="btn btn-info" (click)="endAns()">締め切り</button>
+      <button class="btn" (click)="changeGraph()">グラフ表示</button>
+      <!--<button class="btn" (click)="changeRanking()">Show Ranking</button>-->
+      <button class="btn btn-danger" (click)="resetResult();">リセット</button>
     </div>
     <div class="row pt-1">
       <h1>Q: {{Cquestion}} {{endFlag}}</h1>

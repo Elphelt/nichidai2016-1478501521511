@@ -1,5 +1,4 @@
-<p class="text-xs-center h1">Yes:{{varYes}}  No:{{varNo}}</p>
-<div class="mx-auto" style="width: 800px; height: 600px;">
-  <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
+<p class="text-xs-center h1">No:{{varNo}}  Yes:{{varYes}}</p>
+<div class="mx-auto">
+  <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" [colors]="doughnutChartColors" [options]="doughnutChartOptions"></canvas>
 </div>

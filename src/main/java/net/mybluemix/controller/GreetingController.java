@@ -82,13 +82,24 @@ public class GreetingController {
 	@MessageMapping("/getq") // エンドポイントの指定
 	@SendTo("/topic/greetings") // メッセージの宛先を指定
 	public Greeting getQuestion() {
-		randomUUIDString = nowMessage.getqId();
-		return new Greeting(nowMessage.getQuestion(), randomUUIDString);
+		if (nowMessage != null) {
+			randomUUIDString = nowMessage.getqId();
+			return new Greeting(nowMessage.getQuestion(), randomUUIDString);
+		} else {
+			return new Greeting("");
+		}
 	}
 
-	@MessageMapping("/heartBeat") // エンドポイントの指定
-	public void setHB() {
-		addCt();
+	@MessageMapping("/sendans") // エンドポイントの指定
+	@SendTo("/topic/getans") // メッセージの宛先を指定
+	public Choice getAnswer(Choice choice) {
+		if (choice.getqId().equals(randomUUIDString))
+			return choice;
+		else {
+			choice.setChoiceNo(0);
+			choice.setChoiceYes(0);
+			return choice;
+		}
 	}
 
 	public synchronized void addCt() {
