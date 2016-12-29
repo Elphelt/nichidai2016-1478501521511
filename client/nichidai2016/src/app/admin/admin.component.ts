@@ -55,6 +55,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.questions.push(new Question("口頭質問1", "口頭で質問を出します 1"));
     this.questions.push(new Question("口頭質問2", "口頭で質問を出します 2"));
     this.questions.push(new Question("口頭質問3", "口頭で質問を出します 3"));
+    this.questions.push(new Question("フリック１", "ユニリタ"));
+    this.questions.push(new Question("フリック２", "ユニーク誠実利他変化挑戦結束グローバル凛"));
     this.Cquestion = "";
     for (var i = 0; i < this.questions.length; i++) {
       this.ansFlag.push(false);

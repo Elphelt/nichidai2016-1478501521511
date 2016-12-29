@@ -86,6 +86,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         that.result = "";
         that.yes = false;
         that.no = false;
+        if (that.question == "") that.question = "Loading...";
       });
       // that.stompClient.subscribe('/topic/clientHeartBeat', function (greeting) {
       //   that.sendHb();

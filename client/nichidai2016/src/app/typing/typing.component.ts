@@ -70,6 +70,7 @@ export class TypingComponent implements OnInit, OnDestroy {
         that.showRanking = true;
       });
       that.question = null;
+      that.getQuestion();
     }, function (err) {
       console.log('err', err);
       that.connect();
@@ -90,6 +91,10 @@ export class TypingComponent implements OnInit, OnDestroy {
   }
   editName() {
     this.showOK = !this.showOK;
+  }
+
+  private getQuestion(): void {
+    this.stompClient.send('/app/getq', {});
   }
 
 
