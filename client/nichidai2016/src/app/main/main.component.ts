@@ -31,7 +31,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    this.question = ' ここに質問内容が表示されたら、YesかNoで答えてください。';
+    this.question = ' ここに質問内容が表示されたら、YesかNoをタップして答えてください。';
     this.isValid = false;
     this.showMain = true;
     this.loading = ' Connecting...';
@@ -95,8 +95,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
           that.yes = false;
           that.no = false;
           that.showGraph = false;
-
-          if (that.question === '') { that.question = ' ここに質問内容が表示されたら、YesかNoで答えてください。'; }
+          if (that.question === null || that.question === '') { that.question = ' ここに質問内容が表示されたら、YesかNoをタップして答えてください。'; }
         }
       });
       that.stompClient.subscribe('/topic/getans', function (greeting) {
@@ -120,7 +119,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.stompClient !== null) {
       this.stompClient.disconnect();
     }
-    this.question = ' ここに質問内容が表示されたら、YesかNoで答えてください。';
+    this.question = ' ここに質問内容が表示されたら、YesかNoをタップして答えてください。';
     console.log('Disconnected');
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, trigger, state, style, transition, animate } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileUploader } from 'ng2-file-upload';
 import { animateFactory } from 'ng2-animate';
 import { Observable } from 'rxjs/Rx';
@@ -21,7 +21,6 @@ import { Observable } from 'rxjs/Rx';
 
 export class VisualRecoComponent implements OnInit {
   title = '画像解析アプリ';
-  private alc: any;
   public uploader: FileUploader;
   watsonResult: any;
   watsonFace: any = JSON.stringify('');
@@ -35,7 +34,6 @@ export class VisualRecoComponent implements OnInit {
   private modifyFlag: boolean = false;
   private upText: boolean = false;
   private exText: boolean = false;
-  private imageSize: number;
   private outFlag: boolean = false;
   private sendFlag: boolean = false;
   private fileSize: number;
@@ -43,7 +41,7 @@ export class VisualRecoComponent implements OnInit {
   public filePreviewPath: SafeUrl;
 
   constructor(private sanitizer: DomSanitizer) {
-    var that = this;
+    let that = this;
     this.sendFlag = false;
     this.showFace = false;
     this.showAge = false;
@@ -84,7 +82,7 @@ export class VisualRecoComponent implements OnInit {
       that.updateFlag = false;
       that.modifyFlag = false;
       // that.exText = false;
-      if (JSON.parse(response).out != undefined) {
+      if (JSON.parse(response).out !== undefined) {
         that.outFlag = true;
         that.fileSize = JSON.parse(response).out;
       } else {
@@ -98,13 +96,13 @@ export class VisualRecoComponent implements OnInit {
 
         if (that.watsonFace) {
           that.showFace = true;
-          if (that.watsonFace.age != undefined) {
+          if (that.watsonFace.age !== undefined) {
             that.showAge = true;
           }
-          if (that.watsonFace.gender != undefined) {
+          if (that.watsonFace.gender !== undefined) {
             that.showGender = true;
           }
-          if (that.watsonFace.identity != undefined) {
+          if (that.watsonFace.identity !== undefined) {
             that.showIdentity = true;
           }
         }

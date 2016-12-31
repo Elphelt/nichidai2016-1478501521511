@@ -13,18 +13,17 @@ export class AppComponent implements OnInit {
   private showFlick: boolean = false;
   private showDengon: boolean = false;
   private showWatson: boolean = false;
-  private location: any;
 
   constructor() { }
 
   ngOnInit() {
     if (this.showWatson) {
-      $('body').addClass("watsonsan");
+      $('body').addClass('watsonsan');
     }
   }
 
   private changeYesNo(): void {
-    $('body').removeClass("watsonsan");
+    $('body').removeClass('watsonsan');
     this.showMain = true;
     this.showAdmin = false;
     this.showFlick = false;
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   private changeAdmin(): void {
-    $('body').removeClass("watsonsan");
+    $('body').removeClass('watsonsan');
     this.showMain = false;
     this.showAdmin = true;
     this.showFlick = false;
@@ -42,7 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   private changeFlick(): void {
-    $('body').removeClass("watsonsan");
+    $('body').removeClass('watsonsan');
     this.showMain = false;
     this.showAdmin = false;
     this.showFlick = true;
@@ -51,7 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   private changeDengon(): void {
-    $('body').removeClass("watsonsan");
+    $('body').removeClass('watsonsan');
     this.showMain = false;
     this.showAdmin = false;
     this.showFlick = false;
@@ -60,7 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   private changeWatson(): void {
-    $('body').addClass("watsonsan");
+    $('body').addClass('watsonsan');
     this.showMain = false;
     this.showAdmin = false;
     this.showFlick = false;

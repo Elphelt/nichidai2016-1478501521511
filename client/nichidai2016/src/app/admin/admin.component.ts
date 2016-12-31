@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from '../player';
 import { Question } from '../question';
 import { UUID } from 'angular2-uuid';
+import { Observable } from 'rxjs';
 
 // tslint:disable-next-line:no-var-keyword
 var Stomp = require('stompjs');
@@ -33,7 +34,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   private questions: Question[] = [];
   private resultList: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
   private nowIndex: number;
-  private showMain: boolean = false;
+  private showMain: boolean;
   private ansFlag: boolean[] = [];
   private qId: any;
   private connectCt: number;
@@ -64,6 +65,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
     this.connectCt = 0;
     this.result = 0;
+    this.showMain = true;
     this.connect();
   }
 
@@ -120,9 +122,11 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   connect() {
+    // tslint:disable-next-line:no-var-keyword
     var that = this;
+    // tslint:disable-next-line:no-var-keyword
     var socket = new SockJS('/hello');
-    this.Cquestion = ' Connecting...'
+    this.Cquestion = ' Connecting...';
     this.showMain = true;
     this.showRanking = false;
     this.isValid = false;
@@ -165,8 +169,17 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.varNo = this.choiceNo;
     this.showGraph = !this.showGraph;
     this.showRanking = false;
+    this.varYes = Math.floor(Math.random() * this.result) + 1;
+    this.varNo = this.result - this.varYes;
     if (this.showGraph) {
-      this.sendAnswer();
+      Observable.interval(1000).take((Math.floor(Math.random() * 5) + 3)).subscribe((x) => {
+        this.varYes = Math.floor(Math.random() * this.result) + 1;
+        this.varNo = this.result - this.varYes;
+      }, (any) => { }, () => {
+        this.varYes = this.choiceYes;
+        this.varNo = this.choiceNo;
+        this.sendAnswer();
+      });
     }
   }
 

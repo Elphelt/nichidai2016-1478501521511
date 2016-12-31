@@ -1,33 +1,37 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent implements OnInit, OnChanges {
 
   @Input('varYes') varYes;
   @Input('varNo') varNo;
 
   // Doughnut
-  public doughnutChartLabels: string[] = ['No', 'Yes'];
+  public doughnutChartLabels: string[] = ['Yes', 'No'];
   public doughnutChartData: number[];
   public doughnutChartType: string = 'doughnut';
-  public doughnutChartColors: any[] = [{ backgroundColor: ['#d9534f', '#5CB85C'] }];
+  public doughnutChartColors: any[] = [{ backgroundColor: ['#5CB85C', '#d9534f'] }];
   private legend: any = { display: false, fullWidth: false };
   private doughnutChartOptions: any = {
     responsive: true,
     animation: {
       animateRotate: true,
-      duration: 2000
+      animateScale: true
     },
     legend: this.legend,
   };
   constructor() { }
 
   ngOnInit() {
-    this.doughnutChartData = [this.varNo, this.varYes];
+    this.doughnutChartData = [this.varYes, this.varNo];
+  }
+
+  ngOnChanges() {
+    this.doughnutChartData = [this.varYes, this.varNo];
   }
 
   public changeLabels(labels: string[]): void {
