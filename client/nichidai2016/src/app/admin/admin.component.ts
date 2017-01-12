@@ -122,10 +122,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   connect() {
-    // tslint:disable-next-line:no-var-keyword
-    var that = this;
-    // tslint:disable-next-line:no-var-keyword
-    var socket = new SockJS('/hello');
+    let that = this;
+    let socket = new SockJS('/hello');
     this.Cquestion = ' Connecting...';
     this.showMain = true;
     this.showRanking = false;
@@ -172,7 +170,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.varYes = Math.floor(Math.random() * this.result) + 1;
     this.varNo = this.result - this.varYes;
     if (this.showGraph) {
-      Observable.interval(1000).take((Math.floor(Math.random() * 5) + 3)).subscribe((x) => {
+      Observable.interval(1000).take(3).subscribe((x) => {
         this.varYes = Math.floor(Math.random() * this.result) + 1;
         this.varNo = this.result - this.varYes;
       }, (any) => { }, () => {
